@@ -1,0 +1,12 @@
+{
+  "name": "adventofcode-2022",
+  "version": "0.1.0",
+  "description": "Advent of code 2022 solutions",
+  "main": "index.js",
+  "author": "alexamy",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "solutions/*"
+  ]
+}
