@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { dedent } from 'ts-dedent';
-import { getLineGroups } from '.';
+import { getLineGroups, sumLines } from '.';
 
 it('groups numbers splitted by newline', () => {
   const result = getLineGroups(dedent`
@@ -12,4 +12,8 @@ it('groups numbers splitted by newline', () => {
   expect(result).toEqual([['1'], ['1']]);
 });
 
-it.todo('sums consecutive numbers');
+it('sums consecutive numbers', () => {
+  const result = sumLines([['1', '2']]);
+
+  expect(result).toEqual([3]);
+});

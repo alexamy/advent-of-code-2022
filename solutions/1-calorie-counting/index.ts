@@ -1,3 +1,5 @@
+import { sum } from 'radash';
+
 export function getLineGroups(list: string): string[][] {
   const groups: string[][] = [];
 
@@ -14,4 +16,10 @@ export function getLineGroups(list: string): string[][] {
   };
 
   return groups;
+}
+
+export function sumLines(list: string[][]): number[] {
+  return list.map(numbers => {
+    return sum(numbers.map(Number));
+  });
 }
