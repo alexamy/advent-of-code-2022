@@ -1,3 +1,5 @@
+import { pipe } from 'fp-ts/lib/function';
+
 function sum(list: number[]): number {
   return list.reduce((acc, n) => acc + n, 0);
 }
@@ -31,7 +33,7 @@ export function findMax(list: number[]): number {
 }
 
 export function solve1(list: string): number {
-  const answer = findMax(sumLines(getLineGroups(list)));
+  const answer = pipe(list, getLineGroups, sumLines, findMax);
 
   return answer;
 }
@@ -44,7 +46,7 @@ export function findThreeMax(list: number[]): number[] {
 }
 
 export function solve2(list: string): number {
-  const answer = sum(findThreeMax(sumLines(getLineGroups(list))));
+  const answer = pipe(list, getLineGroups, sumLines, findThreeMax, sum);
 
   return answer;
 }
