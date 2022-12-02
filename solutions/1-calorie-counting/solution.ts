@@ -22,7 +22,10 @@ export function sumLines(list: string[][]): number[] {
   });
 }
 
+export function findMax(list: number[]): number {
+  return Math.max(...list);
+}
+
 export function solve1(list: string): number {
-  const result = sumLines(getLineGroups(list));
-  return Math.max(...result);
+  return findMax(sumLines(getLineGroups(list)));
 }
