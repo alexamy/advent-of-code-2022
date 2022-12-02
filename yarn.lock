@@ -316,6 +316,11 @@ postcss@^8.4.18:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+radash@^9.5.0:
+  version "9.5.0"
+  resolved "https://registry.yarnpkg.com/radash/-/radash-9.5.0.tgz#d1c26bc0eb8db3c0e97aff52e79a194ca59a094d"
+  integrity sha512-t0s8BJlvrk8YPaOS8X0J2xzqAsBlXAUkDEjoBXwlzaXsXNCpBILjT9OvWlabLa2KB/r4XrhThdXjxMs7SiCyIw==
+
 resolve@^1.22.1:
   version "1.22.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.1.tgz#27cb2ebb53f91abb49470a928bba7558066ac177"
@@ -368,6 +373,11 @@ tinyspy@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/tinyspy/-/tinyspy-1.0.2.tgz#6da0b3918bfd56170fb3cd3a2b5ef832ee1dff0d"
   integrity sha512-bSGlgwLBYf7PnUsQ6WOc6SJ3pGOcd+d8AA6EUnLDDM0kWEstC1JIlSZA3UNliDXhd9ABoS7hiRBDCu+XP/sf1Q==
+
+ts-dedent@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-2.2.0.tgz#39e4bd297cd036292ae2394eb3412be63f563bb5"
+  integrity sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==
 
 type-detect@^4.0.0, type-detect@^4.0.5:
   version "4.0.8"
