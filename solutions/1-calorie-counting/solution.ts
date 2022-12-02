@@ -1,3 +1,7 @@
+function sum(list: number[]): number {
+  return list.reduce((acc, n) => acc + n, 0);
+}
+
 export function getLineGroups(list: string): string[][] {
   const groups: string[][] = [];
 
@@ -18,7 +22,7 @@ export function getLineGroups(list: string): string[][] {
 
 export function sumLines(list: string[][]): number[] {
   return list.map(numbers => {
-    return numbers.reduce((acc, n) => acc + Number(n), 0);
+    return sum(numbers.map(Number));
   });
 }
 
@@ -27,7 +31,9 @@ export function findMax(list: number[]): number {
 }
 
 export function solve1(list: string): number {
-  return findMax(sumLines(getLineGroups(list)));
+  const answer = findMax(sumLines(getLineGroups(list)));
+
+  return answer;
 }
 
 export function findThreeMax(list: number[]): number[] {
@@ -35,4 +41,10 @@ export function findThreeMax(list: number[]): number[] {
   numbers.sort((a, b) => b - a);
 
   return numbers.slice(0, 3);
+}
+
+export function solve2(list: string): number {
+  const answer = sum(findThreeMax(sumLines(getLineGroups(list))));
+
+  return answer;
 }
