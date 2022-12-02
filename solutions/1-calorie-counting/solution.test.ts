@@ -7,7 +7,7 @@ it('groups numbers splitted by newline', () => {
     1
 
     1
-  `)
+  `);
 
   expect(result).toEqual([['1'], ['1']]);
 });

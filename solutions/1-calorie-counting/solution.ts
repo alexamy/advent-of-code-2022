@@ -16,8 +16,8 @@ export function getLineGroups(list: string): string[][] {
 
     groups[idx]
       ? groups[idx].push(line)
-      : (groups[idx] = [line])
-  };
+      : (groups[idx] = [line]);
+  }
 
   return groups;
 }
