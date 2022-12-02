@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { dedent } from 'ts-dedent';
-import { getLineGroups, sumLines } from '.';
+import { getLineGroups, sumLines } from './solution';
 
 it('groups numbers splitted by newline', () => {
   const result = getLineGroups(dedent`
