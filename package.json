@@ -9,7 +9,8 @@
     "solutions/*"
   ],
   "scripts": {
-    "test": "vitest"
+    "test": "vitest --dir $INIT_CWD",
+    "start": "node -r esbuild-register $INIT_CWD"
   },
   "dependencies": {
     "esbuild-register": "^3.4.1",
