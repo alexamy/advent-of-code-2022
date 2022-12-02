@@ -190,7 +190,7 @@ esbuild-windows-arm64@0.15.16:
   resolved "https://registry.yarnpkg.com/esbuild-windows-arm64/-/esbuild-windows-arm64-0.15.16.tgz#77e804d60dec0390fe8f21401e39b435d5d1b863"
   integrity sha512-oCcUKrJaMn04Vxy9Ekd8x23O8LoU01+4NOkQ2iBToKgnGj5eo1vU9i27NQZ9qC8NFZgnQQZg5oZWAejmbsppNA==
 
-esbuild@^0.15.9:
+esbuild@^0.15.16, esbuild@^0.15.9:
   version "0.15.16"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.15.16.tgz#59324e5667985bf6aee8a91ea576baef6872cf21"
   integrity sha512-o6iS9zxdHrrojjlj6pNGC2NAg86ECZqIETswTM5KmJitq+R1YmahhWtMumeQp9lHqJaROGnsBi2RLawGnfo5ZQ==
@@ -315,11 +315,6 @@ postcss@^8.4.18:
     nanoid "^3.3.4"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
-
-radash@^9.5.0:
-  version "9.5.0"
-  resolved "https://registry.yarnpkg.com/radash/-/radash-9.5.0.tgz#d1c26bc0eb8db3c0e97aff52e79a194ca59a094d"
-  integrity sha512-t0s8BJlvrk8YPaOS8X0J2xzqAsBlXAUkDEjoBXwlzaXsXNCpBILjT9OvWlabLa2KB/r4XrhThdXjxMs7SiCyIw==
 
 resolve@^1.22.1:
   version "1.22.1"
