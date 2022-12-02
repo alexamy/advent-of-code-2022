@@ -29,3 +29,10 @@ export function findMax(list: number[]): number {
 export function solve1(list: string): number {
   return findMax(sumLines(getLineGroups(list)));
 }
+
+export function findThreeMax(list: number[]): number[] {
+  const numbers = [...list];
+  numbers.sort((a, b) => b - a);
+
+  return numbers.slice(0, 3);
+}

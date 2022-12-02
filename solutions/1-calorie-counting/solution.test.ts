@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { dedent } from 'ts-dedent';
-import { findMax, getLineGroups, solve1, sumLines } from './solution';
+import { findMax, findThreeMax, getLineGroups, solve1, sumLines } from './solution';
 
 it('groups numbers splitted by newline', () => {
   const result = getLineGroups(dedent`
@@ -33,4 +33,10 @@ it('solves first part', () => {
   `);
 
   expect(result).toBe(5);
+});
+
+it('finds first three max numbers', () => {
+  const result = findThreeMax([5, 1, 9, 8, 3, 2, 6]);
+
+  expect(result).toEqual([9, 8, 6]);
 });
