@@ -8,5 +8,9 @@
   "private": true,
   "workspaces": [
     "solutions/*"
-  ]
+  ],
+  "dependencies": {
+    "esbuild-register": "^3.4.1",
+    "vitest": "^0.25.3"
+  }
 }
