@@ -1,16 +1,21 @@
 import dedent from 'ts-dedent';
 import { expect, it } from 'vitest';
-import { dechiperValue, EnemyChoice, Figure, getRoundScore, PlayerChoice, Round, solve1, solve2, transformRound } from './solution';
+import { dechiperEnemyValue, dechiperPlayerValue, EnemyChoice, Figure, getRoundScore, PlayerChoice, Round, solve1, solve2, transformRound } from './solution';
 
-it.each<[EnemyChoice | PlayerChoice, Figure]>([
+it.each<[EnemyChoice, Figure]>([
   ['A', 'rock'],
   ['B', 'paper'],
   ['C', 'scissors'],
+])('decyphers enemy %s to %s', (character, result) => {
+  expect(dechiperEnemyValue(character)).toBe(result);
+});
+
+it.each<[PlayerChoice, Figure]>([
   ['X', 'rock'],
   ['Y', 'paper'],
   ['Z', 'scissors'],
-])('decyphers %s to %s', (character, result) => {
-  expect(dechiperValue(character)).toBe(result);
+])('decyphers player %s to %s', (character, result) => {
+  expect(dechiperPlayerValue(character)).toBe(result);
 });
 
 it.each<{ enemy: Figure, player: Figure, score: number }>([

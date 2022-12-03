@@ -41,8 +41,15 @@ function sum(list: number[]): number {
   return list.reduce((acc, n) => acc + n, 0);
 }
 
-export function dechiperValue(value: string): Figure {
-  const result = enemyFigure[value] || playerFigure[value];
+export function dechiperEnemyValue(value: string): Figure {
+  const result = enemyFigure[value];
+  if(!result) throw new Error(`Unknown figure key: ${value}`);
+
+  return result;
+}
+
+export function dechiperPlayerValue(value: string): Figure {
+  const result = playerFigure[value];
   if(!result) throw new Error(`Unknown figure key: ${value}`);
 
   return result;
@@ -63,8 +70,11 @@ export function getRoundScore({ enemy, player }: Round): number {
 }
 
 export function transformRound(round: string): Round {
-  const [enemy, player] = round.split(' ').map(dechiperValue);
-  return { enemy, player };
+  const [enemy, player] = round.split(' ');
+  return {
+    enemy: dechiperEnemyValue(enemy),
+    player: dechiperPlayerValue(player),
+  };
 }
 
 export function solve1(list: string): number {
