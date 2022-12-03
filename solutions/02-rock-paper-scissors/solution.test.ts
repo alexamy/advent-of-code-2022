@@ -1,6 +1,6 @@
 import dedent from 'ts-dedent';
 import { expect, it } from 'vitest';
-import { dechiperValue, EnemyChoice, Figure, getRoundScore, PlayerChoice, Round, solve1, transformRound } from './solution';
+import { dechiperValue, EnemyChoice, Figure, getRoundScore, PlayerChoice, Round, solve1, solve2, transformRound } from './solution';
 
 it.each<[EnemyChoice | PlayerChoice, Figure]>([
   ['A', 'rock'],
@@ -44,4 +44,14 @@ it('solves first part', () => {
   `);
 
   expect(result).toBe(15);
+});
+
+it.skip('solves second part', () => {
+  const result = solve2(dedent`
+    A Y
+    B X
+    C Z
+  `);
+
+  expect(result).toBe(12);
 });
