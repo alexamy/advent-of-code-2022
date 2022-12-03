@@ -23,7 +23,8 @@ export function findCommonElement(row: string): string {
 }
 
 export function getCharValue(char: string): number {
-  return 0;
+  const value = alphabet.indexOf(char) + 1;
+  return value;
 }
 
 export function solve1(input: unknown): unknown {
