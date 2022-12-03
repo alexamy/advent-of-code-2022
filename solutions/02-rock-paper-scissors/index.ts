@@ -32,3 +32,10 @@ export const winMap: Record<Figure, Figure> = {
   paper: 'rock',
   scissors: 'paper',
 };
+
+export function dechiperValue(value: string): Figure {
+  const result = enemyFigure[value] || playerFigure[value];
+  if(!result) throw new Error(`Unknown figure key: ${value}`);
+
+  return result;
+}
