@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
 export function sliceByHalf<T>(elements: T[]): T[][] {
   assert(elements.length % 2 === 0, 'Row must have even count of elements.');
 
@@ -20,7 +22,7 @@ export function findCommonElement(row: string): string {
   return common[0];
 }
 
-export function charValue(char: string): number {
+export function getCharValue(char: string): number {
   return 0;
 }
 
