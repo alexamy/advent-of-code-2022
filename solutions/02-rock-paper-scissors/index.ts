@@ -2,6 +2,7 @@ export type Figure = 'rock' | 'paper' | 'scissors';
 export type EnemyChoice = 'A' | 'B' | 'C';
 export type PlayerChoice = 'X' | 'Y' | 'Z';
 export type Outcome = 'lost' | 'draw' | 'won';
+export type Round = { enemy: Figure, player: Figure };
 
 export const enemyFigure: Record<EnemyChoice, Figure> = {
   'A': 'rock',
@@ -52,4 +53,15 @@ export function getRoundScore(enemy: Figure, player: Figure): number {
   const score = choiceScore + resultScore;
 
   return score;
+}
+
+export function transformRound(round: string): Round {
+  const [enemy, player] = round.split(' ').map(dechiperValue);
+  return { enemy, player };
+}
+
+export function solve1(list: string): number {
+  const rounds = list.split('\n').map(line => line.split(' '));
+
+  return 0;
 }
