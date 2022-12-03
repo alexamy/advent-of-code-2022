@@ -21,6 +21,10 @@ export function solve2(input: unknown): unknown {
   return undefined;
 }
 
+export function findCommonElementInMany(...rows: string[]): string {
+  assert(rows.length > 1, 'Must provide at least two rows.');
+}
+
 export function findCommonElementInHalves(row: string): string {
   const elements = row.split('');
   const [first, second] = sliceByHalf(elements);
