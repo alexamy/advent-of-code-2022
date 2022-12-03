@@ -40,21 +40,21 @@ it('solves first part', () => {
 });
 
 it('finds common element in many rows', () => {
-  const result = findCommonElementInMany(
+  const result = findCommonElementInMany([
     'vJrwpWtwJgWrhcsFMMfFFhFp',
     'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
     'PmmdzqPrVvPwwTWBwg',
-  );
+  ]);
 
   expect(result).toBe('r');
 });
 
 it('finds common uppercase element in many rows', () => {
-  const result = findCommonElementInMany(
+  const result = findCommonElementInMany([
     'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
     'ttgJtRGJQctTZtZT',
     'CrZsJsPPZsGzwwsLwLmpwMDw',
-  );
+  ]);
 
   expect(result).toBe('Z');
 });

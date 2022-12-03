@@ -22,7 +22,7 @@ export function solve2(input: string): number {
   const result = pipe(
     lines,
     (arr) => cluster(arr, 3),
-    array.map(arrs => findCommonElementInMany(...arrs)),
+    array.map(findCommonElementInMany),
     array.map(getCharValue),
     sum,
   );
@@ -30,7 +30,7 @@ export function solve2(input: string): number {
   return result;
 }
 
-export function findCommonElementInMany(...rows: string[]): string {
+export function findCommonElementInMany(rows: string[]): string {
   assert(rows.length > 1, 'Must provide at least two rows.');
 
   const [first, ...others] = rows.map(row => row.split(''));
