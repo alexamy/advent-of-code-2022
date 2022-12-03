@@ -3,26 +3,32 @@ export type EnemyChoice = 'A' | 'B' | 'C';
 export type PlayerChoice = 'X' | 'Y' | 'Z';
 export type Outcome = 'lost' | 'draw' | 'won';
 
-export const EnemyFigure: Record<EnemyChoice, Figure> = {
+export const enemyFigure: Record<EnemyChoice, Figure> = {
   'A': 'rock',
   'B': 'paper',
   'C': 'scissors',
 };
 
-export const PlayerFigure: Record<PlayerChoice, Figure> = {
+export const playerFigure: Record<PlayerChoice, Figure> = {
   'X': 'rock',
   'Y': 'paper',
   'Z': 'scissors',
 };
 
-export const FigureScore: Record<Figure, number> = {
+export const figureScore: Record<Figure, number> = {
   'rock': 1,
   'paper': 2,
   'scissors': 3,
 };
 
-export const OutcomeScore: Record<Outcome, number> = {
+export const outcomeScore: Record<Outcome, number> = {
   lost: 0,
   draw: 3,
   won: 6,
+};
+
+export const winMap: Record<Figure, Figure> = {
+  rock: 'scissors',
+  paper: 'rock',
+  scissors: 'paper',
 };
