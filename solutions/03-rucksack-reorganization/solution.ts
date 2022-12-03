@@ -43,5 +43,5 @@ export function solve1(input: string): number {
 }
 
 export function solve2(input: unknown): unknown {
-  return input;
+  return undefined;
 }
