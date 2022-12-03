@@ -1,3 +1,6 @@
+import { array } from 'fp-ts';
+import { pipe } from 'fp-ts/lib/function';
+
 export type Figure = 'rock' | 'paper' | 'scissors';
 export type EnemyChoice = 'A' | 'B' | 'C';
 export type PlayerChoice = 'X' | 'Y' | 'Z';
@@ -65,7 +68,12 @@ export function transformRound(round: string): Round {
 }
 
 export function solve1(list: string): number {
-  const rounds = list.split('\n').map(transformRound).map(getRoundScore);
+  const result = pipe(
+    list.split('\n'),
+    array.map(transformRound),
+    array.map(getRoundScore),
+    sum,
+  );
 
-  return sum(rounds);
+  return result;
 }
