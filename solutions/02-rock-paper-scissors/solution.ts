@@ -69,7 +69,7 @@ export function dechiperOutcomeValue(value: string): Outcome {
   return result;
 }
 
-export function getRoundScore({ enemy, player }: Round1): number {
+export function getRoundScore1({ enemy, player }: Round1): number {
   const choiceScore = figureScore[player];
   const enemyExpected = winMap[player];
 
@@ -104,7 +104,7 @@ export function solve1(list: string): number {
   const result = pipe(
     lines,
     array.map(transformRound1),
-    array.map(getRoundScore),
+    array.map(getRoundScore1),
     sum,
   );
 

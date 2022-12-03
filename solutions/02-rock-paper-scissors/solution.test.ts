@@ -1,6 +1,6 @@
 import dedent from 'ts-dedent';
 import { expect, it } from 'vitest';
-import { dechiperEnemyValue, dechiperOutcomeValue, dechiperPlayerValue, EnemyChoice, Figure, getRoundScore, Outcome, PlayerChoice, Round1, Round2, solve1, solve2, transformRound1, transformRound2 } from './solution';
+import { dechiperEnemyValue, dechiperOutcomeValue, dechiperPlayerValue, EnemyChoice, Figure, getRoundScore1, Outcome, PlayerChoice, Round1, Round2, solve1, solve2, transformRound1, transformRound2 } from './solution';
 
 it.each<[EnemyChoice, Figure]>([
   ['A', 'rock'],
@@ -23,7 +23,7 @@ it.each<{ enemy: Figure, player: Figure, score: number }>([
   { enemy: 'scissors', player: 'paper', score: 2 },
   { enemy: 'rock', player: 'scissors', score: 3 },
 ])('assigns proper score for player figure - $player', ({ enemy, player, score }) => {
-  expect(getRoundScore({ enemy, player })).toBe(score);
+  expect(getRoundScore1({ enemy, player })).toBe(score);
 });
 
 it.each<{ enemy: Figure, player: Figure, score: number }>([
@@ -31,7 +31,7 @@ it.each<{ enemy: Figure, player: Figure, score: number }>([
   { enemy: 'scissors', player: 'rock', score: 7 },
   { enemy: 'rock', player: 'rock', score: 4 },
 ])('assigns proper score for round result', ({ enemy, player, score }) => {
-  expect(getRoundScore({ enemy, player })).toBe(score);
+  expect(getRoundScore1({ enemy, player })).toBe(score);
 });
 
 it('transforms round 1', () => {
