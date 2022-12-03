@@ -59,8 +59,15 @@ it('finds common uppercase element in many rows', () => {
   expect(result).toBe('Z');
 });
 
-it.skip('solves second part', () => {
-  const result = solve2(dedent``);
+it('solves second part', () => {
+  const result = solve2(dedent`
+    vJrwpWtwJgWrhcsFMMfFFhFp
+    jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+    PmmdzqPrVvPwwTWBwg
+    wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+    ttgJtRGJQctTZtZT
+    CrZsJsPPZsGzwwsLwLmpwMDw
+  `);
 
-  expect(result).toBe(1);
+  expect(result).toBe(70);
 });
