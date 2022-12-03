@@ -34,6 +34,10 @@ export const winMap: Record<Figure, Figure> = {
   scissors: 'paper',
 };
 
+function sum(list: number[]): number {
+  return list.reduce((acc, n) => acc + n, 0);
+}
+
 export function dechiperValue(value: string): Figure {
   const result = enemyFigure[value] || playerFigure[value];
   if(!result) throw new Error(`Unknown figure key: ${value}`);
@@ -41,7 +45,7 @@ export function dechiperValue(value: string): Figure {
   return result;
 }
 
-export function getRoundScore(enemy: Figure, player: Figure): number {
+export function getRoundScore({ enemy, player }: Round): number {
   const choiceScore = figureScore[player];
   const enemyExpected = winMap[player];
 
@@ -61,7 +65,7 @@ export function transformRound(round: string): Round {
 }
 
 export function solve1(list: string): number {
-  const rounds = list.split('\n').map(line => line.split(' '));
+  const rounds = list.split('\n').map(transformRound).map(getRoundScore);
 
-  return 0;
+  return sum(rounds);
 }

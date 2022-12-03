@@ -18,7 +18,7 @@ it.each<{ enemy: Figure, player: Figure, score: number }>([
   { enemy: 'scissors', player: 'paper', score: 2 },
   { enemy: 'rock', player: 'scissors', score: 3 },
 ])('assigns proper score for player figure - $player', ({ enemy, player, score }) => {
-  expect(getRoundScore(enemy, player)).toBe(score);
+  expect(getRoundScore({ enemy, player })).toBe(score);
 });
 
 it.each<{ enemy: Figure, player: Figure, score: number }>([
@@ -26,7 +26,7 @@ it.each<{ enemy: Figure, player: Figure, score: number }>([
   { enemy: 'scissors', player: 'rock', score: 7 },
   { enemy: 'rock', player: 'rock', score: 4 },
 ])('assigns proper score for round result', ({ enemy, player, score }) => {
-  expect(getRoundScore(enemy, player)).toBe(score);
+  expect(getRoundScore({ enemy, player })).toBe(score);
 });
 
 it('transforms round', () => {
@@ -36,7 +36,7 @@ it('transforms round', () => {
   });
 });
 
-it.skip('solves first part', () => {
+it('solves first part', () => {
   const result = solve1(dedent`
     A Y
     B X
