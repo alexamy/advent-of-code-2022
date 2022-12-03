@@ -38,6 +38,12 @@ export const winMap: Record<Figure, Figure> = {
   scissors: 'paper',
 };
 
+export const loseMap: Record<Figure, Figure> = {
+  rock: 'paper',
+  paper: 'scissors',
+  scissors: 'rock',
+};
+
 export const outcomeMap: Record<PlayerChoice, Outcome> = {
   'X': 'lost',
   'Y': 'draw',
@@ -83,6 +89,21 @@ export function getRoundScore1({ enemy, player }: Round1): number {
   return score;
 }
 
+export function getRoundScore2({ enemy, outcome }: Round2): number {
+  const loseChoice = winMap[enemy];
+  const winChoice = loseMap[enemy];
+
+  let playerChoice = enemy;
+  if(outcome === 'lost') playerChoice = loseChoice;
+  if(outcome === 'won') playerChoice = winChoice;
+
+  const choiceScore = figureScore[playerChoice];
+  const resultScore = outcomeScore[outcome];
+  const score = choiceScore + resultScore;
+
+  return score;
+}
+
 export function transformRound1(round: string): Round1 {
   const [enemy, player] = round.split(' ');
   return {
@@ -112,5 +133,13 @@ export function solve1(list: string): number {
 }
 
 export function solve2(list: string): number {
-  return 0;
+  const lines = list.split('\n').filter(s => s !== '');
+  const result = pipe(
+    lines,
+    array.map(transformRound2),
+    array.map(getRoundScore2),
+    sum,
+  );
+
+  return result;
 }

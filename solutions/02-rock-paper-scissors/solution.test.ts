@@ -67,7 +67,7 @@ it('transforms round 2', () => {
 });
 
 
-it.skip('solves second part', () => {
+it('solves second part', () => {
   const result = solve2(dedent`
     A Y
     B X
