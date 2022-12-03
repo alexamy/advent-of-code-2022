@@ -2,6 +2,10 @@ import assert from 'assert';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
+function sum(list: number[]): number {
+  return list.reduce((acc, n) => acc + n, 0);
+}
+
 export function sliceByHalf<T>(elements: T[]): T[][] {
   assert(elements.length % 2 === 0, 'Row must have even count of elements.');
 
@@ -16,10 +20,10 @@ export function findCommonElement(row: string): string {
   const elements = row.split('');
   const [first, second] = sliceByHalf(elements);
 
-  const common = first.filter(e => second.includes(e));
-  assert(common.length === 1, 'Must have one element by task condition.');
+  const [common] = first.filter(e => second.includes(e));
+  assert(common, 'No common element found.');
 
-  return common[0];
+  return common;
 }
 
 export function getCharValue(char: string): number {
@@ -31,8 +35,10 @@ export function getCharValue(char: string): number {
   return value;
 }
 
-export function solve1(input: unknown): unknown {
-  return input;
+export function solve1(input: string): number {
+  const lines = input.split('\n').map(findCommonElement).map(getCharValue);
+
+  return sum(lines);
 }
 
 export function solve2(input: unknown): unknown {

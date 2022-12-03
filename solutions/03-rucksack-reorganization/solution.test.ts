@@ -12,6 +12,12 @@ it('finds common element', () => {
   expect(result).toBe('p');
 });
 
+it('finds common uppercase element', () => {
+  const result = findCommonElement('jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL');
+
+  expect(result).toBe('L');
+});
+
 it('maps lowercase character value', () => {
   expect(getCharValue('p')).toBe(16);
 });
@@ -20,7 +26,7 @@ it('maps uppercase character value', () => {
   expect(getCharValue('L')).toBe(38);
 });
 
-it.skip('solves first part', () => {
+it('solves first part', () => {
   const result = solve1(dedent`
     vJrwpWtwJgWrhcsFMMfFFhFp
     jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
