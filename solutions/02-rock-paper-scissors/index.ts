@@ -39,3 +39,8 @@ export function dechiperValue(value: string): Figure {
 
   return result;
 }
+
+export function getRoundScore(enemy: Figure, player: Figure): number {
+  const choiceScore = figureScore[player];
+  return choiceScore;
+}
