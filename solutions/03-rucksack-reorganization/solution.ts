@@ -1,12 +1,9 @@
 import assert from 'assert';
 import { array } from 'fp-ts';
 import { pipe } from 'fp-ts/lib/function';
+import { sum } from 'radash';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-
-function sum(list: number[]): number {
-  return list.reduce((acc, n) => acc + n, 0);
-}
 
 export function sliceByHalf<T>(elements: T[]): T[][] {
   assert(elements.length % 2 === 0, 'Row must have even count of elements.');
@@ -43,7 +40,7 @@ export function solve1(input: string): number {
     lines,
     array.map(findCommonElement),
     array.map(getCharValue),
-    sum
+    sum,
   );
 
   return result;
