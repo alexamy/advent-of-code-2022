@@ -16,7 +16,7 @@ it('maps lowercase character value', () => {
   expect(getCharValue('p')).toBe(16);
 });
 
-it.skip('maps uppercase character value', () => {
+it('maps uppercase character value', () => {
   expect(getCharValue('L')).toBe(38);
 });
 

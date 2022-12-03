@@ -23,7 +23,11 @@ export function findCommonElement(row: string): string {
 }
 
 export function getCharValue(char: string): number {
-  const value = alphabet.indexOf(char) + 1;
+  const isUppercase = char.toUpperCase() === char;
+  const value = alphabet.indexOf(char.toLowerCase())
+    + (isUppercase ? alphabet.length : 0)
+    + 1;
+
   return value;
 }
 
