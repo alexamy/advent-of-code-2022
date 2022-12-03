@@ -1,4 +1,6 @@
 import assert from 'assert';
+import { array } from 'fp-ts';
+import { pipe } from 'fp-ts/lib/function';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -37,9 +39,14 @@ export function getCharValue(char: string): number {
 
 export function solve1(input: string): number {
   const lines = input.split('\n').filter(r => r);
-  const result = lines.map(findCommonElement).map(getCharValue);
+  const result = pipe(
+    lines,
+    array.map(findCommonElement),
+    array.map(getCharValue),
+    sum
+  );
 
-  return sum(result);
+  return result;
 }
 
 export function solve2(input: unknown): unknown {
