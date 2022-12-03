@@ -21,7 +21,7 @@ export function findCommonElement(row: string): string {
   const [first, second] = sliceByHalf(elements);
 
   const [common] = first.filter(e => second.includes(e));
-  assert(common, 'No common element found.');
+  assert(common, `No common element found for ${row}.`);
 
   return common;
 }
@@ -36,9 +36,10 @@ export function getCharValue(char: string): number {
 }
 
 export function solve1(input: string): number {
-  const lines = input.split('\n').map(findCommonElement).map(getCharValue);
+  const lines = input.split('\n').filter(r => r);
+  const result = lines.map(findCommonElement).map(getCharValue);
 
-  return sum(lines);
+  return sum(result);
 }
 
 export function solve2(input: unknown): unknown {
