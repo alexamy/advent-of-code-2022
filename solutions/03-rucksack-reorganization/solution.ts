@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { array } from 'fp-ts';
 import { pipe } from 'fp-ts/lib/function';
-import { sum } from 'radash';
+import { cluster, sum } from 'radash';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -17,8 +17,17 @@ export function solve1(input: string): number {
   return result;
 }
 
-export function solve2(input: unknown): unknown {
-  return undefined;
+export function solve2(input: string): number {
+  const lines = input.split('\n').filter(r => r);
+  const result = pipe(
+    lines,
+    (arr) => cluster(arr, 3),
+    array.map(arrs => findCommonElementInMany(...arrs)),
+    array.map(getCharValue),
+    sum,
+  );
+
+  return result;
 }
 
 export function findCommonElementInMany(...rows: string[]): string {
