@@ -37,6 +37,12 @@ export const winMap: Record<Figure, Figure> = {
   scissors: 'paper',
 };
 
+export const outcomeMap: Record<PlayerChoice, Outcome> = {
+  'X': 'lost',
+  'Y': 'draw',
+  'Z': 'won',
+};
+
 function sum(list: number[]): number {
   return list.reduce((acc, n) => acc + n, 0);
 }
@@ -51,6 +57,13 @@ export function dechiperEnemyValue(value: string): Figure {
 export function dechiperPlayerValue(value: string): Figure {
   const result = playerFigure[value];
   if(!result) throw new Error(`Unknown figure key: ${value}`);
+
+  return result;
+}
+
+export function dechiperOutcomeValue(value: string): Outcome {
+  const result = outcomeMap[value];
+  if(!result) throw new Error(`Unknown outcome key: ${value}`);
 
   return result;
 }
