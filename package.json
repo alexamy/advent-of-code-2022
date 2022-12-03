@@ -1,9 +1,9 @@
 {
-  "name": "adventofcode-2022",
+  "name": "advent-of-code-2022",
   "version": "0.1.0",
   "description": "Advent of code 2022 solutions",
   "author": "alexamy",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "private": true,
   "workspaces": [
     "solutions/*"
