@@ -5,7 +5,8 @@ export type Figure = 'rock' | 'paper' | 'scissors';
 export type EnemyChoice = 'A' | 'B' | 'C';
 export type PlayerChoice = 'X' | 'Y' | 'Z';
 export type Outcome = 'lost' | 'draw' | 'won';
-export type Round = { enemy: Figure, player: Figure };
+export type Round1 = { enemy: Figure, player: Figure };
+export type Round2 = { enemy: Figure, outcome: Outcome };
 
 export const enemyFigure: Record<EnemyChoice, Figure> = {
   'A': 'rock',
@@ -68,7 +69,7 @@ export function dechiperOutcomeValue(value: string): Outcome {
   return result;
 }
 
-export function getRoundScore({ enemy, player }: Round): number {
+export function getRoundScore({ enemy, player }: Round1): number {
   const choiceScore = figureScore[player];
   const enemyExpected = winMap[player];
 
@@ -82,7 +83,7 @@ export function getRoundScore({ enemy, player }: Round): number {
   return score;
 }
 
-export function transformRound(round: string): Round {
+export function transformRound1(round: string): Round1 {
   const [enemy, player] = round.split(' ');
   return {
     enemy: dechiperEnemyValue(enemy),
@@ -90,11 +91,19 @@ export function transformRound(round: string): Round {
   };
 }
 
+export function transformRound2(round: string): Round2 {
+  const [enemy, outcome] = round.split(' ');
+  return {
+    enemy: dechiperEnemyValue(enemy),
+    outcome: dechiperOutcomeValue(outcome),
+  };
+}
+
 export function solve1(list: string): number {
   const lines = list.split('\n').filter(s => s !== '');
   const result = pipe(
     lines,
-    array.map(transformRound),
+    array.map(transformRound1),
     array.map(getRoundScore),
     sum,
   );
