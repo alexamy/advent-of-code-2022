@@ -23,6 +23,13 @@ export function solve2(input: unknown): unknown {
 
 export function findCommonElementInMany(...rows: string[]): string {
   assert(rows.length > 1, 'Must provide at least two rows.');
+
+  const [first, ...others] = rows.map(row => row.split(''));
+  const [common] = first.filter(c => {
+    return others.every(row => row.includes(c));
+  });
+
+  return common;
 }
 
 export function findCommonElementInHalves(row: string): string {
