@@ -15,7 +15,7 @@ export function sliceByHalf<T>(elements: T[]): T[][] {
   return [first, second];
 }
 
-export function findCommonElement(row: string): string {
+export function findCommonElementInHalves(row: string): string {
   const elements = row.split('');
   const [first, second] = sliceByHalf(elements);
 
@@ -38,7 +38,7 @@ export function solve1(input: string): number {
   const lines = input.split('\n').filter(r => r);
   const result = pipe(
     lines,
-    array.map(findCommonElement),
+    array.map(findCommonElementInHalves),
     array.map(getCharValue),
     sum,
   );
