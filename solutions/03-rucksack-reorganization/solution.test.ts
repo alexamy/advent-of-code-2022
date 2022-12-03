@@ -1,6 +1,17 @@
 import { expect, it } from 'vitest';
 import dedent from 'ts-dedent';
-import { solve1, solve2 } from './solution';
+import { charValue, findCommonElement, solve1, solve2 } from './solution';
+
+it('finds common element', () => {
+  const result = findCommonElement('vJrwpWtwJgWrhcsFMMfFFhFp');
+
+  expect(result).toBe('p');
+});
+
+it('maps character value', () => {
+  expect(charValue('p')).toBe(16);
+  expect(charValue('L')).toBe(38);
+});
 
 it.skip('solves first part', () => {
   const result = solve1(dedent`
