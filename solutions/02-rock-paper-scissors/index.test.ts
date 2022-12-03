@@ -19,3 +19,11 @@ it.each<{ enemy: Figure, player: Figure, score: number }>([
 ])('assigns proper score for player figure - $player', ({ enemy, player, score }) => {
   expect(getRoundScore(enemy, player)).toBe(score);
 });
+
+it.each<{ enemy: Figure, player: Figure, score: number }>([
+  { enemy: 'paper', player: 'rock', score: 1 },
+  { enemy: 'scissors', player: 'rock', score: 7 },
+  { enemy: 'rock', player: 'rock', score: 4 },
+])('assigns proper score for round result', ({ enemy, player, score }) => {
+  expect(getRoundScore(enemy, player)).toBe(score);
+});

@@ -42,5 +42,14 @@ export function dechiperValue(value: string): Figure {
 
 export function getRoundScore(enemy: Figure, player: Figure): number {
   const choiceScore = figureScore[player];
-  return choiceScore;
+  const enemyExpected = winMap[player];
+
+  let outcome: Outcome = 'lost';
+  if(enemy === enemyExpected) outcome = 'won';
+  if(enemy === player) outcome = 'draw';
+
+  const resultScore = outcomeScore[outcome];
+  const score = choiceScore + resultScore;
+
+  return score;
 }
