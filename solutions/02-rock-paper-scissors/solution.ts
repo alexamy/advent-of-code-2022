@@ -68,12 +68,17 @@ export function transformRound(round: string): Round {
 }
 
 export function solve1(list: string): number {
+  const lines = list.split('\n').filter(s => s !== '');
   const result = pipe(
-    list.split('\n'),
+    lines,
     array.map(transformRound),
     array.map(getRoundScore),
     sum,
   );
 
   return result;
+}
+
+export function solve2(list: string): number {
+  return 0;
 }
