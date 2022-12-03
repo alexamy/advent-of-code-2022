@@ -66,7 +66,6 @@ it('transforms round 2', () => {
   });
 });
 
-
 it('solves second part', () => {
   const result = solve2(dedent`
     A Y
