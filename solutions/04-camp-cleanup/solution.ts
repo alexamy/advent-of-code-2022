@@ -27,13 +27,17 @@ export function isPartialOverlap({ s1, e1, s2, e2 }: Overlap) {
 }
 
 export function solve1(input: string): number {
-  const lines = input.split('\n');
+  const lines = input.split('\n').filter(s => s);
   const overlaps = lines.map(transformRow).map(isFullOverlap);
   const count = overlaps.filter(s => s === true).length;
 
   return count;
 }
 
-export function solve2(input: unknown): unknown {
-  return undefined;
+export function solve2(input: string): number {
+  const lines = input.split('\n').filter(s => s);
+  const overlaps = lines.map(transformRow).map(isPartialOverlap);
+  const count = overlaps.filter(s => s === true).length;
+
+  return count;
 }

@@ -65,7 +65,7 @@ it('checks partial overlapping', () => {
   })).toBe(true);
 });
 
-it.skip('solves second part', () => {
+it('solves second part', () => {
   const result = solve2(dedent`
     2-4,6-8
     2-3,4-5
