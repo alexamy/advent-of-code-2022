@@ -14,14 +14,19 @@ export function transformRow(row: string): Overlap {
 }
 
 export function isFullOverlap({ s1, e1, s2, e2 }: Overlap) {
-  const isOverlap = s2 >= s1 && e2 <= e1 || s1 >= s2 && e1 <= e2;
+  const isFirstContains = s1 >= s2 && e1 <= e2;
+  const isSecondContains = s2 >= s1 && e2 <= e1;
+  const isOverlap = isFirstContains || isSecondContains;
 
   return isOverlap;
 }
 
 export function isPartialOverlap({ s1, e1, s2, e2 }: Overlap) {
-  const isNotOverlap = (s1 > s2 && s1 > e2 && e1 > s2 && e1 > e2)
-    || (s1 < s2 && s1 < e2 && e1 < s2 && e1 < e2);
+  const isStartLess = s1 > s2 && s1 > e2;
+  const isEndLess = e1 > s2 && e1 > e2;
+  const isStartGreater = s1 < s2 && s1 < e2;
+  const isEndGreater = e1 < s2 && e1 < e2;
+  const isNotOverlap = (isStartLess && isEndLess) || (isStartGreater && isEndGreater);
 
   return !isNotOverlap;
 }
