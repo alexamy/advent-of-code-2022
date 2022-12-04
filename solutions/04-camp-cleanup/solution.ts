@@ -1,4 +1,4 @@
-interface Overlap {
+export interface Overlap {
   s1: number;
   e1: number;
   s2: number;
