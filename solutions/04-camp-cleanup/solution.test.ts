@@ -47,6 +47,8 @@ it.each<Overlap & { result: boolean }>([
   { s1: 5, e1: 7, s2: 8, e2: 9, result: false },
   { s1: 2, e1: 6, s2: 4, e2: 8, result: true },
   { s1: 6, e1: 6, s2: 4, e2: 6, result: true },
+  { s1: 1, e1: 2, s2: 4, e2: 6, result: false },
+  { s1: 4, e1: 6, s2: 1, e2: 2, result: false },
 ])('checks partial overlapping', ({ s1, e1, s2, e2, result }) => {
   expect(isPartialOverlap({ s1, e1, s2, e2 })).toBe(result);
 });

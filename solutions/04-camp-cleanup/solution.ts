@@ -20,7 +20,7 @@ export function isFullOverlap({ s1, e1, s2, e2 }: Overlap) {
 }
 
 export function isPartialOverlap({ s1, e1, s2, e2 }: Overlap) {
-  const isNotOverlap = (s1 > s2 && s1 > e1 && e1 > s2 && e1 > e2)
+  const isNotOverlap = (s1 > s2 && s1 > e2 && e1 > s2 && e1 > e2)
     || (s1 < s2 && s1 < e2 && e1 < s2 && e1 < e2);
 
   return !isNotOverlap;
