@@ -9,25 +9,12 @@ it('transforms row', () => {
   });
 });
 
-it('checks if not overlapping', () => {
-  expect(isFullOverlap({
-    s1: 2, e1: 4,
-    s2: 6, e2: 8,
-  })).toBe(false);
-});
-
-it('checks if overlapping', () => {
-  expect(isFullOverlap({
-    s1: 2, e1: 8,
-    s2: 3, e2: 7,
-  })).toBe(true);
-});
-
-it('checks if second interval is overlapping', () => {
-  expect(isFullOverlap({
-    s1: 6, e1: 6,
-    s2: 4, e2: 6,
-  })).toBe(true);
+it.each<Overlap & { result: boolean }>([
+  { s1: 2, e1: 8, s2: 3, e2: 7, result: true },
+  { s1: 6, e1: 6, s2: 4, e2: 6, result: true },
+  { s1: 2, e1: 4, s2: 6, e2: 8, result: false },
+])('checks full overlapping', ({ s1, e1, s2, e2, result }) => {
+  expect(isFullOverlap({ s1, e1, s2, e2 })).toBe(result);
 });
 
 it('solves first part', () => {
