@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import dedent from 'ts-dedent';
-import { isFullOverlap, solve1, solve2, transformRow } from './solution';
+import { isFullOverlap, isPartialOverlap, solve1, solve2, transformRow } from './solution';
 
 it('transforms row', () => {
   expect(transformRow('2-4,6-8')).toEqual({
@@ -41,6 +41,28 @@ it('solves first part', () => {
   `);
 
   expect(result).toBe(2);
+});
+
+it('checks partial overlapping', () => {
+  expect(isPartialOverlap({
+    s1: 5, e1: 7,
+    s2: 8, e2: 9,
+  })).toBe(false);
+});
+
+it('checks partial overlapping', () => {
+  expect(isPartialOverlap({
+    s1: 2, e1: 6,
+    s2: 4, e2: 8,
+  })).toBe(true);
+});
+
+
+it('checks partial overlapping', () => {
+  expect(isPartialOverlap({
+    s1: 6, e1: 6,
+    s2: 4, e2: 6,
+  })).toBe(true);
 });
 
 it.skip('solves second part', () => {

@@ -19,6 +19,13 @@ export function isFullOverlap({ s1, e1, s2, e2 }: Overlap) {
   return isOverlap;
 }
 
+export function isPartialOverlap({ s1, e1, s2, e2 }: Overlap) {
+  const isNotOverlap = (s1 > s2 && s1 > e1 && e1 > s2 && e1 > e2)
+    || (s1 < s2 && s1 < e2 && e1 < s2 && e1 < e2);
+
+  return !isNotOverlap;
+}
+
 export function solve1(input: string): number {
   const lines = input.split('\n');
   const overlaps = lines.map(transformRow).map(isFullOverlap);
