@@ -1,17 +1,33 @@
 import { expect, it } from 'vitest';
 import dedent from 'ts-dedent';
-import { isOverlap, solve1, solve2 } from './solution';
+import { isFullOverlap, solve1, solve2, transformRow } from './solution';
+
+it('transforms row', () => {
+  expect(transformRow('2-4,6-8')).toEqual({
+    s1: 2, e1: 4,
+    s2: 6, e2: 8,
+  });
+});
 
 it('checks if not overlapping', () => {
-  expect(isOverlap('2-4,6-8')).toBe(false);
+  expect(isFullOverlap({
+    s1: 2, e1: 4,
+    s2: 6, e2: 8,
+  })).toBe(false);
 });
 
-it('checks overlapping', () => {
-  expect(isOverlap('2-8,3-7')).toBe(true);
+it('checks if overlapping', () => {
+  expect(isFullOverlap({
+    s1: 2, e1: 8,
+    s2: 3, e2: 7,
+  })).toBe(true);
 });
 
-it('checks overlapping second', () => {
-  expect(isOverlap('6-6,4-6')).toBe(true);
+it('checks if second interval is overlapping', () => {
+  expect(isFullOverlap({
+    s1: 6, e1: 6,
+    s2: 4, e2: 6,
+  })).toBe(true);
 });
 
 it('solves first part', () => {
