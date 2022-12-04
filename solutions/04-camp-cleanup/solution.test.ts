@@ -28,7 +28,14 @@ it('solves first part', () => {
 });
 
 it.skip('solves second part', () => {
-  const result = solve2(dedent``);
+  const result = solve2(dedent`
+    2-4,6-8
+    2-3,4-5
+    5-7,7-9
+    2-8,3-7
+    6-6,4-6
+    2-6,4-8
+  `);
 
-  expect(result).toBe(1);
+  expect(result).toBe(4);
 });
