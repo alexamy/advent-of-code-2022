@@ -1,4 +1,4 @@
-import { fork } from 'radash';
+import { fork, range } from 'radash';
 
 export type Stack = string[];
 
@@ -38,10 +38,19 @@ export function splitInput(input: string): CargoDataRaw {
   return { crates, designations };
 }
 
-export function transformCrates(raw: string[]): Stack {
+export function transformCrates(raw: string[]): Stack[] {
   const list = raw.map(crate => crate.replace(/[[\]]/g, '').split(' '));
+  list.reverse();
 
-  return list;
+  const result: string[][] = [];
+  for(const row of list) {
+    for(const i of range(0, row.length - 1)) {
+      if(!result[i]) result[i] = [];
+      result[i].push(row[i]);
+    }
+  }
+
+  return result;
 }
 
 export function transformInput(input: string): CargoData {

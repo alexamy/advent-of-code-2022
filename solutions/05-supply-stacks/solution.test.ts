@@ -19,7 +19,7 @@ it('splits input data', () => {
 });
 
 it('transforms crates pile', () => {
-  expect(transformCrates(['[D] [E] [F]', '[N] [C]']))
+  expect(transformCrates(['[D] [E]', '[N] [C] [F]']))
     .toEqual([['N', 'D'], ['C', 'E'], ['F']]);
 });
 
