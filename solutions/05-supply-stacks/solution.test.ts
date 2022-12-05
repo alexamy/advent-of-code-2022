@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import dedent from 'ts-dedent';
-import { CargoData, CargoDataRaw, moveCrates, solve1, solve2, splitInput, Stack, transformCrates, transformDesignations, transformInput } from './solution';
+import { CargoData, CargoDataRaw, getTopCrates, moveCrates, solve1, solve2, splitInput, Stack, transformCrates, transformDesignations, transformInput } from './solution';
 
 it('splits input data', () => {
   const input = dedent`
@@ -62,6 +62,10 @@ it('moves crates', () => {
     ['N', 'D', 'C'],
     [],
   ]);
+});
+
+it('gets top crates', () => {
+  expect(getTopCrates([['N', 'D'], ['C'], ['Z', 'M']])).toBe('DCM');
 });
 
 it.skip('solves first part', () => {

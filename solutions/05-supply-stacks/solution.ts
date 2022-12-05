@@ -95,6 +95,12 @@ export function moveCrates({ crates, designations }: CargoData): Stack[] {
   return piles;
 }
 
+export function getTopCrates(crates: Stack[]): string {
+  const result = crates.flatMap(crate => crate.slice(-1)[0]).join('');
+
+  return result;
+}
+
 export function solve1(input: string): string {
   return '';
 }
