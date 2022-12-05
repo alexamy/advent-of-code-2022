@@ -25,7 +25,7 @@ it('transforms crates pile', () => {
 
 it('filters empty strings when transforms crates pile', () => {
   expect(transformCrates(['    [E]', '[N] [C]']))
-    .toEqual([['N', 'D'], ['C', 'E'], ['F']]);
+    .toEqual([['N'], ['C', 'E']]);
 });
 
 it('transforms designations', () => {

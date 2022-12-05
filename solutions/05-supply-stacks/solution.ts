@@ -39,7 +39,10 @@ export function splitInput(input: string): CargoDataRaw {
 }
 
 export function transformCrates(raw: string[]): Stack[] {
-  const list = raw.map(crate => crate.replace(/[[\]]/g, '').split(' '));
+  const list = raw.map(crate => crate
+    .replace(/[[\]]/g, '')
+    .split(' '));
+
   list.reverse();
 
   const result: string[][] = [];
