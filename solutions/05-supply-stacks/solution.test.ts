@@ -73,7 +73,7 @@ it('gets top crates', () => {
   expect(getTopCrates([['N', 'D'], ['C'], ['Z', 'M']])).toBe('DCM');
 });
 
-it.skip('solves first part', () => {
+it('solves first part', () => {
   const result = solve1(dedent`
         [D]
     [N] [C]
