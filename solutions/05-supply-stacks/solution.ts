@@ -38,6 +38,12 @@ export function splitInput(input: string): CargoDataRaw {
   return { crates, designations };
 }
 
+export function transformCrates(raw: string[]): Stack {
+  const list = raw.map(crate => crate.replace(/[[\]]/g, '').split(' '));
+
+  return list;
+}
+
 export function transformInput(input: string): CargoData {
 
 }
