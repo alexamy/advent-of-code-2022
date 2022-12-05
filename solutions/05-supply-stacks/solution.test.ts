@@ -23,6 +23,11 @@ it('transforms crates pile', () => {
     .toEqual([['N', 'D'], ['C', 'E'], ['F']]);
 });
 
+it('filters empty strings when transforms crates pile', () => {
+  expect(transformCrates(['    [E]', '[N] [C]']))
+    .toEqual([['N', 'D'], ['C', 'E'], ['F']]);
+});
+
 it('transforms designations', () => {
   const input = [
     'move 1 from 1 to 2',
@@ -39,7 +44,7 @@ it('transforms input', () => {
   const input = dedent`
     [D]
     [N] [C]
-    1   2
+     1   2
 
     move 1 from 1 to 2
     move 2 from 2 to 1
@@ -70,10 +75,10 @@ it('gets top crates', () => {
 
 it.skip('solves first part', () => {
   const result = solve1(dedent`
-    [D]
+        [D]
     [N] [C]
     [Z] [M] [P]
-    1   2   3
+     1   2   3
 
     move 1 from 2 to 1
     move 3 from 1 to 3

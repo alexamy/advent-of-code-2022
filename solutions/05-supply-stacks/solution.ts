@@ -53,7 +53,7 @@ export function transformCrates(raw: string[]): Stack[] {
   return result;
 }
 
-function transformDesignation(designation: string): MoveDesignation {
+export function transformDesignation(designation: string): MoveDesignation {
   const matches = designation.match(/\d+/g);
   if(!matches) throw new Error(`Malformed line: ${designation}.`);
   if(matches.length < 3) throw new Error(`Expect three matches, for line: ${designation}.`);
@@ -102,7 +102,11 @@ export function getTopCrates(crates: Stack[]): string {
 }
 
 export function solve1(input: string): string {
-  return '';
+  const data = transformInput(input);
+  const crates = moveCrates(data);
+  const top = getTopCrates(crates);
+
+  return top;
 }
 
 export function solve2(input: unknown): unknown {
