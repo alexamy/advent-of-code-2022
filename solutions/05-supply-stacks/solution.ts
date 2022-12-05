@@ -84,7 +84,15 @@ export function transformInput(input: string): CargoData {
 }
 
 export function moveCrates({ crates, designations }: CargoData): Stack[] {
+  const piles = crates.map(crate => ([...crate]));
 
+  for(const { count, from, to } of designations) {
+    const moved = piles[from].splice(-count);
+    moved.reverse();
+    piles[to].push(...moved);
+  }
+
+  return piles;
 }
 
 export function solve1(input: string): string {
