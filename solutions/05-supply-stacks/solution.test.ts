@@ -28,6 +28,12 @@ it('filters empty strings when transforms crates pile', () => {
     .toEqual([['N'], ['C', 'E']]);
 });
 
+it('filters empty strings when transforms crates pile if has large gap', () => {
+  expect(transformCrates(['        [E]', '[N] [C] [A]']))
+    .toEqual([['N'], ['C'], ['A', 'E']]);
+});
+
+
 it('transforms designations', () => {
   const input = [
     'move 1 from 1 to 2',

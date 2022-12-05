@@ -39,9 +39,10 @@ export function splitInput(input: string): CargoDataRaw {
 }
 
 export function transformCrates(raw: string[]): Stack[] {
+  const placeholder = '~';
   const list = raw.map(crate => crate
     .replace(/[[\]]/g, '')
-    .replace(/\s{3}/g, '~')
+    .replace(/\s{4}/g, `${placeholder} `)
     .split(' '));
 
   list.reverse();
@@ -50,7 +51,7 @@ export function transformCrates(raw: string[]): Stack[] {
   for(const row of list) {
     for(const i of range(0, row.length - 1)) {
       if(!result[i]) result[i] = [];
-      if(row[i] === '~') continue;
+      if(row[i] === placeholder) continue;
       result[i].push(row[i]);
     }
   }
