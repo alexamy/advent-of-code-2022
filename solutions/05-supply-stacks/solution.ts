@@ -53,20 +53,22 @@ export function transformCrates(raw: string[]): Stack[] {
   return result;
 }
 
+function transformDesignation(designation: string): MoveDesignation {
+  const matches = designation.match(/\d+/g);
+  if(!matches) throw new Error(`Malformed line: ${designation}.`);
+  if(matches.length < 3) throw new Error(`Expect three matches, for line: ${designation}.`);
+
+  const result: MoveDesignation = {
+    count: Number(matches[0]),
+    from: Number(matches[1]) - 1,
+    to: Number(matches[2]) - 1.
+  };
+
+  return result;
+}
+
 export function transformDesignations(input: string[]): MoveDesignation[] {
-  const result = input.map(line => {
-    const matches = line.match(/\d+/g);
-    if(!matches) throw new Error(`Malformed line: ${line}.`);
-    if(matches.length < 3) throw new Error(`Expect three matches, for line: ${line}.`);
-
-    const designation: MoveDesignation = {
-      count: Number(matches[0]),
-      from: Number(matches[1]) - 1,
-      to: Number(matches[2]) - 1.
-    };
-
-    return designation;
-  });
+  const result = input.map(transformDesignation);
 
   return result;
 }
