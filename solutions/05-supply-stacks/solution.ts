@@ -20,8 +20,22 @@ export interface CargoData {
 
 export function splitInput(input: string): CargoDataRaw {
   const lines = input.split('\n');
+  const crates: string[] = [];
+  const designations: string[] = [];
 
-  return lines;
+  let isSeparatorFound = false;
+  for(const line of lines) {
+    if(line === '') {
+      isSeparatorFound = line === '';
+    } else {
+      const target = isSeparatorFound ? designations : crates;
+      target.push(line);
+    }
+  }
+
+  crates.pop();
+
+  return { crates, designations };
 }
 
 export function transformInput(input: string): CargoData {
