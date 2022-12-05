@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import dedent from 'ts-dedent';
-import { CargoData, CargoDataRaw, solve1, solve2, splitInput, transformCrates, transformDesignations, transformInput } from './solution';
+import { CargoData, CargoDataRaw, moveCrates, solve1, solve2, splitInput, Stack, transformCrates, transformDesignations, transformInput } from './solution';
 
 it('splits input data', () => {
   const input = dedent`
@@ -49,6 +49,19 @@ it('transforms input', () => {
     crates: [['N', 'D'], ['C']],
     designations: [{ count: 1, from: 0, to: 1 }, { count: 2, from: 1, to: 0 }],
   });
+});
+
+it('moves crates', () => {
+  expect(moveCrates({
+    crates: [['N', 'D'], ['C']],
+    designations: [
+      { count: 1, from: 0, to: 1 },
+      { count: 2, from: 1, to: 0 },
+    ],
+  })).toEqual<Stack[]>([
+    ['N', 'D', 'C'],
+    [],
+  ]);
 });
 
 it.skip('solves first part', () => {

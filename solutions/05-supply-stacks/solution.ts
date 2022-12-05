@@ -1,4 +1,4 @@
-import { fork, range } from 'radash';
+import { range } from 'radash';
 
 export type Stack = string[];
 
@@ -81,6 +81,10 @@ export function transformInput(input: string): CargoData {
   };
 
   return result;
+}
+
+export function moveCrates({ crates, designations }: CargoData): Stack[] {
+
 }
 
 export function solve1(input: string): string {
