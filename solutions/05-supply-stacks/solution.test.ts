@@ -24,10 +24,10 @@ it('transforms crates pile', () => {
 });
 
 it('transforms designations', () => {
-  const input = dedent`
-    move 1 from 1 to 2
-    move 2 from 2 to 1
-  `;
+  const input = [
+    'move 1 from 1 to 2',
+    'move 2 from 2 to 1',
+  ];
 
   expect(transformDesignations(input)).toEqual([
     { count: 1, from: 0, to: 1 },
@@ -35,7 +35,7 @@ it('transforms designations', () => {
   ]);
 });
 
-it.skip('transforms input', () => {
+it('transforms input', () => {
   const input = dedent`
     [D]
     [N] [C]
