@@ -1,18 +1,34 @@
 import { expect, it } from 'vitest';
 import dedent from 'ts-dedent';
-import { CargoData, solve1, solve2, transformInput } from './solution';
+import { CargoData, CargoDataRaw, solve1, solve2, splitInput, transformInput } from './solution';
 
-it('transforms input', () => {
-  const result = solve1(dedent`
+it('splits input data', () => {
+  const input = dedent`
     [D]
     [N] [C]
     1   2
 
     move 1 from 1 to 2
     move 2 from 2 to 1
-  `);
+  `;
 
-  expect(transformInput(result)).toEqual<CargoData>({
+  expect(splitInput(input)).toEqual<CargoDataRaw>({
+    crates: ['[D]', '[N] [C]'],
+    designations: ['move 1 from 1 to 2', 'move 2 from 2 to 1'],
+  });
+});
+
+it.skip('transforms input', () => {
+  const input = dedent`
+    [D]
+    [N] [C]
+    1   2
+
+    move 1 from 1 to 2
+    move 2 from 2 to 1
+  `;
+
+  expect(transformInput(input)).toEqual<CargoData>({
     crates: [['N', 'D'], ['C']],
     designations: [{ count: 1, from: 1, to: 2 }, { count: 2, from: 2, to: 1 }],
   });

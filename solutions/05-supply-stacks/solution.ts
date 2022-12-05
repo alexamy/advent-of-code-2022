@@ -1,3 +1,5 @@
+import { fork } from 'radash';
+
 export type Stack = string[];
 
 export interface MoveDesignation {
@@ -6,9 +8,20 @@ export interface MoveDesignation {
   to: number;
 }
 
+export interface CargoDataRaw {
+  crates: string[];
+  designations: string[];
+}
+
 export interface CargoData {
   crates: Stack[];
   designations: MoveDesignation[];
+}
+
+export function splitInput(input: string): CargoDataRaw {
+  const lines = input.split('\n');
+
+  return lines;
 }
 
 export function transformInput(input: string): CargoData {
