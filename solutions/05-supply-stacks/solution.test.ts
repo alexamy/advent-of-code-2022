@@ -19,18 +19,38 @@ it('splits input data', () => {
 });
 
 it('transforms crates pile', () => {
-  expect(transformCrates(['[D] [E]', '[N] [C] [F]']))
-    .toEqual([['N', 'D'], ['C', 'E'], ['F']]);
+  expect(transformCrates([
+    '[D] [E]',
+    '[N] [C] [F]'
+  ])).toEqual([['N', 'D'], ['C', 'E'], ['F']]);
 });
 
-it('filters empty strings when transforms crates pile', () => {
-  expect(transformCrates(['    [E]', '[N] [C]']))
-    .toEqual([['N'], ['C', 'E']]);
+it('filters empty strings at right when transforms crates pile', () => {
+  expect(transformCrates([
+    '    [E]',
+    '[N] [C]',
+  ])).toEqual([['N'], ['C', 'E']]);
 });
 
-it('filters empty strings when transforms crates pile if has large gap', () => {
-  expect(transformCrates(['        [E]', '[N] [C] [A]']))
-    .toEqual([['N'], ['C'], ['A', 'E']]);
+it('filters empty strings at left when transforms crates pile', () => {
+  expect(transformCrates([
+    '[E]    ',
+    '[N] [C]'
+  ])).toEqual([['N', 'E'], ['C']]);
+});
+
+it('filters empty strings at right when transforms crates pile if has large gap', () => {
+  expect(transformCrates([
+    '        [E]',
+    '[N] [C] [A]',
+  ])).toEqual([['N'], ['C'], ['A', 'E']]);
+});
+
+it.only('filters empty strings at left when transforms crates pile', () => {
+  expect(transformCrates([
+    '[E]        ',
+    '[N] [C] [A]'
+  ])).toEqual([['N', 'E'], ['C'], ['A']]);
 });
 
 
