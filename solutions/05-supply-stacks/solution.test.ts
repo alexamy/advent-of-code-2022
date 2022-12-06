@@ -53,6 +53,13 @@ it('filters empty strings at left when transforms crates pile', () => {
   ])).toEqual([['N', 'E'], ['C'], ['A']]);
 });
 
+it('filters empty strings at center when transforms crates pile', () => {
+  expect(transformCrates([
+    '    [E]',
+    '[N] [C] [A]'
+  ])).toEqual([['N'], ['C', 'E'], ['A']]);
+});
+
 
 it('transforms designations', () => {
   const input = [

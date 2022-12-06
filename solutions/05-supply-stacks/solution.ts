@@ -39,22 +39,21 @@ export function splitInput(input: string): CargoDataRaw {
 }
 
 export function transformCrates(raw: string[]): Stack[] {
-  const placeholder = '~';
   const list = raw.map(crate => crate
     .replace(/[[\]]/g, '')
     .replace(/\s{3}/g, ' ')
-    .replace(/^\s{2}/g, `${placeholder} `)
-    .replace(/\s{2}/g, ` ${placeholder}`)
-    .split(' '));
+    .split(''));
 
   list.reverse();
 
   const result: string[][] = [];
   for(const row of list) {
-    for(const i of range(0, row.length - 1)) {
-      if(!result[i]) result[i] = [];
-      if(row[i] === placeholder) continue;
-      result[i].push(row[i]);
+    for(const i of range(0, row.length - 1, 2)) {
+      const half = i/2;
+      const crate = row[i];
+      if(!result[half]) result[half] = [];
+      if(crate === ' ' || crate === undefined) continue;
+      result[half].push(crate);
     }
   }
 
