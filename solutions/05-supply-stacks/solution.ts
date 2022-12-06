@@ -42,8 +42,9 @@ export function transformCrates(raw: string[]): Stack[] {
   const placeholder = '~';
   const list = raw.map(crate => crate
     .replace(/[[\]]/g, '')
-    .replace(/\s{4}/g, `${placeholder} `)
-    .replace(/\s{3}/g, ` ${placeholder}`)
+    .replace(/\s{3}/g, ' ')
+    .replace(/^\s{2}/g, `${placeholder} `)
+    .replace(/\s{2}/g, ` ${placeholder}`)
     .split(' '));
 
   list.reverse();
@@ -111,7 +112,6 @@ export function getTopCrates(crates: Stack[]): string {
 export function solve1(input: string): string {
   const data = transformInput(input);
   const crates = moveCrates(data);
-  console.log(data, crates);
   const top = getTopCrates(crates);
 
   return top;

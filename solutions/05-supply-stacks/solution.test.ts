@@ -46,7 +46,7 @@ it('filters empty strings at right when transforms crates pile if has large gap'
   ])).toEqual([['N'], ['C'], ['A', 'E']]);
 });
 
-it.only('filters empty strings at left when transforms crates pile', () => {
+it('filters empty strings at left when transforms crates pile', () => {
   expect(transformCrates([
     '[E]        ',
     '[N] [C] [A]'
