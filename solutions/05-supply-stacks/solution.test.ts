@@ -102,6 +102,21 @@ it('moves crates', () => {
   ]);
 });
 
+it('moves crates in complex case', () => {
+  expect(moveCrates({
+    crates: [['N', 'D'], ['C', 'A', 'B'], ['D']],
+    designations: [
+      { count: 2, from: 0, to: 1 },
+      { count: 1, from: 2, to: 1 },
+      { count: 6, from: 1, to: 0 },
+    ],
+  })).toEqual<Stack[]>([
+    ['D', 'N', 'D', 'B', 'A', 'C'],
+    [],
+    [],
+  ]);
+});
+
 it('gets top crates', () => {
   expect(getTopCrates([['N', 'D'], ['C'], ['Z', 'M']])).toBe('DCM');
 });
