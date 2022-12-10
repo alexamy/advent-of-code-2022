@@ -1,6 +1,6 @@
 import dedent from 'ts-dedent';
 import { expect, it } from 'vitest';
-import { solve1 } from './solution.gen';
+import { solve1 } from './Solution07.gen';
 
 it('solves first part', () => {
   const input = dedent`

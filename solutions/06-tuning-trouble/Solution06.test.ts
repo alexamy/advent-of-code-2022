@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { solve1, solve2 } from './solution.gen';
+import { solve1, solve2 } from './Solution06.gen';
 
 it.each<[string, number]>([
   ['mjqjpqmgbljsphdztnvjfqwrcgsmlb', 7],
