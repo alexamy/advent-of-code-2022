@@ -21,8 +21,13 @@ function solve1(message) {
       };
 }
 
+function solve2(message) {
+  return 0;
+}
+
 export {
   MalformedInput ,
   solve1 ,
+  solve2 ,
 }
 /* No side effect */

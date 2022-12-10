@@ -17,3 +17,8 @@ let solve1 = (message: string): int => {
   | Some(index) => index + 4
   }
 }
+
+@genType
+let solve2 = (message: string): int => {
+  0
+}
