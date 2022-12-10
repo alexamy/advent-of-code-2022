@@ -1,3 +1,5 @@
+exception MalformedInput
+
 @genType
 let solve1 = (message: string): int => {
   let indexes = Belt.Array.range(0, Js.String.length(message))
@@ -9,7 +11,7 @@ let solve1 = (message: string): int => {
   })
 
   switch target {
-  | None => raise(Not_found)
+  | None => raise(MalformedInput)
   | Some(index) => index + 4
   }
 }
