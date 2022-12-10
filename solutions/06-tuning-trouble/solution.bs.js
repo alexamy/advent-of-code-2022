@@ -7,13 +7,13 @@ import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 
 var MalformedInput = /* @__PURE__ */Caml_exceptions.create("Solution.MalformedInput");
 
-function solve1(message) {
+function solve(message, extraCount) {
   var indexes = Belt_Array.range(0, message.length);
   var target = Belt_Array.getBy(indexes, (function (idx) {
-          return Js_int.equal(Belt_SetString.size(Belt_SetString.fromArray(message.slice(idx, idx + 4 | 0).split(""))), 4);
+          return Js_int.equal(Belt_SetString.size(Belt_SetString.fromArray(message.slice(idx, idx + extraCount | 0).split(""))), extraCount);
         }));
   if (target !== undefined) {
-    return target + 4 | 0;
+    return target + extraCount | 0;
   }
   throw {
         RE_EXN_ID: MalformedInput,
@@ -21,12 +21,17 @@ function solve1(message) {
       };
 }
 
-function solve2(message) {
-  return 0;
+function solve1(__x) {
+  return solve(__x, 4);
+}
+
+function solve2(__x) {
+  return solve(__x, 14);
 }
 
 export {
   MalformedInput ,
+  solve ,
   solve1 ,
   solve2 ,
 }
