@@ -1,6 +1,5 @@
 import { expect, it } from 'vitest';
-import dedent from 'ts-dedent';
-import { solve1, solve2 } from './solution';
+import { solve1 } from './solution.gen';
 
 it.skip.each<[string, number]>([
   ['mjqjpqmgbljsphdztnvjfqwrcgsmlb', 7],
@@ -12,8 +11,8 @@ it.skip.each<[string, number]>([
   expect(solve1(message)).toBe(result);
 });
 
-it.skip('solves second part', () => {
-  const result = solve2(dedent``);
+// it.skip('solves second part', () => {
+//   const result = solve2(dedent``);
 
-  expect(result).toBe(1);
-});
+//   expect(result).toBe(1);
+// });

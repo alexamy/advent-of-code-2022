@@ -14,6 +14,10 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  ignorePatterns: [
+    '*.bs.js',
+    '*.gen.ts',
+  ],
   plugins: [
     '@typescript-eslint',
     'vitest',

@@ -12,5 +12,15 @@
       "in-source": true
     }
   ],
-  "suffix": ".bs.js"
+  "suffix": ".bs.js",
+  "gentypeconfig": {
+    "language": "typescript",
+    "shims": {},
+    "generatedFileExtension": ".gen.ts",
+    "module": "es6",
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  }
 }
