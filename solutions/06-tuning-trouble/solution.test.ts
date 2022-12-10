@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { solve1 } from './solution.gen';
+import { solve1, solve2 } from './solution.gen';
 
 it.each<[string, number]>([
   ['mjqjpqmgbljsphdztnvjfqwrcgsmlb', 7],
@@ -11,8 +11,12 @@ it.each<[string, number]>([
   expect(solve1(message)).toBe(result);
 });
 
-// it.skip('solves second part', () => {
-//   const result = solve2(dedent``);
-
-//   expect(result).toBe(1);
-// });
+it.each<[string, number]>([
+  ['mjqjpqmgbljsphdztnvjfqwrcgsmlb', 19],
+  ['bvwbjplbgvbhsrlpgdmjqwftvncz', 23],
+  ['nppdvjthqldpwncqszvftbrmjlhg', 23],
+  ['nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg', 29],
+  ['zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw', 26],
+])('solves second part', (message, result) => {
+  expect(solve2(message)).toBe(result);
+});
