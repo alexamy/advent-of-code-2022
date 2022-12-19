@@ -53,28 +53,30 @@ function toFunction(cmd) {
 }
 
 function solve1(input) {
-  var res = input.split("\n").map(toInstruction).map(toFunction).reduce((function (acc, val) {
-          val.steps.forEach(function (f) {
-                acc.steps.push(Curry._1(f, acc.result));
+  var initial_values = [1];
+  var initial = {
+    values: initial_values,
+    nextValue: 1
+  };
+  var indexes = [
+    20,
+    60,
+    100,
+    140,
+    180,
+    220
+  ];
+  var result = input.split("\n").map(toInstruction).map(toFunction).reduce((function (res, cycle) {
+          var __x = cycle.steps.map(function (step) {
+                return Curry._1(step, res.nextValue);
               });
           return {
-                  steps: acc.steps,
-                  result: Curry._1(val.result, acc.result)
+                  values: res.values.concat(__x),
+                  nextValue: Curry._1(cycle.result, res.nextValue)
                 };
-        }), {
-        steps: [1],
-        result: 1
-      });
-  var steps = res.steps;
-  return [
-              20,
-              60,
-              100,
-              140,
-              180,
-              220
-            ].map(function (i) {
-                return Math.imul(i, Caml_array.get(steps, i));
+        }), initial);
+  return indexes.map(function (i) {
+                return Math.imul(i, Caml_array.get(result.values, i));
               }).reduce((function (a, b) {
                 return a + b | 0;
               }), 0);

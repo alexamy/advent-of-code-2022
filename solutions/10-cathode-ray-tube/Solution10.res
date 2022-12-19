@@ -8,8 +8,8 @@ type cycle = {
 }
 
 type result = {
-  steps: array<int>,
-  result: int,
+  values: array<int>,
+  nextValue: int,
 }
 
 let identity = x => x
@@ -43,21 +43,22 @@ let toFunction = (cmd: instruction): cycle => {
 
 @genType
 let solve1 = (input: string): int => {
-  let res = input
+  let initial = { values: [1], nextValue: 1 }
+  let indexes = [20, 60, 100, 140, 180, 220]
+
+  let result = input
   ->Js.String2.split("\n")
   ->Js.Array2.map(toInstruction)
   ->Js.Array2.map(toFunction)
-  ->Js.Array2.reduce((acc, val) => {
-    Js.Array2.forEach(val.steps, f => {
-      Js.Array2.push(acc.steps, f(acc.result))->ignore
-    })
-    { steps: acc.steps, result: val.result(acc.result) }
-  }, { steps: [1], result: 1 })
+  ->Js.Array2.reduce((res, cycle) => {
+    nextValue: res.nextValue->cycle.result,
+    values: cycle.steps
+      ->Js.Array2.map(step => step(res.nextValue))
+      ->Js.Array2.concat(res.values, _),
+  }, initial)
 
-  let steps = res.steps
-
-  [20, 60, 100, 140, 180, 220]
-  ->Js.Array2.map(i => i*steps[i])
+  indexes
+  ->Js.Array2.map(i => i * result.values[i])
   ->Js.Array2.reduce((a, b) => a + b, 0)
 }
 
