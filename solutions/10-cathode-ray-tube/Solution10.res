@@ -41,6 +41,13 @@ let toFunction = (cmd: instruction): cycle => {
   }
 }
 
+let processCycle = (result, cycle): result => {
+  nextValue: cycle.result(result.nextValue),
+  values: cycle.steps
+    ->Js.Array2.map(step => step(result.nextValue))
+    ->Js.Array2.concat(result.values, _),
+}
+
 @genType
 let solve1 = (input: string): int => {
   let initial = { values: [1], nextValue: 1 }
@@ -50,12 +57,7 @@ let solve1 = (input: string): int => {
   ->Js.String2.split("\n")
   ->Js.Array2.map(toInstruction)
   ->Js.Array2.map(toFunction)
-  ->Js.Array2.reduce((res, cycle) => {
-    nextValue: res.nextValue->cycle.result,
-    values: cycle.steps
-      ->Js.Array2.map(step => step(res.nextValue))
-      ->Js.Array2.concat(res.values, _),
-  }, initial)
+  ->Js.Array2.reduce(processCycle, initial)
 
   indexes
   ->Js.Array2.map(i => i * result.values[i])

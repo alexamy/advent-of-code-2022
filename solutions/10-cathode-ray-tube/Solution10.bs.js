@@ -52,6 +52,16 @@ function toFunction(cmd) {
         };
 }
 
+function processCycle(result, cycle) {
+  var __x = cycle.steps.map(function (step) {
+        return Curry._1(step, result.nextValue);
+      });
+  return {
+          values: result.values.concat(__x),
+          nextValue: Curry._1(cycle.result, result.nextValue)
+        };
+}
+
 function solve1(input) {
   var initial_values = [1];
   var initial = {
@@ -66,15 +76,7 @@ function solve1(input) {
     180,
     220
   ];
-  var result = input.split("\n").map(toInstruction).map(toFunction).reduce((function (res, cycle) {
-          var __x = cycle.steps.map(function (step) {
-                return Curry._1(step, res.nextValue);
-              });
-          return {
-                  values: res.values.concat(__x),
-                  nextValue: Curry._1(cycle.result, res.nextValue)
-                };
-        }), initial);
+  var result = input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, initial);
   return indexes.map(function (i) {
                 return Math.imul(i, Caml_array.get(result.values, i));
               }).reduce((function (a, b) {
@@ -91,6 +93,7 @@ export {
   parseAddx ,
   toInstruction ,
   toFunction ,
+  processCycle ,
   solve1 ,
   solve2 ,
 }
