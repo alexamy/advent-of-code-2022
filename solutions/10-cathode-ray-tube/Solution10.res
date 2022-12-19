@@ -22,8 +22,7 @@ let parseAddx = (cmd: option<string>): instruction => {
 }
 
 let toInstruction = (cmd: string): instruction => {
-  let addxRe = %re("/addx (-?\d+)/")
-  let result = Js.Re.exec_(addxRe, cmd)
+  let result = %re("/addx (-?\d+)/")->Js.Re.exec_(cmd)
   switch result {
   | None => Noop
   | Some(r) => Js.Re.captures(r)[1]->Js.Nullable.toOption->parseAddx

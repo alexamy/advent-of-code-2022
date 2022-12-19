@@ -19,8 +19,7 @@ function parseAddx(cmd) {
 }
 
 function toInstruction(cmd) {
-  var addxRe = /addx (-?\d+)/;
-  var result = addxRe.exec(cmd);
+  var result = /addx (-?\d+)/.exec(cmd);
   if (result !== null) {
     return parseAddx(Caml_option.nullable_to_opt(Caml_array.get(result, 1)));
   } else {
