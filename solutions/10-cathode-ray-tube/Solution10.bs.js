@@ -3,6 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Caml_array from "rescript/lib/es6/caml_array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 
 function identity(x) {
@@ -10,17 +11,11 @@ function identity(x) {
 }
 
 function parseAddx(cmd) {
-  if (cmd === undefined) {
-    return /* Noop */0;
-  }
-  var n = Belt_Int.fromString(cmd);
-  if (n !== undefined) {
-    return /* Addx */{
-            _0: n
-          };
-  } else {
-    return /* Noop */0;
-  }
+  return Belt_Option.mapWithDefault(Belt_Int.fromString(Belt_Option.mapWithDefault(cmd, "", identity)), /* Noop */0, (function (n) {
+                return /* Addx */{
+                        _0: n
+                      };
+              }));
 }
 
 function toInstruction(cmd) {

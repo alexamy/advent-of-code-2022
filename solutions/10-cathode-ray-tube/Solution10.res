@@ -15,14 +15,10 @@ type result = {
 let identity = x => x
 
 let parseAddx = (cmd: option<string>): instruction => {
-  switch cmd {
-  | None => Noop
-  | Some(n) =>
-    switch Belt.Int.fromString(n) {
-    | None => Noop
-    | Some(n) => Addx(n)
-    }
-  }
+  cmd
+  ->Belt.Option.mapWithDefault("", identity)
+  ->Belt.Int.fromString
+  ->Belt.Option.mapWithDefault(Noop, n => Addx(n))
 }
 
 let toInstruction = (cmd: string): instruction => {
