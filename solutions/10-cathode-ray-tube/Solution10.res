@@ -15,9 +15,9 @@ let identity = x => x
 
 let parseAddx = (cmd: option<string>): instruction => {
   cmd
-  ->Belt.Option.mapWithDefault("", identity)
-  ->Belt.Int.fromString
-  ->Belt.Option.mapWithDefault(Noop, n => Addx(n))
+  ->Option.getWithDefault("")
+  ->Int.fromString
+  ->Option.mapWithDefault(Noop, n => Addx(n))
 }
 
 let toInstruction = (cmd: string): instruction => {

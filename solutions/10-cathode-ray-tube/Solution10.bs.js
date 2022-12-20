@@ -11,7 +11,7 @@ function identity(x) {
 }
 
 function parseAddx(cmd) {
-  return Belt_Option.mapWithDefault(Belt_Int.fromString(Belt_Option.mapWithDefault(cmd, "", identity)), /* Noop */0, (function (n) {
+  return Belt_Option.mapWithDefault(Belt_Int.fromString(Belt_Option.getWithDefault(cmd, "")), /* Noop */0, (function (n) {
                 return /* Addx */{
                         _0: n
                       };
