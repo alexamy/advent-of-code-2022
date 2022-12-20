@@ -56,6 +56,13 @@ function processCycle(param, cycle) {
         ];
 }
 
+function getCycleValues(input) {
+  return input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, [
+                [1],
+                1
+              ])[0];
+}
+
 function solve1(input) {
   var indexes = [
     20,
@@ -65,11 +72,7 @@ function solve1(input) {
     180,
     220
   ];
-  var match = input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, [
-        [1],
-        1
-      ]);
-  var values = match[0];
+  var values = getCycleValues(input);
   return indexes.map(function (i) {
                 return Math.imul(i, Caml_array.get(values, i));
               }).reduce((function (a, b) {
@@ -87,6 +90,7 @@ export {
   toInstruction ,
   toFunction ,
   processCycle ,
+  getCycleValues ,
   solve1 ,
   solve2 ,
 }

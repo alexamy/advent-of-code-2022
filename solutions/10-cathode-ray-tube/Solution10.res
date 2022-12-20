@@ -40,15 +40,20 @@ let processCycle = ((values, nextValue), cycle): result => {(
   cycle.result(nextValue),
 )}
 
-@genType
-let solve1 = (input: string): int => {
-  let indexes = [20, 60, 100, 140, 180, 220]
-
+let getCycleValues = (input: string): array<int> => {
   let (values, _) = input
   ->Js.String2.split("\n")
   ->Js.Array2.map(toInstruction)
   ->Js.Array2.map(toFunction)
   ->Js.Array2.reduce(processCycle, ([1], 1))
+
+  values
+}
+
+@genType
+let solve1 = (input: string): int => {
+  let indexes = [20, 60, 100, 140, 180, 220]
+  let values = getCycleValues(input)
 
   indexes
   ->Js.Array2.map(i => i * values[i])
