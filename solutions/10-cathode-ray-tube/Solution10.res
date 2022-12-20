@@ -12,6 +12,7 @@ type cycle = {
 type result = (array<int>, int)
 
 let identity = x => x
+let first = ((x, _)) => x
 
 let parseAddx = (cmd: option<string>): instruction => {
   cmd
@@ -49,13 +50,12 @@ let processCycle = ((values, nextValue), cycle): result => {(
 )}
 
 let getCycleValues = (input: string): array<int> => {
-  let (values, _) = input
+  input
   ->Js.String2.split("\n")
   ->Js.Array2.map(toInstruction)
   ->Js.Array2.map(toFunction)
   ->Js.Array2.reduce(processCycle, ([1], 1))
-
-  values
+  ->first
 }
 
 @genType

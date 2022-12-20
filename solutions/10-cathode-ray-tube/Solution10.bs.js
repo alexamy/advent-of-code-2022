@@ -10,6 +10,10 @@ function identity(x) {
   return x;
 }
 
+function first(param) {
+  return param[0];
+}
+
 function parseAddx(cmd) {
   return Belt_Option.mapWithDefault(Belt_Int.fromString(Belt_Option.getWithDefault(cmd, "")), /* Noop */0, (function (n) {
                 return /* Addx */{
@@ -61,10 +65,10 @@ function processCycle(param, cycle) {
 }
 
 function getCycleValues(input) {
-  return input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, [
-                [1],
-                1
-              ])[0];
+  return first(input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, [
+                  [1],
+                  1
+                ]));
 }
 
 function solve1(input) {
@@ -90,6 +94,7 @@ function solve2(_input) {
 
 export {
   identity ,
+  first ,
   parseAddx ,
   toInstruction ,
   toFunction ,
