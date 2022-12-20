@@ -25,9 +25,10 @@ let toInstruction = (cmd: string): instruction => {
   ->Js.Re.exec_(cmd)
   ->Option.mapWithDefault(Noop, r => {
     Js.Re.captures(r)[1]
-    ->Option.mapWithDefault(Noop, r => {
-      r->Js.Nullable.toOption->Option.map(parseInstruction)->Option.getWithDefault(Noop)
-    })
+    ->Option.getWithDefault(Js.Nullable.return(""))
+    ->Js.Nullable.toOption
+    ->Option.map(parseInstruction)
+    ->Option.getWithDefault(Noop)
   })
 }
 
