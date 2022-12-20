@@ -23,16 +23,11 @@ function parseAddx(cmd) {
 }
 
 function toInstruction(cmd) {
-  var result = /addx (-?\d+)/.exec(cmd);
-  if (result === null) {
-    return /* Noop */0;
-  }
-  var captures = Belt_Array.get(result, 1);
-  if (captures !== undefined) {
-    return parseAddx(Caml_option.nullable_to_opt(Caml_option.valFromOption(captures)));
-  } else {
-    return /* Noop */0;
-  }
+  return Belt_Option.mapWithDefault(Caml_option.null_to_opt(/addx (-?\d+)/.exec(cmd)), /* Noop */0, (function (r) {
+                return Belt_Option.mapWithDefault(Belt_Array.get(r, 1), /* Noop */0, (function (r) {
+                              return parseAddx((r == null) ? undefined : Caml_option.some(r));
+                            }));
+              }));
 }
 
 function toFunction(cmd) {

@@ -22,17 +22,14 @@ let parseAddx = (cmd: option<string>): instruction => {
 }
 
 let toInstruction = (cmd: string): instruction => {
-  let result = %re("/addx (-?\d+)/")->Js.Re.exec_(cmd)
-  switch result {
-  | None => Noop
-  | Some(r) => {
-      let captures = Js.Re.captures(r)[1]
-      switch captures {
-      | None => Noop
-      | Some(r) => r->Js.Nullable.toOption->parseAddx
-      }
-    }
-  }
+  %re("/addx (-?\d+)/")
+  ->Js.Re.exec_(cmd)
+  ->Option.mapWithDefault(Noop, r => {
+    Js.Re.captures(r)[1]
+    ->Option.mapWithDefault(Noop, r => {
+      r->Js.Nullable.toOption->parseAddx
+    })
+  })
 }
 
 let toFunction = (cmd: instruction): cycle => {
