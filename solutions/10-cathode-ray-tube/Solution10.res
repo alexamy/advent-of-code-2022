@@ -7,10 +7,7 @@ type cycle = {
   result: int => int,
 }
 
-type result = {
-  values: array<int>,
-  nextValue: int,
-}
+type result = (array<int>, int)
 
 let identity = x => x
 
@@ -36,26 +33,25 @@ let toFunction = (cmd: instruction): cycle => {
   }
 }
 
-let processCycle = (result, cycle): result => {
-  nextValue: cycle.result(result.nextValue),
-  values: cycle.steps
-    ->Js.Array2.map(step => step(result.nextValue))
-    ->Js.Array2.concat(result.values, _),
-}
+let processCycle = ((values, nextValue), cycle): result => {(
+  cycle.steps
+    ->Js.Array2.map(step => step(nextValue))
+    ->Js.Array2.concat(values, _),
+  cycle.result(nextValue),
+)}
 
 @genType
 let solve1 = (input: string): int => {
-  let initial = { values: [1], nextValue: 1 }
   let indexes = [20, 60, 100, 140, 180, 220]
 
-  let result = input
+  let (values, _) = input
   ->Js.String2.split("\n")
   ->Js.Array2.map(toInstruction)
   ->Js.Array2.map(toFunction)
-  ->Js.Array2.reduce(processCycle, initial)
+  ->Js.Array2.reduce(processCycle, ([1], 1))
 
   indexes
-  ->Js.Array2.map(i => i * result.values[i])
+  ->Js.Array2.map(i => i * values[i])
   ->Js.Array2.reduce((a, b) => a + b, 0)
 }
 

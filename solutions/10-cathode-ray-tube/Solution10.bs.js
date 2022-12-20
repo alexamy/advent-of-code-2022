@@ -46,22 +46,17 @@ function toFunction(cmd) {
         };
 }
 
-function processCycle(result, cycle) {
-  var __x = cycle.steps.map(function (step) {
-        return Curry._1(step, result.nextValue);
-      });
-  return {
-          values: result.values.concat(__x),
-          nextValue: Curry._1(cycle.result, result.nextValue)
-        };
+function processCycle(param, cycle) {
+  var nextValue = param[1];
+  return [
+          param[0].concat(cycle.steps.map(function (step) {
+                    return Curry._1(step, nextValue);
+                  })),
+          Curry._1(cycle.result, nextValue)
+        ];
 }
 
 function solve1(input) {
-  var initial_values = [1];
-  var initial = {
-    values: initial_values,
-    nextValue: 1
-  };
   var indexes = [
     20,
     60,
@@ -70,9 +65,13 @@ function solve1(input) {
     180,
     220
   ];
-  var result = input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, initial);
+  var match = input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, [
+        [1],
+        1
+      ]);
+  var values = match[0];
   return indexes.map(function (i) {
-                return Math.imul(i, Caml_array.get(result.values, i));
+                return Math.imul(i, Caml_array.get(values, i));
               }).reduce((function (a, b) {
                 return a + b | 0;
               }), 0);
