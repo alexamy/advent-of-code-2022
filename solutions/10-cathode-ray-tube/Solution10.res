@@ -56,6 +56,6 @@ let solve1 = (input: string): int => {
 }
 
 @genType
-let solve2 = (_input: string): int => {
-  0
+let solve2 = (_input: string): 'a => {
+  None
 }

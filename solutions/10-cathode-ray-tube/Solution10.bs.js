@@ -78,7 +78,7 @@ function solve1(input) {
 }
 
 function solve2(_input) {
-  return 0;
+  
 }
 
 export {
