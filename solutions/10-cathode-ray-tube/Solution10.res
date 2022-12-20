@@ -1,3 +1,5 @@
+open Belt
+
 type instruction =
   | Noop
   | Addx(int)
@@ -22,7 +24,13 @@ let toInstruction = (cmd: string): instruction => {
   let result = %re("/addx (-?\d+)/")->Js.Re.exec_(cmd)
   switch result {
   | None => Noop
-  | Some(r) => Js.Re.captures(r)[1]->Js.Nullable.toOption->parseAddx
+  | Some(r) => {
+      let captures = Js.Re.captures(r)[1]
+      switch captures {
+      | None => Noop
+      | Some(r) => r->Js.Nullable.toOption->parseAddx
+      }
+    }
   }
 }
 
@@ -56,7 +64,7 @@ let solve1 = (input: string): int => {
   let values = getCycleValues(input)
 
   indexes
-  ->Js.Array2.map(i => i * values[i])
+  ->Js.Array2.map(i => i * Option.getWithDefault(values[i], 0))
   ->Js.Array2.reduce((a, b) => a + b, 0)
 }
 

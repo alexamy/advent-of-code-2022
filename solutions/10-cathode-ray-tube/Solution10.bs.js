@@ -2,7 +2,7 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
-import * as Caml_array from "rescript/lib/es6/caml_array.js";
+import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 
@@ -20,8 +20,12 @@ function parseAddx(cmd) {
 
 function toInstruction(cmd) {
   var result = /addx (-?\d+)/.exec(cmd);
-  if (result !== null) {
-    return parseAddx(Caml_option.nullable_to_opt(Caml_array.get(result, 1)));
+  if (result === null) {
+    return /* Noop */0;
+  }
+  var captures = Belt_Array.get(result, 1);
+  if (captures !== undefined) {
+    return parseAddx(Caml_option.nullable_to_opt(Caml_option.valFromOption(captures)));
   } else {
     return /* Noop */0;
   }
@@ -74,7 +78,7 @@ function solve1(input) {
   ];
   var values = getCycleValues(input);
   return indexes.map(function (i) {
-                return Math.imul(i, Caml_array.get(values, i));
+                return Math.imul(i, Belt_Option.getWithDefault(Belt_Array.get(values, i), 0));
               }).reduce((function (a, b) {
                 return a + b | 0;
               }), 0);
