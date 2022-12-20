@@ -23,9 +23,9 @@ function parseInstruction(cmd) {
 }
 
 function toInstruction(cmd) {
-  return Belt_Option.getWithDefault(Belt_Option.map(Caml_option.null_to_opt(/addx (-?\d+)/.exec(cmd)), (function (r) {
-                    return Belt_Option.getWithDefault(Belt_Option.map(Caml_option.nullable_to_opt(Belt_Option.getWithDefault(Belt_Array.get(r, 1), "")), parseInstruction), /* Noop */0);
-                  })), /* Noop */0);
+  return Belt_Option.getWithDefault(Belt_Option.map(Caml_option.nullable_to_opt(Belt_Option.getWithDefault(Belt_Option.flatMap(Caml_option.null_to_opt(/addx (-?\d+)/.exec(cmd)), (function (r) {
+                                return Belt_Array.get(r, 1);
+                              })), "")), parseInstruction), /* Noop */0);
 }
 
 function toFunction(cmd) {
