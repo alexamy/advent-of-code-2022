@@ -9,10 +9,12 @@ type cycle = {
   result: int => int,
 }
 
-type result = (array<int>, int)
+type result = {
+  values: array<int>,
+  nextValue: int,
+}
 
 let identity = x => x
-let first = ((x, _)) => x
 
 let parseInstruction = (cmd: string): instruction => {
   cmd
@@ -37,20 +39,20 @@ let toFunction = (cmd: instruction): cycle => {
   }
 }
 
-let processCycle = ((values, nextValue), cycle): result => {(
-  cycle.steps
+let processCycle = ({ values, nextValue }, { steps, result }): result => {
+  nextValue: result(nextValue),
+  values: steps
     ->Js.Array2.map(step => step(nextValue))
     ->Js.Array2.concat(values, _),
-  cycle.result(nextValue),
-)}
+}
 
 let getCycleValues = (input: string): array<int> => {
   input
   ->Js.String2.split("\n")
   ->Js.Array2.map(toInstruction)
   ->Js.Array2.map(toFunction)
-  ->Js.Array2.reduce(processCycle, ([1], 1))
-  ->first
+  ->Js.Array2.reduce(processCycle, { values: [1], nextValue: 1 })
+  ->(r => r.values)
 }
 
 @genType

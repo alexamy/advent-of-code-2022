@@ -10,10 +10,6 @@ function identity(x) {
   return x;
 }
 
-function first(param) {
-  return param[0];
-}
-
 function parseInstruction(cmd) {
   return Belt_Option.mapWithDefault(Belt_Int.fromString(cmd), /* Noop */0, (function (n) {
                 return /* Addx */{
@@ -47,21 +43,21 @@ function toFunction(cmd) {
         };
 }
 
-function processCycle(param, cycle) {
-  var nextValue = param[1];
-  return [
-          param[0].concat(cycle.steps.map(function (step) {
+function processCycle(param, param$1) {
+  var nextValue = param.nextValue;
+  return {
+          values: param.values.concat(param$1.steps.map(function (step) {
                     return Curry._1(step, nextValue);
                   })),
-          Curry._1(cycle.result, nextValue)
-        ];
+          nextValue: Curry._1(param$1.result, nextValue)
+        };
 }
 
 function getCycleValues(input) {
-  return first(input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, [
-                  [1],
-                  1
-                ]));
+  return input.split("\n").map(toInstruction).map(toFunction).reduce(processCycle, {
+              values: [1],
+              nextValue: 1
+            }).values;
 }
 
 function solve1(input) {
@@ -87,7 +83,6 @@ function solve2(_input) {
 
 export {
   identity ,
-  first ,
   parseInstruction ,
   toInstruction ,
   toFunction ,
