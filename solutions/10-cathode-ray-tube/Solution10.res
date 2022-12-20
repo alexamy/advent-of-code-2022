@@ -23,13 +23,14 @@ let parseInstruction = (cmd: string): instruction => {
 let toInstruction = (cmd: string): instruction => {
   %re("/addx (-?\d+)/")
   ->Js.Re.exec_(cmd)
-  ->Option.mapWithDefault(Noop, r => {
+  ->Option.map(r => {
     Js.Re.captures(r)[1]
     ->Option.getWithDefault(Js.Nullable.return(""))
     ->Js.Nullable.toOption
     ->Option.map(parseInstruction)
     ->Option.getWithDefault(Noop)
   })
+  ->Option.getWithDefault(Noop)
 }
 
 let toFunction = (cmd: instruction): cycle => {
