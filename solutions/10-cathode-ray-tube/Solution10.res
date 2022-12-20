@@ -14,9 +14,8 @@ type result = (array<int>, int)
 let identity = x => x
 let first = ((x, _)) => x
 
-let parseAddx = (cmd: option<string>): instruction => {
+let parseInstruction = (cmd: string): instruction => {
   cmd
-  ->Option.getWithDefault("")
   ->Int.fromString
   ->Option.mapWithDefault(Noop, n => Addx(n))
 }
@@ -27,7 +26,7 @@ let toInstruction = (cmd: string): instruction => {
   ->Option.mapWithDefault(Noop, r => {
     Js.Re.captures(r)[1]
     ->Option.mapWithDefault(Noop, r => {
-      r->Js.Nullable.toOption->parseAddx
+      r->Js.Nullable.toOption->Option.map(parseInstruction)->Option.getWithDefault(Noop)
     })
   })
 }

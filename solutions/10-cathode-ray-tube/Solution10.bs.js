@@ -14,8 +14,8 @@ function first(param) {
   return param[0];
 }
 
-function parseAddx(cmd) {
-  return Belt_Option.mapWithDefault(Belt_Int.fromString(Belt_Option.getWithDefault(cmd, "")), /* Noop */0, (function (n) {
+function parseInstruction(cmd) {
+  return Belt_Option.mapWithDefault(Belt_Int.fromString(cmd), /* Noop */0, (function (n) {
                 return /* Addx */{
                         _0: n
                       };
@@ -25,7 +25,7 @@ function parseAddx(cmd) {
 function toInstruction(cmd) {
   return Belt_Option.mapWithDefault(Caml_option.null_to_opt(/addx (-?\d+)/.exec(cmd)), /* Noop */0, (function (r) {
                 return Belt_Option.mapWithDefault(Belt_Array.get(r, 1), /* Noop */0, (function (r) {
-                              return parseAddx((r == null) ? undefined : Caml_option.some(r));
+                              return Belt_Option.getWithDefault(Belt_Option.map((r == null) ? undefined : Caml_option.some(r), parseInstruction), /* Noop */0);
                             }));
               }));
 }
@@ -90,7 +90,7 @@ function solve2(_input) {
 export {
   identity ,
   first ,
-  parseAddx ,
+  parseInstruction ,
   toInstruction ,
   toFunction ,
   processCycle ,
