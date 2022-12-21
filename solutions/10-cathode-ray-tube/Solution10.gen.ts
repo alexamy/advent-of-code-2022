@@ -8,4 +8,4 @@ const Solution10BS: any = Solution10BS__Es6Import;
 
 export const solve1: (input:string) => number = Solution10BS.solve1;
 
-export const solve2: <T1>(_input:string) => (null | undefined | T1) = Solution10BS.solve2;
+export const solve2: (input:string) => number[] = Solution10BS.solve2;

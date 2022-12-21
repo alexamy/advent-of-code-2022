@@ -65,7 +65,15 @@ let solve1 = (input: string): int => {
   ->Js.Array2.reduce((a, b) => a + b, 0)
 }
 
+type screen = {
+  width: int,
+  height: int
+}
+
 @genType
-let solve2 = (_input: string): 'a => {
-  None
+let solve2 = (input: string): 'a => {
+  let screen = { width: 40, height: 6 }
+  let values = getCycleValues(input)
+
+  values
 }

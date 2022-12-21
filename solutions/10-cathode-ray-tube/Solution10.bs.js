@@ -77,9 +77,7 @@ function solve1(input) {
               }), 0);
 }
 
-function solve2(_input) {
-  
-}
+var solve2 = getCycleValues;
 
 export {
   identity ,
