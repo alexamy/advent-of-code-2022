@@ -77,7 +77,44 @@ function solve1(input) {
               }), 0);
 }
 
-var solve2 = getCycleValues;
+function makePixel(pixel) {
+  if (pixel) {
+    return "#";
+  } else {
+    return ".";
+  }
+}
+
+function makeScreen(pixels, size) {
+  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.range(0, size.height - 1 | 0), (function (row) {
+                    return Belt_Array.joinWith(Belt_Array.map(Belt_Array.slice(pixels, Math.imul(row, size.width), size.width), makePixel), "", identity);
+                  })), "\n", identity);
+}
+
+function setPixel(values, idx) {
+  var p = Belt_Array.get(values, idx);
+  if (p !== undefined) {
+    if (p === idx) {
+      return /* Lit */1;
+    } else {
+      return /* Empty */0;
+    }
+  }
+  throw {
+        RE_EXN_ID: "Not_found",
+        Error: new Error()
+      };
+}
+
+function solve2(input) {
+  var values = getCycleValues(input).slice(1);
+  return makeScreen(Belt_Array.makeBy(240, (function (param) {
+                    return setPixel(values, param);
+                  })), {
+              width: 40,
+              height: 6
+            });
+}
 
 export {
   identity ,
@@ -87,6 +124,9 @@ export {
   processCycle ,
   getCycleValues ,
   solve1 ,
+  makePixel ,
+  makeScreen ,
+  setPixel ,
   solve2 ,
 }
 /* No side effect */

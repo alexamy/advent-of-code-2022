@@ -65,15 +65,47 @@ let solve1 = (input: string): int => {
   ->Js.Array2.reduce((a, b) => a + b, 0)
 }
 
-type screen = {
+type size = {
   width: int,
   height: int
 }
 
+type pixel =
+  | Empty
+  | Lit
+
+let makePixel = (pixel): string => {
+  switch pixel {
+  | Empty => "."
+  | Lit => "#"
+  }
+}
+
+let makeScreen = (pixels: array<pixel>, size: size): string => {
+  Array.range(0, size.height - 1)
+  ->Array.map(row => {
+    pixels
+    ->Array.slice(~offset=row * size.width, ~len=size.width)
+    ->Array.map(makePixel)
+    ->Array.joinWith("", identity)
+  })
+  ->Array.joinWith("\n", identity)
+}
+
+let setPixel = (values, idx) => {
+  switch values[idx] {
+  | None => raise(Not_found)
+  | Some(p) => if(p === idx) { Lit } else { Empty }
+  }
+}
+
 @genType
 let solve2 = (input: string): 'a => {
-  let screen = { width: 40, height: 6 }
-  let values = getCycleValues(input)
+  let size = { width: 40, height: 6 }
+  let count = size.width * size.height
+  let values = input->getCycleValues->Js.Array2.sliceFrom(1)
 
-  values
+  count
+  ->Array.makeBy(setPixel(values))
+  ->makeScreen(size)
 }
