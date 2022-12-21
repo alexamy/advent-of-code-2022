@@ -92,20 +92,25 @@ let makeScreen = (pixels: array<pixel>, size: size): string => {
   ->Array.joinWith("\n", identity)
 }
 
-let setPixel = (values, idx) => {
-  switch values[idx] {
+let setPixel = (positions, width, idx) => {
+  switch positions[idx] {
   | None => raise(Not_found)
-  | Some(p) => if(p === idx) { Lit } else { Empty }
+  | Some(pixel) => {
+      let index = mod(idx, width)
+      let isLit = index === pixel || index === pixel - 1 || index === pixel + 1
+      isLit ? Lit : Empty
+    }
   }
 }
 
 @genType
 let solve2 = (input: string): 'a => {
   let size = { width: 40, height: 6 }
-  let count = size.width * size.height
-  let values = input->getCycleValues->Js.Array2.sliceFrom(1)
+  let positions = input->getCycleValues->Js.Array2.sliceFrom(1)
+  let pixelSetter = setPixel(positions, size.width)
 
-  count
-  ->Array.makeBy(setPixel(values))
+  positions
+  ->Array.length
+  ->Array.makeBy(pixelSetter)
   ->makeScreen(size)
 }

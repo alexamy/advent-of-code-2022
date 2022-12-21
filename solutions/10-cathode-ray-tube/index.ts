@@ -8,6 +8,6 @@ async function run() {
   const result1 = solve1(input.toString());
   const result2 = solve2(input.toString());
 
-  console.log(`Solution 1: ${result1}`);
-  console.log(`Solution 2: ${result2}`);
+  console.log(`Solution 1:\n${result1}`);
+  console.log(`Solution 2:\n${result2}`);
 }

@@ -3,6 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Caml_int32 from "rescript/lib/es6/caml_int32.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 
@@ -91,10 +92,12 @@ function makeScreen(pixels, size) {
                   })), "\n", identity);
 }
 
-function setPixel(values, idx) {
-  var p = Belt_Array.get(values, idx);
-  if (p !== undefined) {
-    if (p === idx) {
+function setPixel(positions, width, idx) {
+  var pixel = Belt_Array.get(positions, idx);
+  if (pixel !== undefined) {
+    var index = Caml_int32.mod_(idx, width);
+    var isLit = index === pixel || index === (pixel - 1 | 0) || index === (pixel + 1 | 0);
+    if (isLit) {
       return /* Lit */1;
     } else {
       return /* Empty */0;
@@ -107,10 +110,11 @@ function setPixel(values, idx) {
 }
 
 function solve2(input) {
-  var values = getCycleValues(input).slice(1);
-  return makeScreen(Belt_Array.makeBy(240, (function (param) {
-                    return setPixel(values, param);
-                  })), {
+  var positions = getCycleValues(input).slice(1);
+  var pixelSetter = function (param) {
+    return setPixel(positions, 40, param);
+  };
+  return makeScreen(Belt_Array.makeBy(positions.length, pixelSetter), {
               width: 40,
               height: 6
             });
