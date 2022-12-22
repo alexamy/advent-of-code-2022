@@ -74,25 +74,25 @@ type pixel =
   | Empty
   | Lit
 
-let makePixel = (pixel): string => {
+let showPixel = (pixel): string => {
   switch pixel {
   | Empty => "."
   | Lit => "#"
   }
 }
 
-let makeScreen = (pixels: array<pixel>, size: size): string => {
+let showScreen = (pixels: array<pixel>, size: size): string => {
   Array.range(0, size.height - 1)
   ->Array.map(row => {
     pixels
     ->Array.slice(~offset=row * size.width, ~len=size.width)
-    ->Array.map(makePixel)
+    ->Array.map(showPixel)
     ->Array.joinWith("", identity)
   })
   ->Array.joinWith("\n", identity)
 }
 
-let setPixel = (positions, width, idx) => {
+let spritePainter = (positions, width, idx) => {
   switch positions[idx] {
   | None => raise(Not_found)
   | Some(pixel) => {
@@ -105,12 +105,12 @@ let setPixel = (positions, width, idx) => {
 
 @genType
 let solve2 = (input: string): 'a => {
-  let size = { width: 40, height: 6 }
-  let positions = input->getCycleValues->Js.Array2.sliceFrom(1)
-  let pixelSetter = setPixel(positions, size.width)
+  let screenSize = { width: 40, height: 6 }
+  let spritePositions = input->getCycleValues->Js.Array2.sliceFrom(1)
+  let pixelSetter = spritePaispritePositscreenSizetions, size.width)
 
-  positions
+  spritePositions
   ->Array.length
   ->Array.makeBy(pixelSetter)
-  ->makeScreen(size)
+  ->showScreen(screenSize)
 }
