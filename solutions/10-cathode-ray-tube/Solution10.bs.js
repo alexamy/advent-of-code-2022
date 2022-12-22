@@ -105,18 +105,20 @@ var Show = {
 };
 
 function solve2(input) {
-  return screen(Belt_Array.mapWithIndex(getCycleValues(input).slice(1), (function (idx, center) {
-                    var left = center - 1 | 0;
-                    var right = center + 1 | 0;
-                    var index = idx % 40;
-                    var isLit = index === center || index === left || index === right;
-                    console.log(index, center, isLit);
-                    if (isLit) {
-                      return /* Lit */1;
-                    } else {
-                      return /* Empty */0;
-                    }
-                  })), {
+  var spritePositions = getCycleValues(input).slice(1);
+  var pixels = Belt_Array.mapWithIndex(spritePositions, (function (idx, center) {
+          var left = center - 1 | 0;
+          var right = center + 1 | 0;
+          var index = idx % 40;
+          var isLit = index === center || index === left || index === right;
+          console.log(index, center, isLit);
+          if (isLit) {
+            return /* Lit */1;
+          } else {
+            return /* Empty */0;
+          }
+        }));
+  return screen(pixels, {
               width: 40,
               height: 6
             });

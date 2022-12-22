@@ -102,11 +102,9 @@ module Show = {
 @genType
 let solve2 = (input: string): 'a => {
   let screenSize: Show.size = { width: 40, height: 6 }
+  let spritePositions = input->getCycleValues->Js.Array2.sliceFrom(1)
 
-  input
-  ->getCycleValues
-  ->Js.Array2.sliceFrom(1)
-  ->Array.mapWithIndex((idx, center) => {
+  let pixels = Array.mapWithIndex(spritePositions, (idx, center) => {
     let left = center - 1
     let right = center + 1
     let index = mod(idx, screenSize.width)
@@ -114,5 +112,6 @@ let solve2 = (input: string): 'a => {
     Js.log3(index, center, isLit)
     isLit ? Show.Lit : Show.Empty
   })
-  ->Show.screen(screenSize)
+
+  Show.screen(pixels, screenSize)
 }
