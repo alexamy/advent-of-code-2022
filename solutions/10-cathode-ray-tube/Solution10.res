@@ -92,10 +92,24 @@ module Show = {
   }
 }
 
-let positionToPixel = (pixel, position) => {
-  let left = position - 1
-  let right = position + 1
-  let isLit = pixel === position || pixel === left || pixel === right
+module Sprite = {
+  type position = {
+    left: int,
+    center: int,
+    right: int,
+  }
+
+  let fromCenter = center => {
+    left: center - 1,
+    center,
+    right: center + 1,
+  }
+}
+
+let toPixel = (sprite: Sprite.position, index) => {
+  let isLit = index === sprite.center
+    || index === sprite.left
+    || index === sprite.right
 
   isLit ? Show.Lit : Show.Empty
 }
@@ -106,9 +120,10 @@ let solve2 = (input: string): 'a => {
   let spritePositions = input->getCycleValues->Js.Array2.sliceFrom(1)
 
   spritePositions
-  ->Array.mapWithIndex((idx, center) => {
+  ->Array.mapWithIndex((idx, position) => {
+    let sprite = Sprite.fromCenter(position)
     let index = mod(idx, screenSize.width)
-    positionToPixel(index, center)
+    toPixel(sprite, index)
   })
   ->Array.map(Show.pixel)
   ->Show.screen(screenSize)

@@ -100,10 +100,20 @@ var Show = {
   screen: screen
 };
 
-function positionToPixel(pixel, position) {
-  var left = position - 1 | 0;
-  var right = position + 1 | 0;
-  var isLit = pixel === position || pixel === left || pixel === right;
+function fromCenter(center) {
+  return {
+          left: center - 1 | 0,
+          center: center,
+          right: center + 1 | 0
+        };
+}
+
+var Sprite = {
+  fromCenter: fromCenter
+};
+
+function toPixel(sprite, index) {
+  var isLit = index === sprite.center || index === sprite.left || index === sprite.right;
   if (isLit) {
     return /* Lit */1;
   } else {
@@ -113,9 +123,10 @@ function positionToPixel(pixel, position) {
 
 function solve2(input) {
   var spritePositions = getCycleValues(input).slice(1);
-  return screen(Belt_Array.map(Belt_Array.mapWithIndex(spritePositions, (function (idx, center) {
+  return screen(Belt_Array.map(Belt_Array.mapWithIndex(spritePositions, (function (idx, position) {
+                        var sprite = fromCenter(position);
                         var index = idx % 40;
-                        return positionToPixel(index, center);
+                        return toPixel(sprite, index);
                       })), pixel), {
               width: 40,
               height: 6
@@ -131,7 +142,8 @@ export {
   getCycleValues ,
   solve1 ,
   Show ,
-  positionToPixel ,
+  Sprite ,
+  toPixel ,
   solve2 ,
 }
 /* No side effect */
