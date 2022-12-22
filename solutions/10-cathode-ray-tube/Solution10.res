@@ -83,14 +83,17 @@ module Show = {
   }
 
   let row = (pixels, width, row) => {
-    pixels
-    ->Array.slice(~offset=row * width, ~len=width)
+    let pixelsRow = Array.slice(pixels, ~offset=row * width, ~len=width)
+
+    pixelsRow
     ->Array.map(pixel)
     ->Array.joinWith("", identity)
   }
 
-  let screen = (pixels: array<pixel>, size: size): string => {
-    Array.range(0, size.height - 1)
+  let screen = (pixels, size) => {
+    let rowIndexes = Array.range(0, size.height - 1)
+
+    rowIndexes
     ->Array.map(row(pixels, size.width))
     ->Array.joinWith("\n", identity)
   }

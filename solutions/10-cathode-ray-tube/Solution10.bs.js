@@ -87,12 +87,14 @@ function pixel(pixel$1) {
 }
 
 function row(pixels, width, row$1) {
-  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.slice(pixels, Math.imul(row$1, width), width), pixel), "", identity);
+  var pixelsRow = Belt_Array.slice(pixels, Math.imul(row$1, width), width);
+  return Belt_Array.joinWith(Belt_Array.map(pixelsRow, pixel), "", identity);
 }
 
 function screen(pixels, size) {
+  var rowIndexes = Belt_Array.range(0, size.height - 1 | 0);
   var partial_arg = size.width;
-  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.range(0, size.height - 1 | 0), (function (param) {
+  return Belt_Array.joinWith(Belt_Array.map(rowIndexes, (function (param) {
                     return row(pixels, partial_arg, param);
                   })), "\n", identity);
 }
