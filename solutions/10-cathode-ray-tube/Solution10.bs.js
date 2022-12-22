@@ -78,30 +78,36 @@ function solve1(input) {
               }), 0);
 }
 
-function showPixel(pixel) {
-  if (pixel) {
+function pixel(pixel$1) {
+  if (pixel$1) {
     return "#";
   } else {
     return ".";
   }
 }
 
-function showRow(pixels, width, row) {
-  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.slice(pixels, Math.imul(row, width), width), showPixel), "", identity);
+function row(pixels, width, row$1) {
+  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.slice(pixels, Math.imul(row$1, width), width), pixel), "", identity);
 }
 
-function showScreen(pixels, size) {
+function screen(pixels, size) {
   var partial_arg = size.width;
   return Belt_Array.joinWith(Belt_Array.map(Belt_Array.range(0, size.height - 1 | 0), (function (param) {
-                    return showRow(pixels, partial_arg, param);
+                    return row(pixels, partial_arg, param);
                   })), "\n", identity);
 }
 
+var Show = {
+  pixel: pixel,
+  row: row,
+  screen: screen
+};
+
 function spritePainter(positions, width, idx) {
-  var pixel = Belt_Array.get(positions, idx);
-  if (pixel !== undefined) {
+  var spriteCenter = Belt_Array.get(positions, idx);
+  if (spriteCenter !== undefined) {
     var index = Caml_int32.mod_(idx, width);
-    var isLit = index === pixel || index === (pixel - 1 | 0) || index === (pixel + 1 | 0);
+    var isLit = index === spriteCenter || index === (spriteCenter - 1 | 0) || index === (spriteCenter + 1 | 0);
     if (isLit) {
       return /* Lit */1;
     } else {
@@ -119,7 +125,7 @@ function solve2(input) {
   var pixelSetter = function (param) {
     return spritePainter(spritePositions, 40, param);
   };
-  return showScreen(Belt_Array.makeBy(spritePositions.length, pixelSetter), {
+  return screen(Belt_Array.makeBy(spritePositions.length, pixelSetter), {
               width: 40,
               height: 6
             });
@@ -133,9 +139,7 @@ export {
   processCycle ,
   getCycleValues ,
   solve1 ,
-  showPixel ,
-  showRow ,
-  showScreen ,
+  Show ,
   spritePainter ,
   solve2 ,
 }

@@ -65,54 +65,56 @@ let solve1 = (input: string): int => {
   ->Js.Array2.reduce((a, b) => a + b, 0)
 }
 
-type size = {
-  width: int,
-  height: int
-}
+module Show = {
+  type size = {
+    width: int,
+    height: int
+  }
 
-type pixel =
+  type pixel =
   | Empty
   | Lit
 
-let showPixel = (pixel): string => {
-  switch pixel {
-  | Empty => "."
-  | Lit => "#"
+  let pixel = pixel => {
+    switch pixel {
+    | Empty => "."
+    | Lit => "#"
+    }
   }
-}
 
-let showRow = (pixels, width, row) => {
-  pixels
-  ->Array.slice(~offset=row * width, ~len=width)
-  ->Array.map(showPixel)
-  ->Array.joinWith("", identity)
-}
+  let row = (pixels, width, row) => {
+    pixels
+    ->Array.slice(~offset=row * width, ~len=width)
+    ->Array.map(pixel)
+    ->Array.joinWith("", identity)
+  }
 
-let showScreen = (pixels: array<pixel>, size: size): string => {
-  Array.range(0, size.height - 1)
-  ->Array.map(showRow(pixels, size.width))
-  ->Array.joinWith("\n", identity)
+  let screen = (pixels: array<pixel>, size: size): string => {
+    Array.range(0, size.height - 1)
+    ->Array.map(row(pixels, size.width))
+    ->Array.joinWith("\n", identity)
+  }
 }
 
 let spritePainter = (positions, width, idx) => {
   switch positions[idx] {
   | None => raise(Not_found)
-  | Some(pixel) => {
+  | Some(spriteCenter) => {
       let index = mod(idx, width)
-      let isLit = index === pixel || index === pixel - 1 || index === pixel + 1
-      isLit ? Lit : Empty
+      let isLit = index === spriteCenter || index === spriteCenter - 1 || index === spriteCenter + 1
+      isLit ? Show.Lit : Show.Empty
     }
   }
 }
 
 @genType
 let solve2 = (input: string): 'a => {
-  let screenSize = { width: 40, height: 6 }
+  let screenSize: Show.size = { width: 40, height: 6 }
   let spritePositions = input->getCycleValues->Js.Array2.sliceFrom(1)
   let pixelSetter = spritePainter(spritePositions, screenSize.width)
 
   spritePositions
   ->Array.length
   ->Array.makeBy(pixelSetter)
-  ->showScreen(screenSize)
+  ->Show.screen(screenSize)
 }
