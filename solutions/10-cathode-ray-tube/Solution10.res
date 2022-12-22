@@ -109,7 +109,7 @@ let solve2 = (input: string): 'a => {
     let right = center + 1
     let index = mod(idx, screenSize.width)
     let isLit = index === center || index === left || index === right
-    Js.log3(index, center, isLit)
+
     isLit ? Show.Lit : Show.Empty
   })
 

@@ -111,7 +111,6 @@ function solve2(input) {
           var right = center + 1 | 0;
           var index = idx % 40;
           var isLit = index === center || index === left || index === right;
-          console.log(index, center, isLit);
           if (isLit) {
             return /* Lit */1;
           } else {
