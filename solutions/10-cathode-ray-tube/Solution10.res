@@ -100,14 +100,14 @@ module Show = {
 }
 
 let spritePainter = (positions, width, idx) => {
-  switch positions[idx] {
-  | None => raise(Not_found)
-  | Some(spriteCenter) => {
-      let index = mod(idx, width)
-      let isLit = index === spriteCenter || index === spriteCenter - 1 || index === spriteCenter + 1
-      isLit ? Show.Lit : Show.Empty
-    }
-  }
+  positions[idx]
+  ->Option.mapWithDefault(Show.Empty, center => {
+    let left = center - 1
+    let right = center + 1
+    let index = mod(idx, width)
+    let isLit = index === center || index === left || index === right
+    isLit ? Show.Lit : Show.Empty
+  })
 }
 
 @genType

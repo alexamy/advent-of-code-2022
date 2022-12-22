@@ -106,20 +106,17 @@ var Show = {
 };
 
 function spritePainter(positions, width, idx) {
-  var spriteCenter = Belt_Array.get(positions, idx);
-  if (spriteCenter !== undefined) {
-    var index = Caml_int32.mod_(idx, width);
-    var isLit = index === spriteCenter || index === (spriteCenter - 1 | 0) || index === (spriteCenter + 1 | 0);
-    if (isLit) {
-      return /* Lit */1;
-    } else {
-      return /* Empty */0;
-    }
-  }
-  throw {
-        RE_EXN_ID: "Not_found",
-        Error: new Error()
-      };
+  return Belt_Option.mapWithDefault(Belt_Array.get(positions, idx), /* Empty */0, (function (center) {
+                var left = center - 1 | 0;
+                var right = center + 1 | 0;
+                var index = Caml_int32.mod_(idx, width);
+                var isLit = index === center || index === left || index === right;
+                if (isLit) {
+                  return /* Lit */1;
+                } else {
+                  return /* Empty */0;
+                }
+              }));
 }
 
 function solve2(input) {
