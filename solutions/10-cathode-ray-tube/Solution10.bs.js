@@ -3,7 +3,6 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
-import * as Caml_int32 from "rescript/lib/es6/caml_int32.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 
@@ -105,26 +104,19 @@ var Show = {
   screen: screen
 };
 
-function spritePainter(positions, width, idx) {
-  return Belt_Option.mapWithDefault(Belt_Array.get(positions, idx), /* Empty */0, (function (center) {
-                var left = center - 1 | 0;
-                var right = center + 1 | 0;
-                var index = Caml_int32.mod_(idx, width);
-                var isLit = index === center || index === left || index === right;
-                if (isLit) {
-                  return /* Lit */1;
-                } else {
-                  return /* Empty */0;
-                }
-              }));
-}
-
 function solve2(input) {
-  var spritePositions = getCycleValues(input).slice(1);
-  var pixelSetter = function (param) {
-    return spritePainter(spritePositions, 40, param);
-  };
-  return screen(Belt_Array.makeBy(spritePositions.length, pixelSetter), {
+  return screen(Belt_Array.mapWithIndex(getCycleValues(input).slice(1), (function (idx, center) {
+                    var left = center - 1 | 0;
+                    var right = center + 1 | 0;
+                    var index = idx % 40;
+                    var isLit = index === center || index === left || index === right;
+                    console.log(index, center, isLit);
+                    if (isLit) {
+                      return /* Lit */1;
+                    } else {
+                      return /* Empty */0;
+                    }
+                  })), {
               width: 40,
               height: 6
             });
@@ -139,7 +131,6 @@ export {
   getCycleValues ,
   solve1 ,
   Show ,
-  spritePainter ,
   solve2 ,
 }
 /* No side effect */

@@ -99,25 +99,20 @@ module Show = {
   }
 }
 
-let spritePainter = (positions, width, idx) => {
-  positions[idx]
-  ->Option.mapWithDefault(Show.Empty, center => {
-    let left = center - 1
-    let right = center + 1
-    let index = mod(idx, width)
-    let isLit = index === center || index === left || index === right
-    isLit ? Show.Lit : Show.Empty
-  })
-}
-
 @genType
 let solve2 = (input: string): 'a => {
   let screenSize: Show.size = { width: 40, height: 6 }
-  let spritePositions = input->getCycleValues->Js.Array2.sliceFrom(1)
-  let pixelSetter = spritePainter(spritePositions, screenSize.width)
 
-  spritePositions
-  ->Array.length
-  ->Array.makeBy(pixelSetter)
+  input
+  ->getCycleValues
+  ->Js.Array2.sliceFrom(1)
+  ->Array.mapWithIndex((idx, center) => {
+    let left = center - 1
+    let right = center + 1
+    let index = mod(idx, screenSize.width)
+    let isLit = index === center || index === left || index === right
+    Js.log3(index, center, isLit)
+    isLit ? Show.Lit : Show.Empty
+  })
   ->Show.screen(screenSize)
 }
