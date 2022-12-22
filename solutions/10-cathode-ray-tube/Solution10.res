@@ -81,14 +81,16 @@ let showPixel = (pixel): string => {
   }
 }
 
+let showRow = (pixels, width, row) => {
+  pixels
+  ->Array.slice(~offset=row * width, ~len=width)
+  ->Array.map(showPixel)
+  ->Array.joinWith("", identity)
+}
+
 let showScreen = (pixels: array<pixel>, size: size): string => {
   Array.range(0, size.height - 1)
-  ->Array.map(row => {
-    pixels
-    ->Array.slice(~offset=row * size.width, ~len=size.width)
-    ->Array.map(showPixel)
-    ->Array.joinWith("", identity)
-  })
+  ->Array.map(showRow(pixels, size.width))
   ->Array.joinWith("\n", identity)
 }
 
@@ -107,7 +109,7 @@ let spritePainter = (positions, width, idx) => {
 let solve2 = (input: string): 'a => {
   let screenSize = { width: 40, height: 6 }
   let spritePositions = input->getCycleValues->Js.Array2.sliceFrom(1)
-  let pixelSetter = spritePaispritePositscreenSizetions, size.width)
+  let pixelSetter = spritePainter(spritePositions, screenSize.width)
 
   spritePositions
   ->Array.length

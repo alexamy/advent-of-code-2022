@@ -78,7 +78,7 @@ function solve1(input) {
               }), 0);
 }
 
-function makePixel(pixel) {
+function showPixel(pixel) {
   if (pixel) {
     return "#";
   } else {
@@ -86,13 +86,18 @@ function makePixel(pixel) {
   }
 }
 
-function makeScreen(pixels, size) {
-  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.range(0, size.height - 1 | 0), (function (row) {
-                    return Belt_Array.joinWith(Belt_Array.map(Belt_Array.slice(pixels, Math.imul(row, size.width), size.width), makePixel), "", identity);
+function showRow(pixels, width, row) {
+  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.slice(pixels, Math.imul(row, width), width), showPixel), "", identity);
+}
+
+function showScreen(pixels, size) {
+  var partial_arg = size.width;
+  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.range(0, size.height - 1 | 0), (function (param) {
+                    return showRow(pixels, partial_arg, param);
                   })), "\n", identity);
 }
 
-function setPixel(positions, width, idx) {
+function spritePainter(positions, width, idx) {
   var pixel = Belt_Array.get(positions, idx);
   if (pixel !== undefined) {
     var index = Caml_int32.mod_(idx, width);
@@ -110,11 +115,11 @@ function setPixel(positions, width, idx) {
 }
 
 function solve2(input) {
-  var positions = getCycleValues(input).slice(1);
+  var spritePositions = getCycleValues(input).slice(1);
   var pixelSetter = function (param) {
-    return setPixel(positions, 40, param);
+    return spritePainter(spritePositions, 40, param);
   };
-  return makeScreen(Belt_Array.makeBy(positions.length, pixelSetter), {
+  return showScreen(Belt_Array.makeBy(spritePositions.length, pixelSetter), {
               width: 40,
               height: 6
             });
@@ -128,9 +133,10 @@ export {
   processCycle ,
   getCycleValues ,
   solve1 ,
-  makePixel ,
-  makeScreen ,
-  setPixel ,
+  showPixel ,
+  showRow ,
+  showScreen ,
+  spritePainter ,
   solve2 ,
 }
 /* No side effect */
