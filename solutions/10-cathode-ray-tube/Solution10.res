@@ -82,19 +82,12 @@ module Show = {
     }
   }
 
-  let row = (pixels, width, row) => {
-    let pixelsRow = Array.slice(pixels, ~offset=row * width, ~len=width)
-
-    pixelsRow
-    ->Array.map(pixel)
-    ->Array.joinWith("", identity)
-  }
-
-  let screen = (pixels, size) => {
-    let rowIndexes = Array.range(0, size.height - 1)
+  let screen = (pixels, { width, height }) => {
+    let rowIndexes = Array.range(0, height - 1)
 
     rowIndexes
-    ->Array.map(row(pixels, size.width))
+    ->Array.map(row => Array.slice(pixels, ~offset=row * width, ~len=width))
+    ->Array.map(row => Array.joinWith(row, "", identity))
     ->Array.joinWith("\n", identity)
   }
 }
@@ -113,5 +106,7 @@ let solve2 = (input: string): 'a => {
     isLit ? Show.Lit : Show.Empty
   })
 
-  Show.screen(pixels, screenSize)
+  pixels
+  ->Array.map(Show.pixel)
+  ->Show.screen(screenSize)
 }

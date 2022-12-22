@@ -85,22 +85,18 @@ function pixel(pixel$1) {
   }
 }
 
-function row(pixels, width, row$1) {
-  var pixelsRow = Belt_Array.slice(pixels, Math.imul(row$1, width), width);
-  return Belt_Array.joinWith(Belt_Array.map(pixelsRow, pixel), "", identity);
-}
-
-function screen(pixels, size) {
-  var rowIndexes = Belt_Array.range(0, size.height - 1 | 0);
-  var partial_arg = size.width;
-  return Belt_Array.joinWith(Belt_Array.map(rowIndexes, (function (param) {
-                    return row(pixels, partial_arg, param);
+function screen(pixels, param) {
+  var width = param.width;
+  var rowIndexes = Belt_Array.range(0, param.height - 1 | 0);
+  return Belt_Array.joinWith(Belt_Array.map(Belt_Array.map(rowIndexes, (function (row) {
+                        return Belt_Array.slice(pixels, Math.imul(row, width), width);
+                      })), (function (row) {
+                    return Belt_Array.joinWith(row, "", identity);
                   })), "\n", identity);
 }
 
 var Show = {
   pixel: pixel,
-  row: row,
   screen: screen
 };
 
@@ -117,7 +113,7 @@ function solve2(input) {
             return /* Empty */0;
           }
         }));
-  return screen(pixels, {
+  return screen(Belt_Array.map(pixels, pixel), {
               width: 40,
               height: 6
             });
