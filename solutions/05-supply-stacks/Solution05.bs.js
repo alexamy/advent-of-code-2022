@@ -8,9 +8,9 @@ import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 import * as Caml_splice_call from "rescript/lib/es6/caml_splice_call.js";
 
-var MalformedInstruction = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.MalformedInstruction");
+var MalformedInstruction = /* @__PURE__ */Caml_exceptions.create("Solution05.Parse.MalformedInstruction");
 
-var CrateElementNotFound = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.CrateElementNotFound");
+var CrateElementNotFound = /* @__PURE__ */Caml_exceptions.create("Solution05.Parse.CrateElementNotFound");
 
 function parseInstruction(input) {
   var result = Belt_Option.getWithDefault(Belt_Option.map(Caml_option.null_to_opt(/^move (\d+) from (\d+) to (\d+)$/.exec(input)), (function (prim) {
@@ -89,7 +89,7 @@ function splitLines(input) {
         ];
 }
 
-function split(input) {
+function make(input) {
   var match = splitLines(input);
   var crates = parseCrates(match[0]);
   var instructions = match[1].map(parseInstruction);
@@ -99,19 +99,19 @@ function split(input) {
         ];
 }
 
-var Process = {
+var Parse = {
   MalformedInstruction: MalformedInstruction,
   CrateElementNotFound: CrateElementNotFound,
   parseInstruction: parseInstruction,
   parseCrates: parseCrates,
   splitLines: splitLines,
-  split: split
+  make: make
 };
 
-var solve1 = split;
+var solve1 = make;
 
 export {
-  Process ,
+  Parse ,
   solve1 ,
 }
 /* No side effect */

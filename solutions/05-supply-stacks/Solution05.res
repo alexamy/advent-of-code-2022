@@ -1,6 +1,6 @@
 open Belt
 
-module Process = {
+module Parse = {
   exception MalformedInstruction(string)
   exception CrateElementNotFound(array<string>, int)
 
@@ -68,7 +68,7 @@ module Process = {
     (crates, instructions)
   }
 
-  let split = (input: string) => {
+  let make = (input: string) => {
     let (cratesLines, instructionsLines) = splitLines(input)
     let crates = parseCrates(cratesLines)
     let instructions = Js.Array2.map(instructionsLines, parseInstruction)
@@ -78,7 +78,6 @@ module Process = {
 }
 
 @genType
-let solve1 = (input: string): 'a => {
-  input->Process.split
-
+let solve1 = (input: string) => {
+  input->Parse.make
 }
