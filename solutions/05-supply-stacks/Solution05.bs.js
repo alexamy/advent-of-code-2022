@@ -114,7 +114,13 @@ var Parse = {
 
 var TheSameCrate = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.TheSameCrate");
 
-function processInPlace(_param, takeMode) {
+function moveCratesTo(crate, from, count, takeMode) {
+  var top = Belt_Array.slice(from, 0, count);
+  var moved = takeMode ? top : top.reverse();
+  return moved.concat(crate);
+}
+
+function start(_param, takeMode) {
   while(true) {
     var param = _param;
     var instructions = param[1];
@@ -123,21 +129,33 @@ function processInPlace(_param, takeMode) {
       return crates;
     }
     var match = Belt_Array.getExn(instructions, 0);
-    var moved = Belt_Array.getExn(crates, match.from).splice(0, match.count);
-    if (takeMode) {
-      
-    } else {
-      moved.reverse();
-    }
-    Caml_splice_call.spliceObjApply(Belt_Array.getExn(crates, match.to_), "splice", [
-          0,
-          0,
-          moved
-        ]);
-    var instructionTail = instructions.slice(1);
+    var count = match.count;
+    var to_ = match.to_;
+    var from = match.from;
+    var cratesMoved = crates.map((function(crates,from,to_,count){
+        return function (crate, i) {
+          var match = i === from;
+          var match$1 = i === to_;
+          if (!match) {
+            if (match$1) {
+              return moveCratesTo(crate, Belt_Array.getExn(crates, from), count, takeMode);
+            } else {
+              return crate;
+            }
+          }
+          if (match$1) {
+            throw {
+                  RE_EXN_ID: TheSameCrate,
+                  Error: new Error()
+                };
+          }
+          return crate.slice(count);
+        }
+        }(crates,from,to_,count)));
+    var otherInstructions = instructions.slice(1);
     _param = [
-      crates,
-      instructionTail
+      cratesMoved,
+      otherInstructions
     ];
     continue ;
   };
@@ -151,16 +169,17 @@ function getTop(crates) {
 
 var Process = {
   TheSameCrate: TheSameCrate,
-  processInPlace: processInPlace,
+  moveCratesTo: moveCratesTo,
+  start: start,
   getTop: getTop
 };
 
 function solve1(input) {
-  return getTop(processInPlace(make(input), /* One */0)).join("");
+  return getTop(start(make(input), /* One */0)).join("");
 }
 
 function solve2(input) {
-  return getTop(processInPlace(make(input), /* All */1)).join("");
+  return getTop(start(make(input), /* All */1)).join("");
 }
 
 export {

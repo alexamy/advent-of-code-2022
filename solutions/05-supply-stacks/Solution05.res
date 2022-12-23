@@ -94,20 +94,32 @@ module Process = {
   | One
   | All
 
-  let rec processInPlace = ((crates, instructions), takeMode) => {
+  let moveCratesTo = (crate, from, count, takeMode) => {
+    let top = Array.slice(from, ~offset=0, ~len=count)
+    let moved = switch takeMode {
+    | All => top
+    | One => Js.Array2.reverseInPlace(top)
+    }
+
+    Js.Array2.concat(moved, crate)
+  }
+
+  let rec start = ((crates, instructions), takeMode) => {
     if(Js.Array2.length(instructions) === 0) {
       crates
     } else {
       let { from, to_, count } = Array.getExn(instructions, 0)
-      let moved = Js.Array2.spliceInPlace(Array.getExn(crates, from), ~pos=0, ~remove=count, ~add=[])
-      switch takeMode {
-      | One => Js.Array2.reverseInPlace(moved)->ignore
-      | All => ()
-      }
-      Js.Array2.spliceInPlace(Array.getExn(crates, to_), ~pos=0, ~remove=0, ~add=moved)->ignore
+      let cratesMoved = Js.Array2.mapi(crates, (crate, i) => {
+        switch (i === from, i === to_) {
+        | (false, false) => crate
+        | (true, true) => raise(TheSameCrate)
+        | (true, _) => Js.Array2.sliceFrom(crate, count)
+        | (_, true) => moveCratesTo(crate, Array.getExn(crates, from), count, takeMode)
+        }
+      })
 
-      let instructionTail = Js.Array2.sliceFrom(instructions, 1)
-      processInPlace((crates, instructionTail), takeMode);
+      let otherInstructions = Js.Array2.sliceFrom(instructions, 1)
+      start((cratesMoved, otherInstructions), takeMode);
     }
   }
 
@@ -120,7 +132,7 @@ module Process = {
 let solve1 = (input: string) => {
   input
   ->Parse.make
-  ->Process.processInPlace(Process.One)
+  ->Process.start(Process.One)
   ->Process.getTop
   ->Js.Array2.joinWith("")
 }
@@ -129,7 +141,7 @@ let solve1 = (input: string) => {
 let solve2 = (input: string) => {
   input
   ->Parse.make
-  ->Process.processInPlace(Process.All)
+  ->Process.start(Process.All)
   ->Process.getTop
   ->Js.Array2.joinWith("")
 }
