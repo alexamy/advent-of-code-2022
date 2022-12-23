@@ -114,34 +114,33 @@ var Parse = {
 
 var TheSameCrate = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.TheSameCrate");
 
-function start(param, takeMode) {
-  return param[1].reduce((function (crates, param) {
-                var count = param.count;
-                var to_ = param.to_;
-                var from = param.from;
-                return crates.map(function (crate, i) {
-                            var crateFrom = Belt_Array.getExn(crates, from);
-                            var crateTo = Belt_Array.getExn(crates, to_);
-                            var match = i === from;
-                            var match$1 = i === to_;
-                            if (match) {
-                              if (match$1) {
-                                throw {
-                                      RE_EXN_ID: TheSameCrate,
-                                      Error: new Error()
-                                    };
-                              }
-                              return crateFrom.slice(count);
-                            }
-                            if (!match$1) {
-                              return crate;
-                            }
-                            var top = Belt_Array.slice(crateFrom, 0, count);
-                            return (
-                                      takeMode ? top : top.reverse()
-                                    ).concat(crateTo);
-                          });
-              }), param[0]);
+function processInPlace(_param, takeMode) {
+  while(true) {
+    var param = _param;
+    var instructions = param[1];
+    var crates = param[0];
+    if (instructions.length === 0) {
+      return crates;
+    }
+    var match = Belt_Array.getExn(instructions, 0);
+    var moved = Belt_Array.getExn(crates, match.from).splice(0, match.count);
+    if (takeMode) {
+      
+    } else {
+      moved.reverse();
+    }
+    Caml_splice_call.spliceObjApply(Belt_Array.getExn(crates, match.to_), "splice", [
+          0,
+          0,
+          moved
+        ]);
+    var instructionTail = instructions.slice(1);
+    _param = [
+      crates,
+      instructionTail
+    ];
+    continue ;
+  };
 }
 
 function getTop(crates) {
@@ -152,16 +151,16 @@ function getTop(crates) {
 
 var Process = {
   TheSameCrate: TheSameCrate,
-  start: start,
+  processInPlace: processInPlace,
   getTop: getTop
 };
 
 function solve1(input) {
-  return getTop(start(make(input), /* One */0)).join("");
+  return getTop(processInPlace(make(input), /* One */0)).join("");
 }
 
 function solve2(input) {
-  return getTop(start(make(input), /* All */1)).join("");
+  return getTop(processInPlace(make(input), /* All */1)).join("");
 }
 
 export {
