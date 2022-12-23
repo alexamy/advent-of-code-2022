@@ -1,7 +1,7 @@
 open Belt
 
 module Process = {
-  exception MalformedInstruction(array<int>)
+  exception MalformedInstruction(string)
 
   type instruction = {
     from: int,
@@ -20,12 +20,11 @@ module Process = {
       result
       ->Js.Nullable.toOption
       ->Option.flatMap(Belt.Int.fromString)
-      ->Option.getWithDefault(0)
     })
 
     switch result {
-    | [count, from, to_] => { count, from, to_ }
-    | _ => raise(MalformedInstruction(result))
+    | [Some(count), Some(from), Some(to_)] => { count, from, to_ }
+    | _ => raise(MalformedInstruction(input))
     }
   }
 

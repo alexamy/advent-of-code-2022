@@ -6,28 +6,50 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 
-var InstructionParse = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.InstructionParse");
+var MalformedInstruction = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.MalformedInstruction");
 
 function parseInstruction(input) {
   var result = Belt_Option.getWithDefault(Belt_Option.map(Caml_option.null_to_opt(/^move (\d+) from (\d+) to (\d+)$/.exec(input)), (function (prim) {
                   return prim;
                 })), []).slice(1).map(function (result) {
-        return Belt_Option.getWithDefault(Belt_Option.flatMap((result == null) ? undefined : Caml_option.some(result), Belt_Int.fromString), 0);
+        return Belt_Option.flatMap((result == null) ? undefined : Caml_option.some(result), Belt_Int.fromString);
       });
   if (result.length !== 3) {
     throw {
-          RE_EXN_ID: InstructionParse,
+          RE_EXN_ID: MalformedInstruction,
+          _1: input,
           Error: new Error()
         };
   }
   var count = result[0];
-  var from = result[1];
-  var to_ = result[2];
-  return {
-          from: from,
-          to_: to_,
-          count: count
+  if (count !== undefined) {
+    var from = result[1];
+    if (from !== undefined) {
+      var to_ = result[2];
+      if (to_ !== undefined) {
+        return {
+                from: from,
+                to_: to_,
+                count: count
+              };
+      }
+      throw {
+            RE_EXN_ID: MalformedInstruction,
+            _1: input,
+            Error: new Error()
+          };
+    }
+    throw {
+          RE_EXN_ID: MalformedInstruction,
+          _1: input,
+          Error: new Error()
         };
+  }
+  throw {
+        RE_EXN_ID: MalformedInstruction,
+        _1: input,
+        Error: new Error()
+      };
 }
 
 function parseCrates(input) {
@@ -59,7 +81,7 @@ function split(input) {
 }
 
 var Process = {
-  InstructionParse: InstructionParse,
+  MalformedInstruction: MalformedInstruction,
   parseInstruction: parseInstruction,
   parseCrates: parseCrates,
   splitLines: splitLines,
