@@ -1,14 +1,18 @@
 open Belt
 
+type crate = array<string>
+
+type instruction = {
+  from: int,
+  to_: int,
+  count: int,
+}
+
+type input = (array<crate>, array<instruction>)
+
 module Parse = {
   exception MalformedInstruction(string)
   exception CrateElementNotFound(array<string>, int)
-
-  type instruction = {
-    from: int,
-    to_: int,
-    count: int,
-  }
 
   let parseInstruction = (input: string): instruction => {
     let result =
@@ -29,7 +33,7 @@ module Parse = {
     }
   }
 
-  let parseCrates = (input: array<string>) => {
+  let parseCrates = (input: array<string>): array<crate> => {
     let rows = input
     ->Js.Array2.map(line => {
       line
@@ -46,7 +50,6 @@ module Parse = {
       rows
       ->Js.Array2.map(row => Option.getWithDefault(row[i], " "))
       ->Js.Array2.filter(e => e !== " ")
-      ->List.fromArray
     })
 
     crates
@@ -68,7 +71,7 @@ module Parse = {
     (crates, instructions)
   }
 
-  let make = (input: string) => {
+  let make = (input: string): input => {
     let (cratesLines, instructionsLines) = splitLines(input)
     let crates = parseCrates(cratesLines)
     let instructions = Js.Array2.map(instructionsLines, parseInstruction)
@@ -77,7 +80,37 @@ module Parse = {
   }
 }
 
+module Process = {
+  exception TheSameCrate
+
+  let start = ((crates, instructions): input) => {
+    Js.Array2.reduce(instructions, (crates, { count, from, to_ }) => {
+      crates
+      ->Js.Array2.mapi((crate, i) => {
+        let crateFrom = Array.getExn(crates, from)
+        let crateTo = Array.getExn(crates, to_)
+
+        switch (i === from, i === to_) {
+        | (true, false) => {
+          Js.Array2.sliceFrom(crateFrom, count)
+        }
+        | (false, true) => {
+          crateFrom
+          ->Array.slice(~offset=0, ~len=count)
+          ->Js.Array2.reverseInPlace
+          ->Js.Array2.concat(crateTo)
+        }
+        | (false, false) => crate
+        | (true, true) => raise(TheSameCrate)
+        }
+      })
+    }, crates)
+  }
+}
+
 @genType
 let solve1 = (input: string) => {
-  input->Parse.make
+  input
+  ->Parse.make
+  ->Process.start
 }
