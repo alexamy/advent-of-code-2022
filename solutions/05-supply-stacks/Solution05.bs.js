@@ -9,16 +9,10 @@ import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 var InstructionParse = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.InstructionParse");
 
 function parseInstruction(input) {
-  var result = Belt_Option.getWithDefault(Belt_Option.map(Caml_option.null_to_opt(/^move (\d+) from (\d+) to (\d+)$/.exec(input)), (function (result) {
-                  return result.map(function (prim) {
-                              if (prim == null) {
-                                return ;
-                              } else {
-                                return Caml_option.some(prim);
-                              }
-                            });
+  var result = Belt_Option.getWithDefault(Belt_Option.map(Caml_option.null_to_opt(/^move (\d+) from (\d+) to (\d+)$/.exec(input)), (function (prim) {
+                  return prim;
                 })), []).slice(1).map(function (result) {
-        return Belt_Option.getWithDefault(Belt_Option.flatMap(result, Belt_Int.fromString), 0);
+        return Belt_Option.getWithDefault(Belt_Option.flatMap((result == null) ? undefined : Caml_option.some(result), Belt_Int.fromString), 0);
       });
   if (result.length !== 3) {
     throw {

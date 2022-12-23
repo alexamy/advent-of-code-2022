@@ -13,15 +13,12 @@ module Process = {
     let result =
     %re("/^move (\d+) from (\d+) to (\d+)$/")
     ->Js.Re.exec_(input)
-    ->Option.map(result => {
-      result
-      ->Js.Re.captures
-      ->Js.Array2.map(Js.Nullable.toOption)
-    })
+    ->Option.map(Js.Re.captures)
     ->Option.getWithDefault([])
     ->Js.Array2.sliceFrom(1)
     ->Js.Array2.map(result => {
       result
+      ->Js.Nullable.toOption
       ->Option.flatMap(Belt.Int.fromString)
       ->Option.getWithDefault(0)
     })
