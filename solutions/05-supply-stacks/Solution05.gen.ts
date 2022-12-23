@@ -6,4 +6,4 @@
 import * as Solution05BS__Es6Import from './Solution05.bs';
 const Solution05BS: any = Solution05BS__Es6Import;
 
-export const solve1: (input:string) => string = Solution05BS.solve1;
+export const solve1: (input:string) => [string[], string[]] = Solution05BS.solve1;
