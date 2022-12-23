@@ -1,10 +1,35 @@
 open Belt
 
 module Process = {
+  exception InstructionParse
+
   type instruction = {
     from: int,
     to_: int,
     count: int,
+  }
+
+  let parseInstruction = (input: string): instruction => {
+    let result =
+    %re("/^move (\d+) from (\d+) to (\d+)$/")
+    ->Js.Re.exec_(input)
+    ->Option.map(result => {
+      result
+      ->Js.Re.captures
+      ->Js.Array2.map(Js.Nullable.toOption)
+    })
+    ->Option.getWithDefault([])
+    ->Js.Array2.sliceFrom(1)
+    ->Js.Array2.map(result => {
+      result
+      ->Option.flatMap(Belt.Int.fromString)
+      ->Option.getWithDefault(0)
+    })
+
+    switch result {
+    | [count, from, to_] => { count, from, to_ }
+    | _ => raise(InstructionParse)
+    }
   }
 
   let splitLines = (input: string) => {
@@ -24,7 +49,9 @@ module Process = {
   }
 
   let split = (input: string) => {
-    input->splitLines
+    let (crates, instructions) = splitLines(input)
+
+    (crates, Js.Array2.map(instructions, parseInstruction))
   }
 }
 

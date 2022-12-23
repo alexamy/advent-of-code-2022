@@ -6,4 +6,11 @@
 import * as Solution05BS__Es6Import from './Solution05.bs';
 const Solution05BS: any = Solution05BS__Es6Import;
 
-export const solve1: (input:string) => [string[], string[]] = Solution05BS.solve1;
+// tslint:disable-next-line:interface-over-type-literal
+export type Process_instruction = {
+  readonly from: number; 
+  readonly to_: number; 
+  readonly count: number
+};
+
+export const solve1: (input:string) => [string[], Process_instruction[]] = Solution05BS.solve1;
