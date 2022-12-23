@@ -114,7 +114,7 @@ var Parse = {
 
 var TheSameCrate = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.TheSameCrate");
 
-function start(param) {
+function start(param, takeCount) {
   return param[1].reduce((function (crates, param) {
                 var count = param.count;
                 var to_ = param.to_;
@@ -124,20 +124,22 @@ function start(param) {
                             var crateTo = Belt_Array.getExn(crates, to_);
                             var match = i === from;
                             var match$1 = i === to_;
-                            if (!match) {
+                            if (match) {
                               if (match$1) {
-                                return Belt_Array.slice(crateFrom, 0, count).reverse().concat(crateTo);
-                              } else {
-                                return crate;
+                                throw {
+                                      RE_EXN_ID: TheSameCrate,
+                                      Error: new Error()
+                                    };
                               }
+                              return crateFrom.slice(count);
                             }
-                            if (match$1) {
-                              throw {
-                                    RE_EXN_ID: TheSameCrate,
-                                    Error: new Error()
-                                  };
+                            if (!match$1) {
+                              return crate;
                             }
-                            return crateFrom.slice(count);
+                            var top = Belt_Array.slice(crateFrom, 0, count);
+                            return (
+                                      takeCount ? top : top.reverse()
+                                    ).concat(crateTo);
                           });
               }), param[0]);
 }
@@ -155,11 +157,11 @@ var Process = {
 };
 
 function solve1(input) {
-  return getTop(start(make(input))).join("");
+  return getTop(start(make(input), /* One */0)).join("");
 }
 
 function solve2(input) {
-  return getTop(start(make(input))).join("");
+  return getTop(start(make(input), /* All */1)).join("");
 }
 
 export {

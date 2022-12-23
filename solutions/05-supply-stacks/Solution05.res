@@ -90,7 +90,11 @@ module Parse = {
 module Process = {
   exception TheSameCrate
 
-  let start = ((crates, instructions): input) => {
+  type takeCount =
+  | One
+  | All
+
+  let start = ((crates, instructions): input, takeCount) => {
     Js.Array2.reduce(instructions, (crates, { count, from, to_ }) => {
       crates
       ->Js.Array2.mapi((crate, i) => {
@@ -104,7 +108,10 @@ module Process = {
         | (false, true) => {
           crateFrom
           ->Array.slice(~offset=0, ~len=count)
-          ->Js.Array2.reverseInPlace
+          ->(top => switch takeCount {
+          | All => top
+          | One => Js.Array2.reverseInPlace(top)
+          })
           ->Js.Array2.concat(crateTo)
         }
         | (false, false) => crate
@@ -123,7 +130,7 @@ module Process = {
 let solve1 = (input: string) => {
   input
   ->Parse.make
-  ->Process.start
+  ->Process.start(Process.One)
   ->Process.getTop
   ->Js.Array2.joinWith("")
 }
@@ -132,7 +139,7 @@ let solve1 = (input: string) => {
 let solve2 = (input: string) => {
   input
   ->Parse.make
-  ->Process.start
+  ->Process.start(Process.All)
   ->Process.getTop
   ->Js.Array2.joinWith("")
 }
