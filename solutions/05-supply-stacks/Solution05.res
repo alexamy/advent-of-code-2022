@@ -62,8 +62,7 @@ module Parse = {
     let lines = Js.String2.split(input, "\n")
     let emptyLineIndex = Js.Array2.indexOf(lines, "")
 
-    let (cratesRaw, instructionsRaw) = lines
-    ->Array.partition(line => {
+    let (cratesRaw, instructionsRaw) = Array.partition(lines, line => {
       let index = Js.Array2.indexOf(lines, line)
       index < emptyLineIndex
     })
