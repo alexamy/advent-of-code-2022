@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "@mobily/ts-belt": "^3.13.1",
+    "@types/crypto-js": "^4.1.1",
     "@types/fs-extra": "^9.0.13",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
+    "crypto-js": "^4.1.1",
     "esbuild": "^0.15.16",
     "esbuild-register": "^3.4.1",
     "eslint": "^8.29.0",
@@ -31,5 +33,6 @@
     "ts-dedent": "^2.2.0",
     "typescript": "^4.9.3",
     "vitest": "^0.25.3"
-  }
+  },
+  "devDependencies": {}
 }
