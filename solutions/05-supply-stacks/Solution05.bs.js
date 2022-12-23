@@ -55,21 +55,27 @@ function parseInstruction(input) {
       };
 }
 
+function getCratesContent(line) {
+  return line.split("").filter(function (param, i) {
+              return (i - 1 | 0) % 4 === 0;
+            });
+}
+
+function transposeCrates(rows, i) {
+  return rows.map(function (row) {
+                  return Belt_Option.getWithDefault(Belt_Array.get(row, i), " ");
+                }).filter(function (e) {
+                return e !== " ";
+              }).reverse();
+}
+
 function parseCrates(input) {
-  var rows = input.map(function (line) {
-          return line.split("").filter(function (param, i) {
-                      return (i - 1 | 0) % 4 === 0;
-                    });
-        }).reverse();
+  var rows = input.map(getCratesContent).reverse();
   var count = Caml_splice_call.spliceApply(Math.max, [rows.map(function (prim) {
               return prim.length;
             })]);
-  return Belt_Array.makeBy(count, (function (i) {
-                return rows.map(function (row) {
-                                return Belt_Option.getWithDefault(Belt_Array.get(row, i), " ");
-                              }).filter(function (e) {
-                              return e !== " ";
-                            }).reverse();
+  return Belt_Array.makeBy(count, (function (param) {
+                return transposeCrates(rows, param);
               }));
 }
 
@@ -106,6 +112,8 @@ var Parse = {
   MalformedInstruction: MalformedInstruction,
   CrateElementNotFound: CrateElementNotFound,
   parseInstruction: parseInstruction,
+  getCratesContent: getCratesContent,
+  transposeCrates: transposeCrates,
   parseCrates: parseCrates,
   splitLines: splitLines,
   isNotEmpty: isNotEmpty,

@@ -33,27 +33,29 @@ module Parse = {
     }
   }
 
+  let getCratesContent = line => {
+    line
+    ->Js.String2.split("")
+    ->Js.Array2.filteri((_, i) => mod(i - 1, 4) === 0)
+  }
+
+  let transposeCrates = (rows, i) => {
+    rows
+    ->Js.Array2.map(row => Option.getWithDefault(row[i], " "))
+    ->Js.Array2.filter(e => e !== " ")
+    ->Js.Array2.reverseInPlace
+  }
+
   let parseCrates = (input: array<string>): array<crate> => {
     let rows = input
-    ->Js.Array2.map(line => {
-      line
-      ->Js.String2.split("")
-      ->Js.Array2.filteri((_, i) => mod(i - 1, 4) === 0)
-    })
+    ->Js.Array2.map(getCratesContent)
     ->Js.Array2.reverseInPlace
 
     let count = rows
     ->Js.Array2.map(Js.Array2.length)
     ->Js.Math.maxMany_int
 
-    let crates = Array.makeBy(count, i => {
-      rows
-      ->Js.Array2.map(row => Option.getWithDefault(row[i], " "))
-      ->Js.Array2.filter(e => e !== " ")
-      ->Js.Array2.reverseInPlace
-    })
-
-    crates
+    Array.makeBy(count, transposeCrates(rows))
   }
 
   let splitLines = (input: string) => {
@@ -78,6 +80,7 @@ module Parse = {
 
   let make = (input: string): input => {
     let (cratesLines, instructionsLines) = splitLines(input)
+
     let crates = parseCrates(cratesLines)
     let instructions = instructionsLines
     ->Js.Array2.filter(isNotEmpty)
