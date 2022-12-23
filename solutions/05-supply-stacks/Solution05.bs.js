@@ -31,8 +31,8 @@ function parseInstruction(input) {
       var to_ = result[2];
       if (to_ !== undefined) {
         return {
-                from: from,
-                to_: to_,
+                from: from - 1 | 0,
+                to_: to_ - 1 | 0,
                 count: count
               };
       }
@@ -66,10 +66,10 @@ function parseCrates(input) {
             })]);
   return Belt_Array.makeBy(count, (function (i) {
                 return rows.map(function (row) {
-                              return Belt_Option.getWithDefault(Belt_Array.get(row, i), " ");
-                            }).filter(function (e) {
-                            return e !== " ";
-                          });
+                                return Belt_Option.getWithDefault(Belt_Array.get(row, i), " ");
+                              }).filter(function (e) {
+                              return e !== " ";
+                            }).reverse();
               }));
 }
 
@@ -137,13 +137,20 @@ function start(param) {
               }), param[0]);
 }
 
+function getTop(crates) {
+  return crates.map(function (crate) {
+              return Belt_Option.getExn(Belt_Array.get(crate, 0));
+            });
+}
+
 var Process = {
   TheSameCrate: TheSameCrate,
-  start: start
+  start: start,
+  getTop: getTop
 };
 
 function solve1(input) {
-  return start(make(input));
+  return getTop(start(make(input))).join("");
 }
 
 export {

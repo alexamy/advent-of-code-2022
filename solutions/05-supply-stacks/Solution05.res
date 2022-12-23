@@ -28,7 +28,7 @@ module Parse = {
     })
 
     switch result {
-    | [Some(count), Some(from), Some(to_)] => { count, from, to_ }
+    | [Some(count), Some(from), Some(to_)] => { count, from: from - 1, to_: to_ - 1 }
     | _ => raise(MalformedInstruction(input))
     }
   }
@@ -50,6 +50,7 @@ module Parse = {
       rows
       ->Js.Array2.map(row => Option.getWithDefault(row[i], " "))
       ->Js.Array2.filter(e => e !== " ")
+      ->Js.Array2.reverseInPlace
     })
 
     crates
@@ -106,6 +107,10 @@ module Process = {
       })
     }, crates)
   }
+
+  let getTop = (crates) => {
+    Js.Array2.map(crates, crate => Option.getExn(crate[0]))
+  }
 }
 
 @genType
@@ -113,4 +118,6 @@ let solve1 = (input: string) => {
   input
   ->Parse.make
   ->Process.start
+  ->Process.getTop
+  ->Js.Array2.joinWith("")
 }
