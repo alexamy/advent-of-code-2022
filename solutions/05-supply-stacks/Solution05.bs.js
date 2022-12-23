@@ -158,8 +158,8 @@ function solve1(input) {
   return getTop(start(make(input))).join("");
 }
 
-function solve2(_input) {
-  
+function solve2(input) {
+  return getTop(start(make(input))).join("");
 }
 
 export {

@@ -1,7 +1,7 @@
 import dedent from 'ts-dedent';
 import { describe, expect, it } from 'vitest';
 import { CargoData, CargoDataRaw, getTopCrates, moveCrates, splitInput, Stack, transformCrates, transformDesignations, transformInput } from './solution';
-import { solve1 } from './Solution05.gen';
+import { solve1, solve2 } from './Solution05.gen';
 
 describe.skip('First attempt', () => {
   it('splits input data', () => {
@@ -140,4 +140,22 @@ it('solves first part', () => {
   const result = solve1(input);
 
   expect(result).toBe('CMZ');
+});
+
+it('solves second part', () => {
+  const input = dedent(`
+        [D]
+    [N] [C]
+    [Z] [M] [P]
+    1   2   3
+
+    move 1 from 2 to 1
+    move 3 from 1 to 3
+    move 2 from 2 to 1
+    move 1 from 1 to 2
+  `);
+
+  const result = solve2(input);
+
+  expect(result).toBe('MCD');
 });

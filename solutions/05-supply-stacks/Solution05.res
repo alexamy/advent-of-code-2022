@@ -129,6 +129,10 @@ let solve1 = (input: string) => {
 }
 
 @genType
-let solve2 = (_input: string) => {
-  None
+let solve2 = (input: string) => {
+  input
+  ->Parse.make
+  ->Process.start
+  ->Process.getTop
+  ->Js.Array2.joinWith("")
 }
