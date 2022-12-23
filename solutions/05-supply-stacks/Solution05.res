@@ -90,10 +90,6 @@ module Parse = {
 module Process = {
   exception TheSameCrate
 
-  let logCrates = crates => {
-    crates->Js.Array2.map(crate => Js.Array2.joinWith(crate, ""))
-  }
-
   let start = ((crates, instructions): input) => {
     Js.Array2.reduce(instructions, (crates, { count, from, to_ }) => {
       crates

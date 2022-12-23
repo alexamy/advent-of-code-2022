@@ -114,12 +114,6 @@ var Parse = {
 
 var TheSameCrate = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.TheSameCrate");
 
-function logCrates(crates) {
-  return crates.map(function (crate) {
-              return crate.join("");
-            });
-}
-
 function start(param) {
   return param[1].reduce((function (crates, param) {
                 var count = param.count;
@@ -156,7 +150,6 @@ function getTop(crates) {
 
 var Process = {
   TheSameCrate: TheSameCrate,
-  logCrates: logCrates,
   start: start,
   getTop: getTop
 };
