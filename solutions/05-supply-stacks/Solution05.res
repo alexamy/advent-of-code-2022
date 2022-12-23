@@ -2,6 +2,7 @@ open Belt
 
 module Process = {
   exception MalformedInstruction(string)
+  exception CrateElementNotFound(array<string>, int)
 
   type instruction = {
     from: int,
@@ -28,8 +29,27 @@ module Process = {
     }
   }
 
-  let parseCrates = (input: array<string>): 'a => {
-    input
+  let parseCrates = (input: array<string>) => {
+    let rows = input
+    ->Js.Array2.map(line => {
+      line
+      ->Js.String2.split("")
+      ->Js.Array2.filteri((_, i) => mod(i - 1, 4) === 0)
+    })
+    ->Js.Array2.reverseInPlace
+
+    let count = rows
+    ->Js.Array2.map(Js.Array2.length)
+    ->Js.Math.maxMany_int
+
+    let crates = Array.makeBy(count, i => {
+      rows
+      ->Js.Array2.map(row => Option.getWithDefault(row[i], " "))
+      ->Js.Array2.filter(e => e !== " ")
+      ->List.fromArray
+    })
+
+    crates
   }
 
   let splitLines = (input: string) => {
