@@ -36,6 +36,10 @@ function parseInstruction(input) {
         };
 }
 
+function parseCrates(input) {
+  return input;
+}
+
 function splitLines(input) {
   var lines = input.split("\n");
   var emptyLineIndex = lines.indexOf("");
@@ -53,15 +57,17 @@ function splitLines(input) {
 
 function split(input) {
   var match = splitLines(input);
+  var instructions = match[1].map(parseInstruction);
   return [
           match[0],
-          match[1].map(parseInstruction)
+          instructions
         ];
 }
 
 var Process = {
   InstructionParse: InstructionParse,
   parseInstruction: parseInstruction,
+  parseCrates: parseCrates,
   splitLines: splitLines,
   split: split
 };

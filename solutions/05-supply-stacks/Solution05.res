@@ -32,6 +32,10 @@ module Process = {
     }
   }
 
+  let parseCrates = (input: array<string>): 'a => {
+    input
+  }
+
   let splitLines = (input: string) => {
     let lines = Js.String2.split(input, "\n")
     let emptyLineIndex = Js.Array2.indexOf(lines, "")
@@ -49,9 +53,11 @@ module Process = {
   }
 
   let split = (input: string) => {
-    let (crates, instructions) = splitLines(input)
+    let (cratesLines, instructionsLines) = splitLines(input)
+    let crates = parseCrates(cratesLines)
+    let instructions = Js.Array2.map(instructionsLines, parseInstruction)
 
-    (crates, Js.Array2.map(instructions, parseInstruction))
+    (crates, instructions)
   }
 }
 
