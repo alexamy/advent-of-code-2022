@@ -1,7 +1,7 @@
 open Belt
 
 module Process = {
-  exception InstructionParse
+  exception MalformedInstruction(array<int>)
 
   type instruction = {
     from: int,
@@ -25,7 +25,7 @@ module Process = {
 
     switch result {
     | [count, from, to_] => { count, from, to_ }
-    | _ => raise(InstructionParse)
+    | _ => raise(MalformedInstruction(result))
     }
   }
 
