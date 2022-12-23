@@ -114,7 +114,7 @@ var Parse = {
 
 var TheSameCrate = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.TheSameCrate");
 
-function start(param, takeCount) {
+function start(param, takeMode) {
   return param[1].reduce((function (crates, param) {
                 var count = param.count;
                 var to_ = param.to_;
@@ -138,7 +138,7 @@ function start(param, takeCount) {
                             }
                             var top = Belt_Array.slice(crateFrom, 0, count);
                             return (
-                                      takeCount ? top : top.reverse()
+                                      takeMode ? top : top.reverse()
                                     ).concat(crateTo);
                           });
               }), param[0]);

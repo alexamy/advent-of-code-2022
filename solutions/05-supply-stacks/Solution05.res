@@ -90,11 +90,11 @@ module Parse = {
 module Process = {
   exception TheSameCrate
 
-  type takeCount =
+  type takeMode =
   | One
   | All
 
-  let start = ((crates, instructions): input, takeCount) => {
+  let start = ((crates, instructions): input, takeMode) => {
     Js.Array2.reduce(instructions, (crates, { count, from, to_ }) => {
       crates
       ->Js.Array2.mapi((crate, i) => {
@@ -108,7 +108,7 @@ module Process = {
         | (false, true) => {
           crateFrom
           ->Array.slice(~offset=0, ~len=count)
-          ->(top => switch takeCount {
+          ->(top => switch takeMode {
           | All => top
           | One => Js.Array2.reverseInPlace(top)
           })
