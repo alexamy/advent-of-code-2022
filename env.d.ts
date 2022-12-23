@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_PASSWORD: string;
+  readonly VITE_ANSWER_PASSWORD: string;
 }
 
 interface ImportMeta {

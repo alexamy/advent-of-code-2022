@@ -5,14 +5,14 @@ import * as S5 from '../05-supply-stacks/Solution05.gen';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function encrypt(data: string): string {
-  const key = import.meta.env.VITE_PASSWORD;
+  const key = import.meta.env.VITE_ANSWER_PASSWORD;
   const result = CryptoJS.AES.encrypt(data, key);
 
   return result.toString();
 }
 
 function decrypt(data: string): string {
-  const key = import.meta.env.VITE_PASSWORD;
+  const key = import.meta.env.VITE_ANSWER_PASSWORD;
   const result = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
 
   return result;
