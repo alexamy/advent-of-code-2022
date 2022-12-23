@@ -1,5 +1,5 @@
 import { readFile } from 'fs-extra';
-import { solve1, solve2 } from './solution';
+import { solve1, solve2 } from './Solution05.gen';
 
 run();
 

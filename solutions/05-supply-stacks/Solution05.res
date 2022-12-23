@@ -72,10 +72,16 @@ module Parse = {
     (crates, instructions)
   }
 
+  let isNotEmpty = (line: string) => {
+    Js.String2.search(line, %re("/^\s*$/")) === -1
+  }
+
   let make = (input: string): input => {
     let (cratesLines, instructionsLines) = splitLines(input)
     let crates = parseCrates(cratesLines)
-    let instructions = Js.Array2.map(instructionsLines, parseInstruction)
+    let instructions = instructionsLines
+    ->Js.Array2.filter(isNotEmpty)
+    ->Js.Array2.map(parseInstruction)
 
     (crates, instructions)
   }
@@ -83,6 +89,10 @@ module Parse = {
 
 module Process = {
   exception TheSameCrate
+
+  let logCrates = crates => {
+    crates->Js.Array2.map(crate => Js.Array2.joinWith(crate, ""))
+  }
 
   let start = ((crates, instructions): input) => {
     Js.Array2.reduce(instructions, (crates, { count, from, to_ }) => {
@@ -120,4 +130,9 @@ let solve1 = (input: string) => {
   ->Process.start
   ->Process.getTop
   ->Js.Array2.joinWith("")
+}
+
+@genType
+let solve2 = (_input: string) => {
+  None
 }

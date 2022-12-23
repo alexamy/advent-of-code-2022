@@ -88,10 +88,14 @@ function splitLines(input) {
         ];
 }
 
+function isNotEmpty(line) {
+  return line.search(/^\s*$/) === -1;
+}
+
 function make(input) {
   var match = splitLines(input);
   var crates = parseCrates(match[0]);
-  var instructions = match[1].map(parseInstruction);
+  var instructions = match[1].filter(isNotEmpty).map(parseInstruction);
   return [
           crates,
           instructions
@@ -104,10 +108,17 @@ var Parse = {
   parseInstruction: parseInstruction,
   parseCrates: parseCrates,
   splitLines: splitLines,
+  isNotEmpty: isNotEmpty,
   make: make
 };
 
 var TheSameCrate = /* @__PURE__ */Caml_exceptions.create("Solution05.Process.TheSameCrate");
+
+function logCrates(crates) {
+  return crates.map(function (crate) {
+              return crate.join("");
+            });
+}
 
 function start(param) {
   return param[1].reduce((function (crates, param) {
@@ -145,6 +156,7 @@ function getTop(crates) {
 
 var Process = {
   TheSameCrate: TheSameCrate,
+  logCrates: logCrates,
   start: start,
   getTop: getTop
 };
@@ -153,9 +165,14 @@ function solve1(input) {
   return getTop(start(make(input))).join("");
 }
 
+function solve2(_input) {
+  
+}
+
 export {
   Parse ,
   Process ,
   solve1 ,
+  solve2 ,
 }
 /* No side effect */
