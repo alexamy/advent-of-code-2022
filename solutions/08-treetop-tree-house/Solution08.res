@@ -1,12 +1,12 @@
 open Belt
 
-module Process = {
-  type t = array<array<int>>
+type trees = array<array<int>>
 
+module Process = {
   let toNumber = n => n->Int.fromString->Option.getExn
   let makeLine = line => line->Js.String2.split("")->Js.Array2.map(toNumber)
 
-  let make = (input: string): t => {
+  let make = (input: string): trees => {
     input
     ->Js.String2.split("\n")
     ->Js.Array2.map(makeLine)
