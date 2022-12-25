@@ -50,10 +50,18 @@ module Trees = {
 
     { top, left, bottom, right }
   }
+
+  let mapi = (trees, f) => {
+    Js.Array2.mapi(trees, (line, row) =>
+      Js.Array2.mapi(line, (tree, col) => {
+        f(tree, (row, col))
+      })
+    )
+  }
 }
 
 module Calculate = {
-  let rec isVisibleInner = (trees, (row, col), offset) => {
+  let rec isVisibleInside = (trees, (row, col), offset) => {
     let { top, left, bottom, right } = Trees.getNeighbours(trees, (row, col), offset)
     let tree = Trees.getTree(trees, (row, col))->Option.getExn
 
@@ -65,20 +73,17 @@ module Calculate = {
     switch (isAll, isSomeHigher) {
     | (true, _) => true
     | (_, true) => false
-    | _ => isVisibleInner(trees, (row, col), offset + 1)
+    | _ => isVisibleInside(trees, (row, col), offset + 1)
     }
   }
 
   let isVisible = (trees, (row, col)) => {
-    Trees.isAtEdge(trees, (row, col)) || isVisibleInner(trees, (row, col), 1)
+    Trees.isAtEdge(trees, (row, col)) || isVisibleInside(trees, (row, col), 1)
   }
 
   let start = (trees: trees) => {
-    let visibility = trees->Js.Array2.mapi((row, rowIdx) => Js.Array2.mapi(row, (_, colIdx) => {
-      isVisible(trees, (rowIdx, colIdx))
-    }))
-
-    visibility
+    trees
+    ->Trees.mapi((_, (row, col)) => isVisible(trees, (row, col)))
     ->Array.flatMap(x => x)
     ->Js.Array2.filter(x => x === true)
     ->Js.Array2.length
