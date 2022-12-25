@@ -126,7 +126,7 @@ function isVisibleFromRec(trees, tree, _position, direction) {
               })), true);
     var newPosition = movePosition(position, direction);
     if (isVisible) {
-      return isVisible;
+      return true;
     }
     _position = newPosition;
     continue ;

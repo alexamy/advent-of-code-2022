@@ -82,7 +82,11 @@ module Calculate = {
 
     let newPosition = movePosition(position, direction)
 
-    isVisible ? isVisible : isVisibleFromRec(trees, tree, newPosition, direction)
+    if(isVisible) {
+      true
+    } else {
+      isVisibleFromRec(trees, tree, newPosition, direction)
+    }
   }
 
   let isVisibleFrom = (trees, position, direction) => {
