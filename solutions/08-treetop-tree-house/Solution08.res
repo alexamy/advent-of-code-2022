@@ -60,7 +60,7 @@ module Calculate = {
     let neighbours = [top, left, bottom, right]
     let isAll = Js.Array2.every(neighbours, Option.isNone)
     let someHigher = Js.Array2.some(neighbours,
-      other => other->Option.getWithDefault(0)->Trees.isHigherThan(tree))
+      other => other->Option.map(Trees.isHigherThan(_, tree))->Option.getWithDefault(false))
 
     switch (isAll, someHigher) {
     | (true, _) => true
