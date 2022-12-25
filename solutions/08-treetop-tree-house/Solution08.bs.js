@@ -5,6 +5,7 @@ import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as Caml_splice_call from "rescript/lib/es6/caml_splice_call.js";
 
 function isHigherThan(tree, other) {
   return Caml_obj.greaterequal(other, tree);
@@ -151,11 +152,8 @@ function isVisible(trees, position) {
 }
 
 function start(trees) {
-  return Belt_Array.flatMap(mapi(trees, (function (param, param$1) {
-                      return isVisible(trees, [
-                                  param$1[0],
-                                  param$1[1]
-                                ]);
+  return Belt_Array.flatMap(mapi(trees, (function (param, position) {
+                      return isVisible(trees, position);
                     })), (function (x) {
                   return x;
                 })).filter(function (x) {
@@ -169,6 +167,23 @@ var CalcVisibility = {
   isVisibleFrom: isVisibleFrom,
   isVisible: isVisible,
   start: start
+};
+
+function getScore(trees, position) {
+  return 0;
+}
+
+function start$1(trees) {
+  return Caml_splice_call.spliceApply(Math.max, [Belt_Array.flatMap(mapi(trees, (function (param, position) {
+                          return 0;
+                        })), (function (x) {
+                      return x;
+                    }))]);
+}
+
+var CalcScore = {
+  getScore: getScore,
+  start: start$1
 };
 
 function toNumber(n) {
@@ -193,13 +208,14 @@ function solve1(input) {
   return start(make(input));
 }
 
-function solve2(_input) {
-  
+function solve2(input) {
+  return start$1(make(input));
 }
 
 export {
   Trees ,
   CalcVisibility ,
+  CalcScore ,
   Process ,
   solve1 ,
   solve2 ,

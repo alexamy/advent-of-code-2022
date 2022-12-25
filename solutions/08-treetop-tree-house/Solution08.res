@@ -106,10 +106,23 @@ module CalcVisibility = {
 
   let start = (trees: trees) => {
     trees
-    ->Trees.mapi((_, (row, col)) => isVisible(trees, (row, col)))
+    ->Trees.mapi((_, position) => isVisible(trees, position))
     ->Array.flatMap(x => x)
     ->Js.Array2.filter(x => x === true)
     ->Js.Array2.length
+  }
+}
+
+module CalcScore = {
+  let getScore = (trees, position) => {
+    0
+  }
+
+  let start = (trees: trees) => {
+    trees
+    ->Trees.mapi((_, position) => getScore(trees, position))
+    ->Array.flatMap(x => x)
+    ->Js.Math.maxMany_int
   }
 }
 
@@ -132,6 +145,8 @@ let solve1 = (input: string) => {
 }
 
 @genType
-let solve2 = (_input: string) => {
-  None
+let solve2 = (input: string) => {
+  input
+  ->Process.make
+  ->CalcScore.start
 }
