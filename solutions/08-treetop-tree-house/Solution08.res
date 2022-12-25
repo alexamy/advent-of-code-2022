@@ -15,11 +15,14 @@ module Trees = {
     right: option<tree>,
   }
 
-  let isHigherThan = (tree1: tree, tree2: tree) => tree1 >= tree2
+  let isHigherThan = (tree1, tree2) => tree1 >= tree2
 
   let getDimensions = (trees) => {
     let rows = trees->Array.length
-    let cols = trees->Array.getExn(0)->Array.length
+    let cols = trees
+      ->Array.get(0)
+      ->Option.getWithDefault([])
+      ->Array.length
 
     (rows, cols)
   }
@@ -39,11 +42,11 @@ module Trees = {
       ->Array.get(col)
   }
 
-  let getNeighbours = (trees, (row, col)) => {
-    let top = getTree(trees, (row - 1, col))
-    let left = getTree(trees, (row, col - 1))
-    let bottom = getTree(trees, (row + 1, col))
-    let right = getTree(trees, (row, col + 1))
+  let getNeighbours = (trees, (row, col), offset) => {
+    let top = getTree(trees, (row - offset, col))
+    let left = getTree(trees, (row, col - offset))
+    let bottom = getTree(trees, (row + offset, col))
+    let right = getTree(trees, (row, col + offset))
 
     { top, left, bottom, right }
   }
@@ -51,7 +54,7 @@ module Trees = {
 
 module Calculate = {
   let rec isVisibleInner = (trees, (row, col), offset) => {
-    let { top, left, bottom, right } = Trees.getNeighbours(trees, (row, col))
+    let { top, left, bottom, right } = Trees.getNeighbours(trees, (row, col), offset)
     let tree = Trees.getTree(trees, (row, col))->Option.getExn
 
     let neighbours = [top, left, bottom, right]
