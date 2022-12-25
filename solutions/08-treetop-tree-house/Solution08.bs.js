@@ -121,13 +121,16 @@ function movePosition(param, direction) {
 function isVisibleFromRec(trees, tree, _position, direction) {
   while(true) {
     var position = _position;
-    var isVisible = Belt_Option.getWithDefault(Belt_Option.map(getTree(trees, position), (function (param) {
-                return Caml_obj.greaterequal(param, tree);
-              })), true);
-    var newPosition = movePosition(position, direction);
-    if (isVisible) {
+    var isHigher = Belt_Option.map(getTree(trees, position), (function (param) {
+            return Caml_obj.greaterequal(param, tree);
+          }));
+    if (isHigher === undefined) {
       return true;
     }
+    if (isHigher) {
+      return false;
+    }
+    var newPosition = movePosition(position, direction);
     _position = newPosition;
     continue ;
   };

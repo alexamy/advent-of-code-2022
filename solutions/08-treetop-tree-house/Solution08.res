@@ -75,22 +75,22 @@ module Calculate = {
   }
 
   let rec isVisibleFromRec = (trees, tree, position, direction): bool => {
-    let isVisible = trees
+    let isHigher = trees
     ->Trees.getTree(position)
     ->Option.map(Trees.isHigherThan(tree))
-    ->Option.getWithDefault(true)
 
-    let newPosition = movePosition(position, direction)
-
-    if(isVisible) {
-      true
-    } else {
-      isVisibleFromRec(trees, tree, newPosition, direction)
+    switch isHigher {
+    | None => true
+    | Some(true) => false
+    | Some(false) => {
+        let newPosition = movePosition(position, direction)
+        isVisibleFromRec(trees, tree, newPosition, direction)
+      }
     }
   }
 
   let isVisibleFrom = (trees, position, direction) => {
-    let tree = Trees.getTree(trees, position)->Option.getExn
+    let tree = trees->Trees.getTree(position)->Option.getExn
     let newPosition = movePosition(position, direction)
 
     isVisibleFromRec(trees, tree, newPosition, direction)
