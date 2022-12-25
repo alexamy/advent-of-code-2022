@@ -118,7 +118,7 @@ function movePosition(param, direction) {
         ];
 }
 
-function isVisibleFromRec(trees, tree, _position, direction) {
+function isVisibleInside(trees, tree, _position, direction) {
   while(true) {
     var position = _position;
     var isHigher = Belt_Option.map(getTree(trees, position), (function (param) {
@@ -139,7 +139,7 @@ function isVisibleFromRec(trees, tree, _position, direction) {
 function isVisibleFrom(trees, position, direction) {
   var tree = Belt_Option.getExn(getTree(trees, position));
   var newPosition = movePosition(position, direction);
-  return isVisibleFromRec(trees, tree, newPosition, direction);
+  return isVisibleInside(trees, tree, newPosition, direction);
 }
 
 function isVisible(trees, position) {
@@ -165,7 +165,7 @@ function start(trees) {
 
 var Calculate = {
   movePosition: movePosition,
-  isVisibleFromRec: isVisibleFromRec,
+  isVisibleInside: isVisibleInside,
   isVisibleFrom: isVisibleFrom,
   isVisible: isVisible,
   start: start

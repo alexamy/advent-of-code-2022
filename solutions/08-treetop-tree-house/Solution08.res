@@ -74,7 +74,7 @@ module Calculate = {
     (row + rOffset, col + cOffset)
   }
 
-  let rec isVisibleFromRec = (trees, tree, position, direction): bool => {
+  let rec isVisibleInside = (trees, tree, position, direction): bool => {
     let isHigher = trees
     ->Trees.getTree(position)
     ->Option.map(Trees.isHigherThan(tree))
@@ -84,7 +84,7 @@ module Calculate = {
     | Some(true) => false
     | Some(false) => {
         let newPosition = movePosition(position, direction)
-        isVisibleFromRec(trees, tree, newPosition, direction)
+        isVisibleInside(trees, tree, newPosition, direction)
       }
     }
   }
@@ -93,7 +93,7 @@ module Calculate = {
     let tree = trees->Trees.getTree(position)->Option.getExn
     let newPosition = movePosition(position, direction)
 
-    isVisibleFromRec(trees, tree, newPosition, direction)
+    isVisibleInside(trees, tree, newPosition, direction)
   }
 
   let isVisible = (trees, position) => {
