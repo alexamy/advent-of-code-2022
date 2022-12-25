@@ -15,6 +15,8 @@ module Trees = {
     right: option<tree>,
   }
 
+  let isHigherThan = (tree1: tree, tree2: tree) => tree1 >= tree2
+
   let getDimensions = (trees) => {
     let rows = trees->Array.length
     let cols = trees->Array.getExn(0)->Array.length
@@ -37,7 +39,7 @@ module Trees = {
       ->Array.get(col)
   }
 
-  let getNeighbours = (trees, (row, col), offset) => {
+  let getNeighbours = (trees, (row, col)) => {
     let top = getTree(trees, (row - 1, col))
     let left = getTree(trees, (row, col - 1))
     let bottom = getTree(trees, (row + 1, col))
@@ -48,42 +50,29 @@ module Trees = {
 }
 
 module Calculate = {
-  let rec isVisible = (trees, (row, col), offset) => {
+  let rec isVisibleInner = (trees, (row, col), offset) => {
+    let { top, left, bottom, right } = Trees.getNeighbours(trees, (row, col))
+    let tree = Trees.getTree(trees, (row, col))->Option.getExn
 
+    let neighbours = [top, left, bottom, right]
+    let isAll = Js.Array2.every(neighbours, Option.isNone)
+    let someHigher = Js.Array2.some(neighbours,
+      other => other->Option.getWithDefault(0)->Trees.isHigherThan(tree))
 
+    switch (isAll, someHigher) {
+    | (true, _) => true
+    | (_, true) => false
+    | _ => isVisibleInner(trees, (row, col), offset + 1)
+    }
+  }
 
-    // let isEnd = top === row && left === col && bottom === row && right === col
-
-    // let lastRow = trees->Array.length - 1
-    // let lastCol = trees->Array.getExn(0)->Array.length - 1
-    // let isEdge = row === 0 || col === 0 || row === lastRow || col === lastCol
-
-    // let tree = trees->getTree(row, col)
-    // let isTopHigher = top !== row && getTree(trees, top, col) >= tree
-    // let isLeftHigher = left !== col && getTree(trees, row, left) >= tree
-    // let isBottomHigher = bottom !== row && getTree(trees, bottom, col) >= tree
-    // let isRightHigher = right !== col && getTree(trees, row, right) >= tree
-
-    // let isSomeHigher = isTopHigher || isLeftHigher || isBottomHigher || isRightHigher
-
-    // let topNext = Js.Math.min_int(top + 1, row)
-    // let leftNext = Js.Math.min_int(left + 1, col)
-    // let bottomNext = Js.Math.max_int(bottom - 1, row)
-    // let rightNext = Js.Math.max_int(right - 1, row)
-
-    // switch (isEnd, isEdge, isSomeHigher) {
-    // | (true, _, _) => true
-    // | (_, true, _) => true
-    // | (_, _, true) => false
-    // | _ => isVisible(trees, (row, col), (topNext, leftNext, bottomNext, rightNext))
-    // }
+  let isVisible = (trees, (row, col)) => {
+    Trees.isAtEdge(trees, (row, col)) || isVisibleInner(trees, (row, col), 1)
   }
 
   let start = (trees: trees) => {
     let visibility = trees->Js.Array2.mapi((row, rowIdx) => Js.Array2.mapi(row, (_, colIdx) => {
-      let lastRow = trees->Array.length - 1
-      let lastCol = trees->Array.getExn(0)->Array.length - 1
-      isVisible(trees, (rowIdx, colIdx), 1)
+      isVisible(trees, (rowIdx, colIdx))
     }))
 
     visibility
