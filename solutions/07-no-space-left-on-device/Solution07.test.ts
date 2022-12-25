@@ -2,7 +2,7 @@ import dedent from 'ts-dedent';
 import { expect, it } from 'vitest';
 import { solve1 } from './Solution07.gen';
 
-it('solves first part', () => {
+it.skip('solves first part', () => {
   const input = dedent`
     $ cd /
     $ ls

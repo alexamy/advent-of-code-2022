@@ -14,7 +14,7 @@ it('solves first part', () => {
   expect(result).toBe(21);
 });
 
-it('solves second part', () => {
+it.skip('solves second part', () => {
   const result = solve2(dedent`
     30373
     25512
