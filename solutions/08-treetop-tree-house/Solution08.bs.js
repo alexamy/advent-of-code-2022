@@ -5,7 +5,9 @@ import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 
-var isHigherThan = Caml_obj.greaterequal;
+function isHigherThan(tree, other) {
+  return Caml_obj.greaterequal(other, tree);
+}
 
 function getDimensions(trees) {
   var rows = trees.length;
@@ -91,8 +93,8 @@ function isVisibleInner(trees, _param, _offset) {
     var isAll = neighbours.every(Belt_Option.isNone);
     var someHigher = neighbours.some((function(tree){
         return function (other) {
-          return Belt_Option.getWithDefault(Belt_Option.map(other, (function (__x) {
-                            return Caml_obj.greaterequal(__x, tree);
+          return Belt_Option.getWithDefault(Belt_Option.map(other, (function (param) {
+                            return Caml_obj.greaterequal(param, tree);
                           })), false);
         }
         }(tree)));

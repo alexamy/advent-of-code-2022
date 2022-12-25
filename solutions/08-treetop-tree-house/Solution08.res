@@ -15,7 +15,7 @@ module Trees = {
     right: option<tree>,
   }
 
-  let isHigherThan = (tree1, tree2) => tree1 >= tree2
+  let isHigherThan = (tree, other) => other >= tree
 
   let getDimensions = (trees) => {
     let rows = trees->Array.length
@@ -60,7 +60,7 @@ module Calculate = {
     let neighbours = [top, left, bottom, right]
     let isAll = Js.Array2.every(neighbours, Option.isNone)
     let someHigher = Js.Array2.some(neighbours,
-      other => other->Option.map(Trees.isHigherThan(_, tree))->Option.getWithDefault(false))
+      other => other->Option.map(Trees.isHigherThan(tree))->Option.getWithDefault(false))
 
     switch (isAll, someHigher) {
     | (true, _) => true
