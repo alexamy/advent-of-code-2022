@@ -8,12 +8,10 @@ let parse = (input) => {
 }
 
 let rec split = (calories, one, acc) => {
-  let result = list{one, ...acc}
-
   switch calories {
-  | list{} => result
+  | list{} => list{one, ...acc}
   | list{None, ...others} => {
-    split(others, list{}, result)
+    split(others, list{}, list{one, ...acc})
   }
   | list{Some(calorie), ...others} => {
     split(others, list{calorie, ...one}, acc)

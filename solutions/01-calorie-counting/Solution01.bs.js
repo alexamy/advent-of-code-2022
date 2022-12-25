@@ -14,12 +14,11 @@ function split(_calories, _one, _acc) {
     var acc = _acc;
     var one = _one;
     var calories = _calories;
-    var result = {
-      hd: one,
-      tl: acc
-    };
     if (!calories) {
-      return result;
+      return {
+              hd: one,
+              tl: acc
+            };
     }
     var calorie = calories.hd;
     if (calorie !== undefined) {
@@ -30,7 +29,10 @@ function split(_calories, _one, _acc) {
       _calories = calories.tl;
       continue ;
     }
-    _acc = result;
+    _acc = {
+      hd: one,
+      tl: acc
+    };
     _one = /* [] */0;
     _calories = calories.tl;
     continue ;
