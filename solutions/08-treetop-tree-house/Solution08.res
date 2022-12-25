@@ -114,7 +114,7 @@ module CalcVisibility = {
 }
 
 module CalcScore = {
-  let getScore = (trees, position) => {
+  let getScore = (_trees, _position) => {
     0
   }
 

@@ -169,7 +169,7 @@ var CalcVisibility = {
   start: start
 };
 
-function getScore(trees, position) {
+function getScore(_trees, _position) {
   return 0;
 }
 
