@@ -6,28 +6,30 @@ module Calculate = {
   let getTree = (trees, row, col) => trees->Array.getExn(row)->Array.getExn(col)
 
   let rec isVisible = (trees, (row, col), (top, left, bottom, right)) => {
-    let isEnd = top >= row && bottom <= row && right <= col && left >= col
+    let isEnd = top === row && left === col && bottom === row && right === col
 
     let lastRow = trees->Array.length - 1
     let lastCol = trees->Array.getExn(0)->Array.length - 1
     let isEdge = row === 0 || col === 0 || row === lastRow || col === lastCol
 
     let tree = trees->getTree(row, col)
-    let treeTop = trees->getTree(top, col)
-    let treeRight = trees->getTree(row, right)
-    let treeBottom = trees->getTree(bottom, col)
-    let treeLeft = trees->getTree(row, left)
+    let isTopHigher = top !== row && getTree(trees, top, col) >= tree
+    let isLeftHigher = left !== col && getTree(trees, row, left) >= tree
+    let isBottomHigher = bottom !== row && getTree(trees, bottom, col) >= tree
+    let isRightHigher = right !== col && getTree(trees, row, right) >= tree
 
-    let isSomeHigher = (top < row && treeTop >= tree)
-      || (right > col && treeRight >= tree)
-      || (bottom > row && treeBottom >= tree)
-      || (left < col && treeLeft >= tree)
+    let isSomeHigher = isTopHigher || isLeftHigher || isBottomHigher || isRightHigher
+
+    let topNext = Js.Math.min_int(top + 1, row)
+    let leftNext = Js.Math.min_int(left + 1, col)
+    let bottomNext = Js.Math.max_int(bottom - 1, row)
+    let rightNext = Js.Math.max_int(right - 1, row)
 
     switch (isEnd, isEdge, isSomeHigher) {
     | (true, _, _) => true
     | (_, true, _) => true
     | (_, _, true) => false
-    | _ => isVisible(trees, (row, col), (top + 1, left + 1, bottom - 1, right - 1))
+    | _ => isVisible(trees, (row, col), (topNext, leftNext, bottomNext, rightNext))
     }
   }
 

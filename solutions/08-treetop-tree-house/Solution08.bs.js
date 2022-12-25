@@ -19,16 +19,20 @@ function isVisible(trees, _param, _param$1) {
     var top = param$1[0];
     var col = param[1];
     var row = param[0];
-    var isEnd = top >= row && bottom <= row && right <= col && left >= col;
+    var isEnd = top === row && left === col && bottom === row && right === col;
     var lastRow = trees.length - 1 | 0;
     var lastCol = Belt_Array.getExn(trees, 0).length - 1 | 0;
     var isEdge = row === 0 || col === 0 || row === lastRow || col === lastCol;
     var tree = getTree(trees, row, col);
-    var treeTop = getTree(trees, top, col);
-    var treeRight = getTree(trees, row, right);
-    var treeBottom = getTree(trees, bottom, col);
-    var treeLeft = getTree(trees, row, left);
-    var isSomeHigher = top < row && Caml_obj.greaterequal(treeTop, tree) || right > col && Caml_obj.greaterequal(treeRight, tree) || bottom > row && Caml_obj.greaterequal(treeBottom, tree) || left < col && Caml_obj.greaterequal(treeLeft, tree);
+    var isTopHigher = top !== row && Caml_obj.greaterequal(getTree(trees, top, col), tree);
+    var isLeftHigher = left !== col && Caml_obj.greaterequal(getTree(trees, row, left), tree);
+    var isBottomHigher = bottom !== row && Caml_obj.greaterequal(getTree(trees, bottom, col), tree);
+    var isRightHigher = right !== col && Caml_obj.greaterequal(getTree(trees, row, right), tree);
+    var isSomeHigher = isTopHigher || isLeftHigher || isBottomHigher || isRightHigher;
+    var topNext = Math.min(top + 1 | 0, row);
+    var leftNext = Math.min(left + 1 | 0, col);
+    var bottomNext = Math.max(bottom - 1 | 0, row);
+    var rightNext = Math.max(right - 1 | 0, row);
     if (isEnd) {
       return true;
     }
@@ -39,10 +43,10 @@ function isVisible(trees, _param, _param$1) {
       return false;
     }
     _param$1 = [
-      top + 1 | 0,
-      left + 1 | 0,
-      bottom - 1 | 0,
-      right - 1 | 0
+      topNext,
+      leftNext,
+      bottomNext,
+      rightNext
     ];
     _param = [
       row,
