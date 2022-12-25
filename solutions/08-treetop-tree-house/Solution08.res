@@ -59,10 +59,10 @@ module Calculate = {
 
     let neighbours = [top, left, bottom, right]
     let isAll = Js.Array2.every(neighbours, Option.isNone)
-    let someHigher = Js.Array2.some(neighbours,
+    let isSomeHigher = Js.Array2.some(neighbours,
       other => other->Option.map(Trees.isHigherThan(tree))->Option.getWithDefault(false))
 
-    switch (isAll, someHigher) {
+    switch (isAll, isSomeHigher) {
     | (true, _) => true
     | (_, true) => false
     | _ => isVisibleInner(trees, (row, col), offset + 1)

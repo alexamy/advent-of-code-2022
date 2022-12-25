@@ -91,7 +91,7 @@ function isVisibleInner(trees, _param, _offset) {
       match.right
     ];
     var isAll = neighbours.every(Belt_Option.isNone);
-    var someHigher = neighbours.some((function(tree){
+    var isSomeHigher = neighbours.some((function(tree){
         return function (other) {
           return Belt_Option.getWithDefault(Belt_Option.map(other, (function (param) {
                             return Caml_obj.greaterequal(param, tree);
@@ -101,7 +101,7 @@ function isVisibleInner(trees, _param, _offset) {
     if (isAll) {
       return true;
     }
-    if (someHigher) {
+    if (isSomeHigher) {
       return false;
     }
     _offset = offset + 1 | 0;
