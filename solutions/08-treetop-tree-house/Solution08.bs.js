@@ -163,7 +163,7 @@ function start(trees) {
             }).length;
 }
 
-var Calculate = {
+var CalcVisibility = {
   movePosition: movePosition,
   isVisibleInside: isVisibleInside,
   isVisibleFrom: isVisibleFrom,
@@ -199,7 +199,7 @@ function solve2(_input) {
 
 export {
   Trees ,
-  Calculate ,
+  CalcVisibility ,
   Process ,
   solve1 ,
   solve2 ,

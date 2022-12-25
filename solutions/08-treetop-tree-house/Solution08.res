@@ -60,7 +60,7 @@ module Trees = {
   }
 }
 
-module Calculate = {
+module CalcVisibility = {
   type direction = Top | Left | Right | Bottom
 
   let movePosition = ((row, col), direction) => {
@@ -128,7 +128,7 @@ module Process = {
 let solve1 = (input: string) => {
   input
   ->Process.make
-  ->Calculate.start
+  ->CalcVisibility.start
 }
 
 @genType
