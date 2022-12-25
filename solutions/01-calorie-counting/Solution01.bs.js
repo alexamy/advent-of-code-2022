@@ -14,13 +14,12 @@ function split(_calories, result) {
     var calories = _calories;
     var length = calories.length;
     var endIndex = Belt_Option.getWithDefault(Belt_Array.getIndexBy(calories, Belt_Option.isNone), length);
-    var one = calories.slice(0, endIndex).map(function (__x) {
-          return Belt_Option.getWithDefault(__x, 0);
-        });
-    result.push(one);
+    var one = calories.slice(0, endIndex);
     var others = calories.slice(endIndex + 1 | 0);
-    var match = others.length;
-    if (match === 0) {
+    result.push(one.map(function (__x) {
+              return Belt_Option.getWithDefault(__x, 0);
+            }));
+    if (others.length === 0) {
       return result;
     }
     _calories = others;

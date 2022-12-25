@@ -12,15 +12,16 @@ let rec split = (calories, result) => {
     ->Array.getIndexBy(Option.isNone)
     ->Option.getWithDefault(length)
 
-  let one = calories
-    ->Js.Array2.slice(~start=0, ~end_=endIndex)
-    ->Js.Array2.map(Option.getWithDefault(_, 0))
-  Js.Array2.push(result, one)->ignore
+  let one = Js.Array2.slice(calories, ~start=0, ~end_=endIndex)
+  let others = Js.Array2.sliceFrom(calories, endIndex + 1)
 
-  let others = calories->Js.Array2.sliceFrom(endIndex + 1)
+  one
+  ->Js.Array2.map(Option.getWithDefault(_, 0))
+  ->Js.Array2.push(result, _)
+  ->ignore
 
-  switch Js.Array2.length(others) {
-  | 0 => result
+  switch others {
+  | [] => result
   | _ => split(others, result)
   }
 }
