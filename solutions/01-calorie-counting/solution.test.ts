@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest';
 import { dedent } from 'ts-dedent';
-import { findMax, findThreeMax, getLineGroups, solve1, solve2, sumLines } from './solution';
+import { findMax, findThreeMax, getLineGroups, sumLines } from './solution';
+import { solve1, solve2 } from './Solution01.gen';
 
 it('groups numbers splitted by newline', () => {
   const result = getLineGroups(dedent`

@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import { readFile } from 'fs-extra';
-import * as S1 from '../01-calorie-counting/solution';
+import * as S1 from '../01-calorie-counting/Solution01.gen';
 import * as S2 from '../02-rock-paper-scissors/solution';
 import * as S3 from '../03-rucksack-reorganization/solution';
 import * as S4 from '../04-camp-cleanup/solution';
