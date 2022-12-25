@@ -13,13 +13,13 @@ function isVisible(trees, _param, _param$1) {
   while(true) {
     var param = _param;
     var param$1 = _param$1;
-    var left = param$1[3];
+    var right = param$1[3];
     var bottom = param$1[2];
-    var right = param$1[1];
+    var left = param$1[1];
     var top = param$1[0];
     var col = param[1];
     var row = param[0];
-    var isEnd = top === row && bottom === row && right === col && left === col;
+    var isEnd = top >= row && bottom <= row && right <= col && left >= col;
     var lastRow = trees.length - 1 | 0;
     var lastCol = Belt_Array.getExn(trees, 0).length - 1 | 0;
     var isEdge = row === 0 || col === 0 || row === lastRow || col === lastCol;
@@ -28,7 +28,7 @@ function isVisible(trees, _param, _param$1) {
     var treeRight = getTree(trees, row, right);
     var treeBottom = getTree(trees, bottom, col);
     var treeLeft = getTree(trees, row, left);
-    var isSomeHigher = Caml_obj.greaterequal(treeTop, tree) || Caml_obj.greaterequal(treeRight, tree) || Caml_obj.greaterequal(treeBottom, tree) || Caml_obj.greaterequal(treeLeft, tree);
+    var isSomeHigher = top < row && Caml_obj.greaterequal(treeTop, tree) || right > col && Caml_obj.greaterequal(treeRight, tree) || bottom > row && Caml_obj.greaterequal(treeBottom, tree) || left < col && Caml_obj.greaterequal(treeLeft, tree);
     if (isEnd) {
       return true;
     }
@@ -40,9 +40,9 @@ function isVisible(trees, _param, _param$1) {
     }
     _param$1 = [
       top + 1 | 0,
-      right - 1 | 0,
+      left + 1 | 0,
       bottom - 1 | 0,
-      left + 1 | 0
+      right - 1 | 0
     ];
     _param = [
       row,
@@ -62,9 +62,9 @@ function start(trees) {
                                 colIdx
                               ], [
                                 0,
-                                lastCol,
+                                0,
                                 lastRow,
-                                0
+                                lastCol
                               ]);
                   });
       });

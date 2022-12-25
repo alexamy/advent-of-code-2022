@@ -5,8 +5,8 @@ type trees = array<array<int>>
 module Calculate = {
   let getTree = (trees, row, col) => trees->Array.getExn(row)->Array.getExn(col)
 
-  let rec isVisible = (trees, (row, col), (top, right, bottom, left)) => {
-    let isEnd = top === row && bottom === row && right === col && left === col
+  let rec isVisible = (trees, (row, col), (top, left, bottom, right)) => {
+    let isEnd = top >= row && bottom <= row && right <= col && left >= col
 
     let lastRow = trees->Array.length - 1
     let lastCol = trees->Array.getExn(0)->Array.length - 1
@@ -18,13 +18,16 @@ module Calculate = {
     let treeBottom = trees->getTree(bottom, col)
     let treeLeft = trees->getTree(row, left)
 
-    let isSomeHigher = treeTop >= tree || treeRight >= tree || treeBottom >= tree || treeLeft >= tree
+    let isSomeHigher = (top < row && treeTop >= tree)
+      || (right > col && treeRight >= tree)
+      || (bottom > row && treeBottom >= tree)
+      || (left < col && treeLeft >= tree)
 
     switch (isEnd, isEdge, isSomeHigher) {
     | (true, _, _) => true
     | (_, true, _) => true
     | (_, _, true) => false
-    | _ => isVisible(trees, (row, col), (top + 1, right - 1, bottom - 1, left + 1))
+    | _ => isVisible(trees, (row, col), (top + 1, left + 1, bottom - 1, right - 1))
     }
   }
 
@@ -32,7 +35,7 @@ module Calculate = {
     let visibility = trees->Js.Array2.mapi((row, rowIdx) => Js.Array2.mapi(row, (_, colIdx) => {
       let lastRow = trees->Array.length - 1
       let lastCol = trees->Array.getExn(0)->Array.length - 1
-      isVisible(trees, (rowIdx, colIdx), (0, lastCol, lastRow, 0))
+      isVisible(trees, (rowIdx, colIdx), (0, 0, lastRow, lastCol))
     }))
 
     visibility
