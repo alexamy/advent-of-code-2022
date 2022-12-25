@@ -61,24 +61,43 @@ module Trees = {
 }
 
 module Calculate = {
-  let rec isVisibleInside = (trees, (row, col), offset) => {
-    let { top, left, bottom, right } = Trees.getNeighbours(trees, (row, col), offset)
-    let tree = Trees.getTree(trees, (row, col))->Option.getExn
+  type direction = Top | Left | Right | Bottom
 
-    let neighbours = [top, left, bottom, right]
-    let isAll = Js.Array2.every(neighbours, Option.isNone)
-    let isSomeHigher = Js.Array2.some(neighbours,
-      other => other->Option.map(Trees.isHigherThan(tree))->Option.getWithDefault(false))
-
-    switch (isAll, isSomeHigher) {
-    | (true, _) => true
-    | (_, true) => false
-    | _ => isVisibleInside(trees, (row, col), offset + 1)
+  let movePosition = ((row, col), direction) => {
+    let (rOffset, cOffset) = switch direction {
+    | Top => (-1, 0)
+    | Bottom => (1, 0)
+    | Left => (0, -1)
+    | Right => (0, 1)
     }
+
+    (row + rOffset, col + cOffset)
   }
 
-  let isVisible = (trees, (row, col)) => {
-    Trees.isAtEdge(trees, (row, col)) || isVisibleInside(trees, (row, col), 1)
+  let rec isVisibleFromRec = (trees, tree, position, direction): bool => {
+    let isVisible = trees
+    ->Trees.getTree(position)
+    ->Option.map(Trees.isHigherThan(tree))
+    ->Option.getWithDefault(true)
+
+    let newPosition = movePosition(position, direction)
+
+    isVisible ? isVisible : isVisibleFromRec(trees, tree, newPosition, direction)
+  }
+
+  let isVisibleFrom = (trees, position, direction) => {
+    let tree = Trees.getTree(trees, position)->Option.getExn
+    let newPosition = movePosition(position, direction)
+
+    isVisibleFromRec(trees, tree, newPosition, direction)
+  }
+
+  let isVisible = (trees, position) => {
+    Trees.isAtEdge(trees, position)
+    || isVisibleFrom(trees, position, Top)
+    || isVisibleFrom(trees, position, Left)
+    || isVisibleFrom(trees, position, Bottom)
+    || isVisibleFrom(trees, position, Right)
   }
 
   let start = (trees: trees) => {

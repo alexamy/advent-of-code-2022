@@ -83,62 +83,67 @@ var Trees = {
   mapi: mapi
 };
 
-function isVisibleInside(trees, _param, _offset) {
+function movePosition(param, direction) {
+  var match;
+  switch (direction) {
+    case /* Top */0 :
+        match = [
+          -1,
+          0
+        ];
+        break;
+    case /* Left */1 :
+        match = [
+          0,
+          -1
+        ];
+        break;
+    case /* Right */2 :
+        match = [
+          0,
+          1
+        ];
+        break;
+    case /* Bottom */3 :
+        match = [
+          1,
+          0
+        ];
+        break;
+    
+  }
+  return [
+          param[0] + match[0] | 0,
+          param[1] + match[1] | 0
+        ];
+}
+
+function isVisibleFromRec(trees, tree, _position, direction) {
   while(true) {
-    var param = _param;
-    var offset = _offset;
-    var col = param[1];
-    var row = param[0];
-    var match = getNeighbours(trees, [
-          row,
-          col
-        ], offset);
-    var tree = Belt_Option.getExn(getTree(trees, [
-              row,
-              col
-            ]));
-    var neighbours = [
-      match.top,
-      match.left,
-      match.bottom,
-      match.right
-    ];
-    var isAll = neighbours.every(Belt_Option.isNone);
-    var isSomeHigher = neighbours.some((function(tree){
-        return function (other) {
-          return Belt_Option.getWithDefault(Belt_Option.map(other, (function (param) {
-                            return Caml_obj.greaterequal(param, tree);
-                          })), false);
-        }
-        }(tree)));
-    if (isAll) {
-      return true;
+    var position = _position;
+    var isVisible = Belt_Option.getWithDefault(Belt_Option.map(getTree(trees, position), (function (param) {
+                return Caml_obj.greaterequal(param, tree);
+              })), true);
+    var newPosition = movePosition(position, direction);
+    if (isVisible) {
+      return isVisible;
     }
-    if (isSomeHigher) {
-      return false;
-    }
-    _offset = offset + 1 | 0;
-    _param = [
-      row,
-      col
-    ];
+    _position = newPosition;
     continue ;
   };
 }
 
-function isVisible(trees, param) {
-  var col = param[1];
-  var row = param[0];
-  if (isAtEdge(trees, [
-          row,
-          col
-        ])) {
+function isVisibleFrom(trees, position, direction) {
+  var tree = Belt_Option.getExn(getTree(trees, position));
+  var newPosition = movePosition(position, direction);
+  return isVisibleFromRec(trees, tree, newPosition, direction);
+}
+
+function isVisible(trees, position) {
+  if (isAtEdge(trees, position) || isVisibleFrom(trees, position, /* Top */0) || isVisibleFrom(trees, position, /* Left */1) || isVisibleFrom(trees, position, /* Bottom */3)) {
     return true;
   } else {
-    return isVisibleInside(trees, [
-                row,
-                col
-              ], 1);
+    return isVisibleFrom(trees, position, /* Right */2);
   }
 }
 
@@ -156,7 +161,9 @@ function start(trees) {
 }
 
 var Calculate = {
-  isVisibleInside: isVisibleInside,
+  movePosition: movePosition,
+  isVisibleFromRec: isVisibleFromRec,
+  isVisibleFrom: isVisibleFrom,
   isVisible: isVisible,
   start: start
 };
