@@ -121,10 +121,12 @@ function getRoundScore(result) {
 
 function getScore(param) {
   var player = param[1];
-  return (player + 1 | 0) + getRoundScore(getRoundResult([
-                  param[0],
-                  player
-                ])) | 0;
+  var playerScore = player + 1 | 0;
+  var roundScore = getRoundScore(getRoundResult([
+            param[0],
+            player
+          ]));
+  return playerScore + roundScore | 0;
 }
 
 function solve1(input) {

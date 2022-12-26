@@ -69,7 +69,10 @@ let getRoundScore = result => {
 }
 
 let getScore = ((enemy, player)) => {
-  getPlayerScore(player) + getRoundResult((enemy, player))->getRoundScore
+  let playerScore = getPlayerScore(player)
+  let roundScore = getRoundResult((enemy, player))->getRoundScore
+
+  playerScore + roundScore
 }
 
 @genType
