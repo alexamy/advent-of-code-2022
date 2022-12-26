@@ -116,11 +116,11 @@ var Round = {
   getResult: getResult
 };
 
-function getPlayerScore(player) {
+function forPlayer(player) {
   return player + 1 | 0;
 }
 
-function getRoundScore(result) {
+function forRound(result) {
   switch (result) {
     case /* Lost */0 :
         return 0;
@@ -138,14 +138,14 @@ function calculate(param) {
         param[0],
         player
       ]);
-  var roundScore = getRoundScore(result);
+  var roundScore = forRound(result);
   var playerScore = player + 1 | 0;
   return playerScore + roundScore | 0;
 }
 
 var Score = {
-  getPlayerScore: getPlayerScore,
-  getRoundScore: getRoundScore,
+  forPlayer: forPlayer,
+  forRound: forRound,
   calculate: calculate
 };
 

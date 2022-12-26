@@ -59,7 +59,7 @@ module Round = {
 }
 
 module Score = {
-  let getPlayerScore = player => {
+  let forPlayer = player => {
     switch player {
     | Rock => 1
     | Paper => 2
@@ -67,7 +67,7 @@ module Score = {
     }
   }
 
-  let getRoundScore = result => {
+  let forRound = result => {
     switch result {
     | Lost => 0
     | Draw => 3
@@ -77,8 +77,8 @@ module Score = {
 
   let calculate = ((enemy, player)) => {
     let result = Round.getResult((enemy, player))
-    let roundScore =getRoundScore(result)
-    let playerScore = getPlayerScore(player)
+    let roundScore = forRound(result)
+    let playerScore = forPlayer(player)
 
     playerScore + roundScore
   }
