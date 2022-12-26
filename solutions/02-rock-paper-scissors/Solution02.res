@@ -1,3 +1,4 @@
+@@warning("-33")
 open Belt
 
 exception MalformedRow(string)
@@ -69,6 +70,20 @@ module Round = {
     | (Paper, Scissors) => Won
     }
   }
+
+  let getPlayerFigure = ((enemy, result)) => {
+    switch (enemy, result) {
+    | (Rock, Lost) => Scissors
+    | (Rock, Draw) => Rock
+    | (Rock, Won) => Paper
+    | (Scissors, Lost) => Paper
+    | (Scissors, Draw) => Scissors
+    | (Scissors, Won) => Rock
+    | (Paper, Lost) => Rock
+    | (Paper, Draw) => Paper
+    | (Paper, Won) => Scissors
+    }
+  }
 }
 
 module Score = {
@@ -95,6 +110,8 @@ module Score = {
 
     playerScore + roundScore
   }
+
+  let sum = arr => Js.Array2.reduce(arr, (a, b) => a + b, 0)
 }
 
 @genType
@@ -103,11 +120,15 @@ let solve1 = (input: string) => {
   ->Parse.start
   ->Js.Array2.map(((enemy, player)) => (Figure.forEnemy(enemy), Figure.forPlayer(player)))
   ->Js.Array2.map(Score.calculate)
-  ->Js.Array2.reduce((a, b) => a + b, 0)
+  ->Score.sum
 }
 
 @genType
 let solve2 = (input: string) => {
   input
   ->Parse.start
+  ->Js.Array2.map(((enemy, result)) => (Figure.forEnemy(enemy), Round.fromString(result)))
+  ->Js.Array2.map(((enemy, result)) => (enemy, Round.getPlayerFigure((enemy, result))))
+  ->Js.Array2.map(Score.calculate)
+  ->Score.sum
 }

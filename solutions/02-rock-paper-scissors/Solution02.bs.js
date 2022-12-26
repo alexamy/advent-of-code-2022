@@ -127,9 +127,39 @@ function getResult(param) {
   }
 }
 
+function getPlayerFigure(param) {
+  var result = param[1];
+  switch (param[0]) {
+    case /* Rock */0 :
+        switch (result) {
+          case /* Lost */0 :
+              return /* Scissors */2;
+          case /* Draw */1 :
+              return /* Rock */0;
+          case /* Won */2 :
+              return /* Paper */1;
+          
+        }
+    case /* Paper */1 :
+        return result;
+    case /* Scissors */2 :
+        switch (result) {
+          case /* Lost */0 :
+              return /* Paper */1;
+          case /* Draw */1 :
+              return /* Scissors */2;
+          case /* Won */2 :
+              return /* Rock */0;
+          
+        }
+    
+  }
+}
+
 var Round = {
   fromString: fromString$1,
-  getResult: getResult
+  getResult: getResult,
+  getPlayerFigure: getPlayerFigure
 };
 
 function forPlayer$1(player) {
@@ -159,24 +189,45 @@ function calculate(param) {
   return playerScore + roundScore | 0;
 }
 
-var Score = {
-  forPlayer: forPlayer$1,
-  forRound: forRound,
-  calculate: calculate
-};
-
-function solve1(input) {
-  return start(input).map(function (param) {
-                  return [
-                          forEnemy(param[0]),
-                          forPlayer(param[1])
-                        ];
-                }).map(calculate).reduce((function (a, b) {
+function sum(arr) {
+  return arr.reduce((function (a, b) {
                 return a + b | 0;
               }), 0);
 }
 
-var solve2 = start;
+var Score = {
+  forPlayer: forPlayer$1,
+  forRound: forRound,
+  calculate: calculate,
+  sum: sum
+};
+
+function solve1(input) {
+  return sum(start(input).map(function (param) {
+                    return [
+                            forEnemy(param[0]),
+                            forPlayer(param[1])
+                          ];
+                  }).map(calculate));
+}
+
+function solve2(input) {
+  return sum(start(input).map(function (param) {
+                      return [
+                              forEnemy(param[0]),
+                              fromString$1(param[1])
+                            ];
+                    }).map(function (param) {
+                    var enemy = param[0];
+                    return [
+                            enemy,
+                            getPlayerFigure([
+                                  enemy,
+                                  param[1]
+                                ])
+                          ];
+                  }).map(calculate));
+}
 
 export {
   MalformedRow ,
