@@ -2,6 +2,7 @@ import { test, expect } from 'vitest';
 import { readFile } from 'fs-extra';
 import * as S1 from '../01-calorie-counting/Solution01.gen';
 import * as S2 from '../02-rock-paper-scissors/solution';
+import * as S2R from '../02-rock-paper-scissors/Solution02.gen';
 import * as S3 from '../03-rucksack-reorganization/solution';
 import * as S4 from '../04-camp-cleanup/solution';
 import * as S5 from '../05-supply-stacks/Solution05.gen';
@@ -27,7 +28,7 @@ test('Solution 02', async () => {
   const input = file.toString();
 
   const result1 = 'U2FsdGVkX1/4MsRxeZHmZyJFN1zCa7g3p0c3x/Rp//U=';
-  expect(S2.solve1(input).toString()).toBe(decrypt(result1));
+  expect(S2R.solve1(input).toString()).toBe(decrypt(result1));
 
   const result2 = 'U2FsdGVkX1+PDYGNv1ew8ggJLy4Cqhrq190sk6CMVp8=';
   expect(S2.solve2(input).toString()).toBe(decrypt(result2));

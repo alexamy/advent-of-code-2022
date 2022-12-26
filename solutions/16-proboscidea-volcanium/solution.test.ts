@@ -2,7 +2,7 @@ import { expect, it } from 'vitest';
 import { solve1, solve2 } from './Solution16.gen';
 import dedent from 'ts-dedent';
 
-it('solves first part', () => {
+it.skip('solves first part', () => {
   const result = solve1(dedent`
     Valve AA has flow rate=0; tunnels lead to valves DD, II, BB
     Valve BB has flow rate=13; tunnels lead to valves CC, AA
