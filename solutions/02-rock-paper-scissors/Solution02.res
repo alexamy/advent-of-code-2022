@@ -24,7 +24,7 @@ module Parse = {
 }
 
 module Figure = {
-  let forEnemy = enemy => {
+  let enemy = enemy => {
     switch enemy {
     | "A" => Rock
     | "B" => Paper
@@ -33,7 +33,7 @@ module Figure = {
     }
   }
 
-  let forPlayer = player => {
+  let player = player => {
     switch player {
     | "X" => Rock
     | "Y" => Paper
@@ -42,13 +42,7 @@ module Figure = {
     }
   }
 
-  let fromString = ((enemy, player)) => {
-    (forEnemy(enemy), forPlayer(player))
-  }
-}
-
-module Round = {
-  let fromString = (player) => {
+  let round = (player) => {
     switch player {
     | "X" => Lost
     | "Y" => Draw
@@ -56,7 +50,9 @@ module Round = {
     | _ => raise(UnknownCharacter(player))
     }
   }
+}
 
+module Round = {
   let getResult = ((enemy, player)) => {
     switch (enemy, player) {
     | (Rock, Scissors) => Lost
@@ -118,7 +114,7 @@ module Score = {
 let solve1 = (input: string) => {
   input
   ->Parse.start
-  ->Js.Array2.map(((enemy, player)) => (Figure.forEnemy(enemy), Figure.forPlayer(player)))
+  ->Js.Array2.map(((enemy, player)) => (Figure.enemy(enemy), Figure.player(player)))
   ->Js.Array2.map(Score.calculate)
   ->Score.sum
 }
@@ -127,7 +123,7 @@ let solve1 = (input: string) => {
 let solve2 = (input: string) => {
   input
   ->Parse.start
-  ->Js.Array2.map(((enemy, result)) => (Figure.forEnemy(enemy), Round.fromString(result)))
+  ->Js.Array2.map(((enemy, result)) => (Figure.enemy(enemy), Figure.round(result)))
   ->Js.Array2.map(((enemy, result)) => (enemy, Round.getPlayerFigure((enemy, result))))
   ->Js.Array2.map(Score.calculate)
   ->Score.sum

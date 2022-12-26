@@ -34,8 +34,8 @@ var Parse = {
   start: start
 };
 
-function forEnemy(enemy) {
-  switch (enemy) {
+function enemy(enemy$1) {
+  switch (enemy$1) {
     case "A" :
         return /* Rock */0;
     case "B" :
@@ -45,14 +45,14 @@ function forEnemy(enemy) {
     default:
       throw {
             RE_EXN_ID: UnknownCharacter,
-            _1: enemy,
+            _1: enemy$1,
             Error: new Error()
           };
   }
 }
 
-function forPlayer(player) {
-  switch (player) {
+function player(player$1) {
+  switch (player$1) {
     case "X" :
         return /* Rock */0;
     case "Y" :
@@ -62,26 +62,13 @@ function forPlayer(player) {
     default:
       throw {
             RE_EXN_ID: UnknownCharacter,
-            _1: player,
+            _1: player$1,
             Error: new Error()
           };
   }
 }
 
-function fromString(param) {
-  return [
-          forEnemy(param[0]),
-          forPlayer(param[1])
-        ];
-}
-
-var Figure = {
-  forEnemy: forEnemy,
-  forPlayer: forPlayer,
-  fromString: fromString
-};
-
-function fromString$1(player) {
+function round(player) {
   switch (player) {
     case "X" :
         return /* Lost */0;
@@ -97,6 +84,12 @@ function fromString$1(player) {
           };
   }
 }
+
+var Figure = {
+  enemy: enemy,
+  player: player,
+  round: round
+};
 
 function getResult(param) {
   var player = param[1];
@@ -157,12 +150,11 @@ function getPlayerFigure(param) {
 }
 
 var Round = {
-  fromString: fromString$1,
   getResult: getResult,
   getPlayerFigure: getPlayerFigure
 };
 
-function forPlayer$1(player) {
+function forPlayer(player) {
   return player + 1 | 0;
 }
 
@@ -196,7 +188,7 @@ function sum(arr) {
 }
 
 var Score = {
-  forPlayer: forPlayer$1,
+  forPlayer: forPlayer,
   forRound: forRound,
   calculate: calculate,
   sum: sum
@@ -205,8 +197,8 @@ var Score = {
 function solve1(input) {
   return sum(start(input).map(function (param) {
                     return [
-                            forEnemy(param[0]),
-                            forPlayer(param[1])
+                            enemy(param[0]),
+                            player(param[1])
                           ];
                   }).map(calculate));
 }
@@ -214,8 +206,8 @@ function solve1(input) {
 function solve2(input) {
   return sum(start(input).map(function (param) {
                       return [
-                              forEnemy(param[0]),
-                              fromString$1(param[1])
+                              enemy(param[0]),
+                              round(param[1])
                             ];
                     }).map(function (param) {
                     var enemy = param[0];
