@@ -53,7 +53,7 @@ module Char = {
 }
 
 module Round = {
-  let get = (enemy, player) => {
+  let getResult = (enemy, player) => {
     switch (enemy, player) {
     | (Rock, Scissors) => Lost
     | (Rock, Rock) => Draw
@@ -100,7 +100,7 @@ module Score = {
   }
 
   let calculate = ((enemy, player)) => {
-    let round = Round.get(enemy, player)
+    let round = Round.getResult(enemy, player)
 
     forPlayer(player) + forRound(round)
   }

@@ -91,7 +91,7 @@ var Char = {
   round: round
 };
 
-function get(enemy, player) {
+function getResult(enemy, player) {
   switch (enemy) {
     case /* Rock */0 :
         switch (player) {
@@ -148,7 +148,7 @@ function getPlayerFigure(enemy, round) {
 }
 
 var Round = {
-  get: get,
+  getResult: getResult,
   getPlayerFigure: getPlayerFigure
 };
 
@@ -170,7 +170,7 @@ function forRound(round) {
 
 function calculate(param) {
   var player = param[1];
-  var round = get(param[0], player);
+  var round = getResult(param[0], player);
   return (player + 1 | 0) + forRound(round) | 0;
 }
 
