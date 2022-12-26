@@ -5,19 +5,10 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 
-function toValveInfo(info) {
-  var matches = Belt_Option.getExn(Belt_Option.map(Caml_option.null_to_opt(/^Valve ([A-Z]{2}) has flow rate=(\d+); tunnels? leads? to valves? (.*)$/.exec(info)), (function (prim) {
-                return prim;
-              }))).map(function (prim) {
-        if (prim == null) {
-          return ;
-        } else {
-          return Caml_option.some(prim);
-        }
-      });
-  var name = Belt_Option.getExn(Belt_Array.getExn(matches, 1));
-  var rate = Belt_Option.getExn(Belt_Option.flatMap(Belt_Array.getExn(matches, 2), Belt_Int.fromString));
-  var targets = Belt_Option.getExn(Belt_Array.getExn(matches, 3)).split(", ");
+function splitMatches(matches) {
+  var name = Belt_Array.getExn(matches, 1);
+  var rate = Belt_Option.getExn(Belt_Int.fromString(Belt_Array.getExn(matches, 2)));
+  var targets = Belt_Array.getExn(matches, 3).split(", ");
   return {
           name: name,
           rate: rate,
@@ -25,11 +16,20 @@ function toValveInfo(info) {
         };
 }
 
+function toValveInfo(info) {
+  return splitMatches(Belt_Option.getExn(Belt_Option.map(Caml_option.null_to_opt(/^Valve ([A-Z]{2}) has flow rate=(\d+); tunnels? leads? to valves? (.*)$/.exec(info)), (function (prim) {
+                          return prim;
+                        }))).map(function (s) {
+                  return Belt_Option.getExn((s == null) ? undefined : Caml_option.some(s));
+                }));
+}
+
 function start(input) {
   return input.split("\n").map(toValveInfo);
 }
 
 var Process = {
+  splitMatches: splitMatches,
   toValveInfo: toValveInfo,
   start: start
 };
