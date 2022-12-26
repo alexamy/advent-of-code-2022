@@ -4,6 +4,13 @@ import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
+import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
+
+function toMap(valves) {
+  return valves.reduce((function (map, valve) {
+                return Belt_MapString.set(map, valve.name, valve);
+              }), undefined);
+}
 
 function splitMatches(matches) {
   var name = Belt_Array.getExn(matches, 1);
@@ -25,10 +32,11 @@ function toValveInfo(info) {
 }
 
 function start(input) {
-  return input.split("\n").map(toValveInfo);
+  return toMap(input.split("\n").map(toValveInfo));
 }
 
 var Process = {
+  toMap: toMap,
   splitMatches: splitMatches,
   toValveInfo: toValveInfo,
   start: start

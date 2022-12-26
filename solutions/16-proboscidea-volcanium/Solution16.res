@@ -8,6 +8,12 @@ module Process = {
     targets: array<string>,
   }
 
+  let toMap = (valves: array<valve>) => {
+    Js.Array2.reduce(valves, (map, valve) => {
+      Map.String.set(map, valve.name, valve)
+    }, Map.String.empty)
+  }
+
   let splitMatches = (matches) => {
     let name = Array.getExn(matches, 1)
     let rate = Array.getExn(matches, 2)->Int.fromString->Option.getExn
@@ -29,6 +35,7 @@ module Process = {
     input
     ->Js.String2.split("\n")
     ->Js.Array2.map(toValveInfo)
+    ->toMap
   }
 }
 
