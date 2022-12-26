@@ -42,18 +42,18 @@ module Figure = {
     }
   }
 
-  let round = (player) => {
-    switch player {
+  let round = round => {
+    switch round {
     | "X" => Lost
     | "Y" => Draw
     | "Z" => Won
-    | _ => raise(UnknownCharacter(player))
+    | _ => raise(UnknownCharacter(round))
     }
   }
 }
 
 module Round = {
-  let getResult = ((enemy, player)) => {
+  let getResult = (enemy, player) => {
     switch (enemy, player) {
     | (Rock, Scissors) => Lost
     | (Rock, Rock) => Draw
@@ -67,7 +67,7 @@ module Round = {
     }
   }
 
-  let getPlayerFigure = ((enemy, result)) => {
+  let getPlayerFigure = (enemy, result) => {
     switch (enemy, result) {
     | (Rock, Lost) => Scissors
     | (Rock, Draw) => Rock
@@ -100,7 +100,7 @@ module Score = {
   }
 
   let calculate = ((enemy, player)) => {
-    let result = Round.getResult((enemy, player))
+    let result = Round.getResult(enemy, player)
     let roundScore = forRound(result)
     let playerScore = forPlayer(player)
 
@@ -124,7 +124,7 @@ let solve2 = (input: string) => {
   input
   ->Parse.start
   ->Js.Array2.map(((enemy, result)) => (Figure.enemy(enemy), Figure.round(result)))
-  ->Js.Array2.map(((enemy, result)) => (enemy, Round.getPlayerFigure((enemy, result))))
+  ->Js.Array2.map(((enemy, result)) => (enemy, Round.getPlayerFigure(enemy, result)))
   ->Js.Array2.map(Score.calculate)
   ->Score.sum
 }

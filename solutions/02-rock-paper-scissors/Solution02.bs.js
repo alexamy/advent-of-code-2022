@@ -68,8 +68,8 @@ function player(player$1) {
   }
 }
 
-function round(player) {
-  switch (player) {
+function round(round$1) {
+  switch (round$1) {
     case "X" :
         return /* Lost */0;
     case "Y" :
@@ -79,7 +79,7 @@ function round(player) {
     default:
       throw {
             RE_EXN_ID: UnknownCharacter,
-            _1: player,
+            _1: round$1,
             Error: new Error()
           };
   }
@@ -91,9 +91,8 @@ var Figure = {
   round: round
 };
 
-function getResult(param) {
-  var player = param[1];
-  switch (param[0]) {
+function getResult(enemy, player) {
+  switch (enemy) {
     case /* Rock */0 :
         switch (player) {
           case /* Rock */0 :
@@ -120,9 +119,8 @@ function getResult(param) {
   }
 }
 
-function getPlayerFigure(param) {
-  var result = param[1];
-  switch (param[0]) {
+function getPlayerFigure(enemy, result) {
+  switch (enemy) {
     case /* Rock */0 :
         switch (result) {
           case /* Lost */0 :
@@ -172,10 +170,7 @@ function forRound(result) {
 
 function calculate(param) {
   var player = param[1];
-  var result = getResult([
-        param[0],
-        player
-      ]);
+  var result = getResult(param[0], player);
   var roundScore = forRound(result);
   var playerScore = player + 1 | 0;
   return playerScore + roundScore | 0;
@@ -213,10 +208,7 @@ function solve2(input) {
                     var enemy = param[0];
                     return [
                             enemy,
-                            getPlayerFigure([
-                                  enemy,
-                                  param[1]
-                                ])
+                            getPlayerFigure(enemy, param[1])
                           ];
                   }).map(calculate));
 }
