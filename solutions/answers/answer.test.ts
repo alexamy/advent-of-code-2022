@@ -55,7 +55,6 @@ test('Solution 04', async () => {
   expect(S4.solve2(input).toString()).toBe(decrypt(result2));
 });
 
-
 test('Solution 05', async () => {
   const file = await readFile('solutions/05-supply-stacks/input.txt');
   const input = file.toString();
