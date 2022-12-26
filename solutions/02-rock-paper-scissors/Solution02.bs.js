@@ -4,7 +4,7 @@ import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 
 var MalformedRow = /* @__PURE__ */Caml_exceptions.create("Solution02.MalformedRow");
 
-var UnknownFigure = /* @__PURE__ */Caml_exceptions.create("Solution02.UnknownFigure");
+var UnknownCharacter = /* @__PURE__ */Caml_exceptions.create("Solution02.UnknownCharacter");
 
 function splitRow(row) {
   var match = row.split(" ");
@@ -34,54 +34,69 @@ var Parse = {
   start: start
 };
 
-function fromString(param) {
-  var player = param[1];
-  var enemy = param[0];
-  var enemy$1;
+function forEnemy(enemy) {
   switch (enemy) {
     case "A" :
-        enemy$1 = /* Rock */0;
-        break;
+        return /* Rock */0;
     case "B" :
-        enemy$1 = /* Paper */1;
-        break;
+        return /* Paper */1;
     case "C" :
-        enemy$1 = /* Scissors */2;
-        break;
+        return /* Scissors */2;
     default:
       throw {
-            RE_EXN_ID: UnknownFigure,
+            RE_EXN_ID: UnknownCharacter,
             _1: enemy,
             Error: new Error()
           };
   }
-  var player$1;
+}
+
+function forPlayer(player) {
   switch (player) {
     case "X" :
-        player$1 = /* Rock */0;
-        break;
+        return /* Rock */0;
     case "Y" :
-        player$1 = /* Paper */1;
-        break;
+        return /* Paper */1;
     case "Z" :
-        player$1 = /* Scissors */2;
-        break;
+        return /* Scissors */2;
     default:
       throw {
-            RE_EXN_ID: UnknownFigure,
+            RE_EXN_ID: UnknownCharacter,
             _1: player,
             Error: new Error()
           };
   }
+}
+
+function fromString(param) {
   return [
-          enemy$1,
-          player$1
+          forEnemy(param[0]),
+          forPlayer(param[1])
         ];
 }
 
 var Figure = {
+  forEnemy: forEnemy,
+  forPlayer: forPlayer,
   fromString: fromString
 };
+
+function fromString$1(player) {
+  switch (player) {
+    case "X" :
+        return /* Lost */0;
+    case "Y" :
+        return /* Draw */1;
+    case "Z" :
+        return /* Won */2;
+    default:
+      throw {
+            RE_EXN_ID: UnknownCharacter,
+            _1: player,
+            Error: new Error()
+          };
+  }
+}
 
 function getResult(param) {
   var player = param[1];
@@ -113,10 +128,11 @@ function getResult(param) {
 }
 
 var Round = {
+  fromString: fromString$1,
   getResult: getResult
 };
 
-function forPlayer(player) {
+function forPlayer$1(player) {
   return player + 1 | 0;
 }
 
@@ -144,13 +160,18 @@ function calculate(param) {
 }
 
 var Score = {
-  forPlayer: forPlayer,
+  forPlayer: forPlayer$1,
   forRound: forRound,
   calculate: calculate
 };
 
 function solve1(input) {
-  return start(input).map(fromString).map(calculate).reduce((function (a, b) {
+  return start(input).map(function (param) {
+                  return [
+                          forEnemy(param[0]),
+                          forPlayer(param[1])
+                        ];
+                }).map(calculate).reduce((function (a, b) {
                 return a + b | 0;
               }), 0);
 }
@@ -159,7 +180,7 @@ var solve2 = start;
 
 export {
   MalformedRow ,
-  UnknownFigure ,
+  UnknownCharacter ,
   Parse ,
   Figure ,
   Round ,

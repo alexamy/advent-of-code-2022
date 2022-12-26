@@ -1,7 +1,7 @@
 open Belt
 
 exception MalformedRow(string)
-exception UnknownFigure(string)
+exception UnknownCharacter(string)
 
 type figure = Rock | Paper | Scissors
 type result = Lost | Draw | Won
@@ -23,26 +23,39 @@ module Parse = {
 }
 
 module Figure = {
-  let fromString = ((enemy, player)) => {
-    let enemy = switch enemy {
+  let forEnemy = enemy => {
+    switch enemy {
     | "A" => Rock
     | "B" => Paper
     | "C" => Scissors
-    | _ => raise(UnknownFigure(enemy))
+    | _ => raise(UnknownCharacter(enemy))
     }
+  }
 
-    let player = switch player {
+  let forPlayer = player => {
+    switch player {
     | "X" => Rock
     | "Y" => Paper
     | "Z" => Scissors
-    | _ => raise(UnknownFigure(player))
+    | _ => raise(UnknownCharacter(player))
     }
+  }
 
-    (enemy, player)
+  let fromString = ((enemy, player)) => {
+    (forEnemy(enemy), forPlayer(player))
   }
 }
 
 module Round = {
+  let fromString = (player) => {
+    switch player {
+    | "X" => Lost
+    | "Y" => Draw
+    | "Z" => Won
+    | _ => raise(UnknownCharacter(player))
+    }
+  }
+
   let getResult = ((enemy, player)) => {
     switch (enemy, player) {
     | (Rock, Scissors) => Lost
@@ -88,7 +101,7 @@ module Score = {
 let solve1 = (input: string) => {
   input
   ->Parse.start
-  ->Js.Array2.map(Figure.fromString)
+  ->Js.Array2.map(((enemy, player)) => (Figure.forEnemy(enemy), Figure.forPlayer(player)))
   ->Js.Array2.map(Score.calculate)
   ->Js.Array2.reduce((a, b) => a + b, 0)
 }
