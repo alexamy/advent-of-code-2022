@@ -6,6 +6,13 @@
 import * as Solution16BS__Es6Import from './Solution16.bs';
 const Solution16BS: any = Solution16BS__Es6Import;
 
-export const solve1: <T1>(_input:string) => (null | undefined | T1) = Solution16BS.solve1;
+// tslint:disable-next-line:interface-over-type-literal
+export type Process_valve = {
+  readonly name: string; 
+  readonly rate: number; 
+  readonly targets: string[]
+};
+
+export const solve1: (input:string) => Process_valve[] = Solution16BS.solve1;
 
 export const solve2: <T1>(_input:string) => (null | undefined | T1) = Solution16BS.solve2;
