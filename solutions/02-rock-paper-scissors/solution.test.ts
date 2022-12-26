@@ -1,7 +1,7 @@
 import dedent from 'ts-dedent';
 import { expect, it } from 'vitest';
-import { dechiperEnemyValue, dechiperOutcomeValue, dechiperPlayerValue, EnemyChoice, Figure, getRoundScore1, Outcome, PlayerChoice, Round1, Round2, solve2, transformRound1, transformRound2 } from './solution';
-import { solve1 } from './Solution02.gen';
+import { dechiperEnemyValue, dechiperOutcomeValue, dechiperPlayerValue, EnemyChoice, Figure, getRoundScore1, Outcome, PlayerChoice, Round1, Round2, transformRound1, transformRound2 } from './solution';
+import { solve1, solve2 } from './Solution02.gen';
 
 it.each<[EnemyChoice, Figure]>([
   ['A', 'rock'],

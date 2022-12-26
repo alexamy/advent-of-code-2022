@@ -23,13 +23,18 @@ function splitRow(row) {
         ];
 }
 
-function parse(input) {
+function start(input) {
   return input.split("\n").filter(function (r) {
                 return r !== "";
               }).map(splitRow);
 }
 
-function getFigures(param) {
+var Parse = {
+  splitRow: splitRow,
+  start: start
+};
+
+function fromString(param) {
   var player = param[1];
   var enemy = param[0];
   var enemy$1;
@@ -74,11 +79,11 @@ function getFigures(param) {
         ];
 }
 
-function getPlayerScore(player) {
-  return player + 1 | 0;
-}
+var Figure = {
+  fromString: fromString
+};
 
-function getRoundResult(param) {
+function getResult(param) {
   var player = param[1];
   switch (param[0]) {
     case /* Rock */0 :
@@ -107,6 +112,14 @@ function getRoundResult(param) {
   }
 }
 
+var Round = {
+  getResult: getResult
+};
+
+function getPlayerScore(player) {
+  return player + 1 | 0;
+}
+
 function getRoundScore(result) {
   switch (result) {
     case /* Lost */0 :
@@ -119,32 +132,39 @@ function getRoundScore(result) {
   }
 }
 
-function getScore(param) {
+function calculate(param) {
   var player = param[1];
+  var result = getResult([
+        param[0],
+        player
+      ]);
+  var roundScore = getRoundScore(result);
   var playerScore = player + 1 | 0;
-  var roundScore = getRoundScore(getRoundResult([
-            param[0],
-            player
-          ]));
   return playerScore + roundScore | 0;
 }
 
+var Score = {
+  getPlayerScore: getPlayerScore,
+  getRoundScore: getRoundScore,
+  calculate: calculate
+};
+
 function solve1(input) {
-  return parse(input).map(getFigures).map(getScore).reduce((function (a, b) {
+  return start(input).map(fromString).map(calculate).reduce((function (a, b) {
                 return a + b | 0;
               }), 0);
 }
 
+var solve2 = start;
+
 export {
   MalformedRow ,
   UnknownFigure ,
-  splitRow ,
-  parse ,
-  getFigures ,
-  getPlayerScore ,
-  getRoundResult ,
-  getRoundScore ,
-  getScore ,
+  Parse ,
+  Figure ,
+  Round ,
+  Score ,
   solve1 ,
+  solve2 ,
 }
 /* No side effect */
