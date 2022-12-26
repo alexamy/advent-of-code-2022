@@ -4,6 +4,7 @@ exception MalformedRow(string)
 exception UnknownFigure(string)
 
 type figure = Rock | Paper | Scissors
+type result = Lost | Draw | Won
 
 let splitRow = row => {
   switch Js.String2.split(row, " ") {
@@ -45,22 +46,30 @@ let getPlayerScore = player => {
   }
 }
 
-let getRoundScore = ((enemy, player)) => {
+let getRoundResult = ((enemy, player)) => {
   switch (enemy, player) {
-  | (Rock, Scissors) => 0
-  | (Rock, Rock) => 3
-  | (Rock, Paper) => 6
-  | (Scissors, Paper) => 0
-  | (Scissors, Scissors) => 3
-  | (Scissors, Rock) => 6
-  | (Paper, Rock) => 0
-  | (Paper, Paper) => 3
-  | (Paper, Scissors) => 6
+  | (Rock, Scissors) => Lost
+  | (Rock, Rock) => Draw
+  | (Rock, Paper) => Won
+  | (Scissors, Paper) => Lost
+  | (Scissors, Scissors) => Draw
+  | (Scissors, Rock) => Won
+  | (Paper, Rock) => Lost
+  | (Paper, Paper) => Draw
+  | (Paper, Scissors) => Won
+  }
+}
+
+let getRoundScore = result => {
+  switch result {
+  | Lost => 0
+  | Draw => 3
+  | Won => 6
   }
 }
 
 let getScore = ((enemy, player)) => {
-  getRoundScore((enemy, player)) + getPlayerScore(player)
+  getPlayerScore(player) + getRoundResult((enemy, player))->getRoundScore
 }
 
 @genType
