@@ -5,7 +5,7 @@ exception MalformedRow(string)
 exception UnknownCharacter(string)
 
 type figure = Rock | Paper | Scissors
-type result = Lost | Draw | Won
+type round = Lost | Draw | Won
 
 module Parse = {
   let splitRow = row => {
@@ -53,7 +53,7 @@ module Figure = {
 }
 
 module Round = {
-  let getResult = (enemy, player) => {
+  let get = (enemy, player) => {
     switch (enemy, player) {
     | (Rock, Scissors) => Lost
     | (Rock, Rock) => Draw
@@ -67,8 +67,8 @@ module Round = {
     }
   }
 
-  let getPlayerFigure = (enemy, result) => {
-    switch (enemy, result) {
+  let getPlayerFigure = (enemy, round) => {
+    switch (enemy, round) {
     | (Rock, Lost) => Scissors
     | (Rock, Draw) => Rock
     | (Rock, Won) => Paper
@@ -91,8 +91,8 @@ module Score = {
     }
   }
 
-  let forRound = result => {
-    switch result {
+  let forRound = round => {
+    switch round {
     | Lost => 0
     | Draw => 3
     | Won => 6
@@ -100,8 +100,8 @@ module Score = {
   }
 
   let calculate = ((enemy, player)) => {
-    let result = Round.getResult(enemy, player)
-    let roundScore = forRound(result)
+    let round = Round.get(enemy, player)
+    let roundScore = forRound(round)
     let playerScore = forPlayer(player)
 
     playerScore + roundScore
@@ -123,8 +123,8 @@ let solve1 = (input: string) => {
 let solve2 = (input: string) => {
   input
   ->Parse.start
-  ->Js.Array2.map(((enemy, result)) => (Figure.enemy(enemy), Figure.round(result)))
-  ->Js.Array2.map(((enemy, result)) => (enemy, Round.getPlayerFigure(enemy, result)))
+  ->Js.Array2.map(((enemy, round)) => (Figure.enemy(enemy), Figure.round(round)))
+  ->Js.Array2.map(((enemy, round)) => (enemy, Round.getPlayerFigure(enemy, round)))
   ->Js.Array2.map(Score.calculate)
   ->Score.sum
 }

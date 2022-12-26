@@ -91,7 +91,7 @@ var Figure = {
   round: round
 };
 
-function getResult(enemy, player) {
+function get(enemy, player) {
   switch (enemy) {
     case /* Rock */0 :
         switch (player) {
@@ -119,10 +119,10 @@ function getResult(enemy, player) {
   }
 }
 
-function getPlayerFigure(enemy, result) {
+function getPlayerFigure(enemy, round) {
   switch (enemy) {
     case /* Rock */0 :
-        switch (result) {
+        switch (round) {
           case /* Lost */0 :
               return /* Scissors */2;
           case /* Draw */1 :
@@ -132,9 +132,9 @@ function getPlayerFigure(enemy, result) {
           
         }
     case /* Paper */1 :
-        return result;
+        return round;
     case /* Scissors */2 :
-        switch (result) {
+        switch (round) {
           case /* Lost */0 :
               return /* Paper */1;
           case /* Draw */1 :
@@ -148,7 +148,7 @@ function getPlayerFigure(enemy, result) {
 }
 
 var Round = {
-  getResult: getResult,
+  get: get,
   getPlayerFigure: getPlayerFigure
 };
 
@@ -156,8 +156,8 @@ function forPlayer(player) {
   return player + 1 | 0;
 }
 
-function forRound(result) {
-  switch (result) {
+function forRound(round) {
+  switch (round) {
     case /* Lost */0 :
         return 0;
     case /* Draw */1 :
@@ -170,8 +170,8 @@ function forRound(result) {
 
 function calculate(param) {
   var player = param[1];
-  var result = getResult(param[0], player);
-  var roundScore = forRound(result);
+  var round = get(param[0], player);
+  var roundScore = forRound(round);
   var playerScore = player + 1 | 0;
   return playerScore + roundScore | 0;
 }
