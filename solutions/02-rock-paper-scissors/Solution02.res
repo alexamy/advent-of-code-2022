@@ -23,7 +23,7 @@ module Parse = {
   }
 }
 
-module Figure = {
+module Char = {
   let enemy = enemy => {
     switch enemy {
     | "A" => Rock
@@ -101,10 +101,8 @@ module Score = {
 
   let calculate = ((enemy, player)) => {
     let round = Round.get(enemy, player)
-    let roundScore = forRound(round)
-    let playerScore = forPlayer(player)
 
-    playerScore + roundScore
+    forPlayer(player) + forRound(round)
   }
 
   let sum = arr => Js.Array2.reduce(arr, (a, b) => a + b, 0)
@@ -114,7 +112,7 @@ module Score = {
 let solve1 = (input: string) => {
   input
   ->Parse.start
-  ->Js.Array2.map(((enemy, player)) => (Figure.enemy(enemy), Figure.player(player)))
+  ->Js.Array2.map(((enemy, player)) => (Char.enemy(enemy), Char.player(player)))
   ->Js.Array2.map(Score.calculate)
   ->Score.sum
 }
@@ -123,7 +121,7 @@ let solve1 = (input: string) => {
 let solve2 = (input: string) => {
   input
   ->Parse.start
-  ->Js.Array2.map(((enemy, round)) => (Figure.enemy(enemy), Figure.round(round)))
+  ->Js.Array2.map(((enemy, round)) => (Char.enemy(enemy), Char.round(round)))
   ->Js.Array2.map(((enemy, round)) => (enemy, Round.getPlayerFigure(enemy, round)))
   ->Js.Array2.map(Score.calculate)
   ->Score.sum

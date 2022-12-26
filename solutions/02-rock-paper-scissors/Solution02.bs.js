@@ -85,7 +85,7 @@ function round(round$1) {
   }
 }
 
-var Figure = {
+var Char = {
   enemy: enemy,
   player: player,
   round: round
@@ -171,9 +171,7 @@ function forRound(round) {
 function calculate(param) {
   var player = param[1];
   var round = get(param[0], player);
-  var roundScore = forRound(round);
-  var playerScore = player + 1 | 0;
-  return playerScore + roundScore | 0;
+  return (player + 1 | 0) + forRound(round) | 0;
 }
 
 function sum(arr) {
@@ -217,7 +215,7 @@ export {
   MalformedRow ,
   UnknownCharacter ,
   Parse ,
-  Figure ,
+  Char ,
   Round ,
   Score ,
   solve1 ,
