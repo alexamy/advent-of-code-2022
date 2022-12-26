@@ -9,31 +9,31 @@ function parse(input) {
   return Belt_List.fromArray(input.split("\n").map(Belt_Int.fromString));
 }
 
-function split(_calories, _one, _acc) {
+function split(_calories, _bag, _bags) {
   while(true) {
-    var acc = _acc;
-    var one = _one;
+    var bags = _bags;
+    var bag = _bag;
     var calories = _calories;
     if (!calories) {
       return {
-              hd: one,
-              tl: acc
+              hd: bag,
+              tl: bags
             };
     }
     var calorie = calories.hd;
     if (calorie !== undefined) {
-      _one = {
+      _bag = {
         hd: Caml_option.valFromOption(calorie),
-        tl: one
+        tl: bag
       };
       _calories = calories.tl;
       continue ;
     }
-    _acc = {
-      hd: one,
-      tl: acc
+    _bags = {
+      hd: bag,
+      tl: bags
     };
-    _one = /* [] */0;
+    _bag = /* [] */0;
     _calories = calories.tl;
     continue ;
   };

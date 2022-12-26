@@ -7,14 +7,14 @@ let parse = (input) => {
   ->List.fromArray
 }
 
-let rec split = (calories, one, acc) => {
+let rec split = (calories, bag, bags) => {
   switch calories {
-  | list{} => list{one, ...acc}
+  | list{} => list{bag, ...bags}
   | list{None, ...others} => {
-    split(others, list{}, list{one, ...acc})
+    split(others, list{}, list{bag, ...bags})
   }
   | list{Some(calorie), ...others} => {
-    split(others, list{calorie, ...one}, acc)
+    split(others, list{calorie, ...bag}, bags)
   }
   }
 }
