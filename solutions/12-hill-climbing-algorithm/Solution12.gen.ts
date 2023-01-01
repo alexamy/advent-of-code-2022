@@ -6,6 +6,6 @@
 import * as Solution12BS__Es6Import from './Solution12.bs';
 const Solution12BS: any = Solution12BS__Es6Import;
 
-export const solve1: <T1>(_input:string) => (null | undefined | T1) = Solution12BS.solve1;
+export const solve1: (input:string) => Array<string[]> = Solution12BS.solve1;
 
 export const solve2: <T1>(_input:string) => (null | undefined | T1) = Solution12BS.solve2;
