@@ -15,20 +15,21 @@ repeat until reach the start
 
 module Heightmap = {
   type t = array<array<string>>
-  type pos = (int, int)
 
   let at = (heightmap, (rowIndex, colIndex)) => {
-    let row = heightmap[rowIndex]->Option.getExn
-    let element = row[colIndex]->Option.getExn
-
-    element
+    heightmap[rowIndex]->Option.flatMap(row => row[colIndex])
   }
 
   let findIndex = (heightmap, ch) => {
-    let rowIndex = heightmap->Array.getIndexBy(row => Js.Array2.includes(row, ch))->Option.getExn
-    let colIndex = heightmap[rowIndex]->Option.getExn->Array.getIndexBy(el => el === ch)->Option.getExn
+    let rowIndex = heightmap->Array.getIndexBy(row => Js.Array2.includes(row, ch))
+    let colIndex = rowIndex
+      ->Option.flatMap(i => heightmap[i])
+      ->Option.flatMap(row => Array.getIndexBy(row, el => el === ch))
 
-    (rowIndex, colIndex)
+    switch (rowIndex, colIndex) {
+    | (Some(r), Some(c)) => Some((r, c))
+    | _ => None
+    }
   }
 }
 
@@ -44,6 +45,13 @@ module Parse = {
     input
     ->Js.String2.split("\n")
     ->Js.Array2.map(s => Js.String2.split(s, ""))
+  }
+}
+
+module Solution1 = {
+  let findShortestPath = heightmap => {
+    let (endRow, endCol) = Heightmap.findIndex(heightmap, "E")->Option.getExn
+
   }
 }
 

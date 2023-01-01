@@ -4,21 +4,30 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 
 function at(heightmap, param) {
-  var row = Belt_Option.getExn(Belt_Array.get(heightmap, param[0]));
-  return Belt_Option.getExn(Belt_Array.get(row, param[1]));
+  var colIndex = param[1];
+  return Belt_Option.flatMap(Belt_Array.get(heightmap, param[0]), (function (row) {
+                return Belt_Array.get(row, colIndex);
+              }));
 }
 
 function findIndex(heightmap, ch) {
-  var rowIndex = Belt_Option.getExn(Belt_Array.getIndexBy(heightmap, (function (row) {
-              return row.includes(ch);
-            })));
-  var colIndex = Belt_Option.getExn(Belt_Array.getIndexBy(Belt_Option.getExn(Belt_Array.get(heightmap, rowIndex)), (function (el) {
-              return el === ch;
-            })));
-  return [
-          rowIndex,
-          colIndex
-        ];
+  var rowIndex = Belt_Array.getIndexBy(heightmap, (function (row) {
+          return row.includes(ch);
+        }));
+  var colIndex = Belt_Option.flatMap(Belt_Option.flatMap(rowIndex, (function (i) {
+              return Belt_Array.get(heightmap, i);
+            })), (function (row) {
+          return Belt_Array.getIndexBy(row, (function (el) {
+                        return el === ch;
+                      }));
+        }));
+  if (rowIndex !== undefined && colIndex !== undefined) {
+    return [
+            rowIndex,
+            colIndex
+          ];
+  }
+  
 }
 
 var Heightmap = {
@@ -54,6 +63,14 @@ var Parse = {
   start: start
 };
 
+function findShortestPath(heightmap) {
+  Belt_Option.getExn(findIndex(heightmap, "E"));
+}
+
+var Solution1 = {
+  findShortestPath: findShortestPath
+};
+
 var solve1 = start;
 
 function solve2(_input) {
@@ -64,6 +81,7 @@ export {
   Heightmap ,
   Char ,
   Parse ,
+  Solution1 ,
   solve1 ,
   solve2 ,
 }
